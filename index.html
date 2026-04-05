@@ -7,7 +7,7 @@
 <title>GUARDIAN — SOS</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
-:root {
+:root{
   --red:#FF1A1A;--amber:#FF8C00;--green:#00E676;
   --bg:#0A0A0A;--surface:#141414;--surface2:#1E1E1E;
   --border:rgba(255,255,255,0.07);--text:#F0F0F0;--muted:#555;
@@ -23,83 +23,95 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 .header{display:flex;align-items:center;justify-content:space-between;padding:52px 22px 10px}
 .brand{font-family:var(–display);font-size:26px;letter-spacing:3px}
 .brand span{color:var(–red)}
-.settings-btn{background:var(–surface2);border:1px solid var(–border);border-radius:10px;padding:8px 12px;color:var(–text);font-size:16px;cursor:pointer}
+.settings-btn{background:var(–surface2);border:1px solid var(–border);border-radius:10px;padding:8px 12px;color:var(–text);font-size:14px;cursor:pointer;font-family:var(–mono);font-size:11px;letter-spacing:1px}
 
-.setup-banner{margin:10px 16px;background:rgba(255,140,0,0.08);border:1px solid rgba(255,140,0,0.25);border-radius:13px;padding:13px 15px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s}
+.setup-banner{margin:10px 16px;border-radius:13px;padding:13px 15px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s;border:1px solid rgba(255,140,0,0.25);background:rgba(255,140,0,0.08)}
 .setup-banner.done{background:rgba(0,230,118,0.05);border-color:rgba(0,230,118,0.2)}
-.setup-icon{font-size:20px;flex-shrink:0}
-.setup-text .st-title{font-size:13px;font-weight:600;color:var(–text)}
-.setup-text .st-sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
+.sb-icon{font-size:20px;flex-shrink:0}
+.sb-title{font-size:13px;font-weight:600;color:var(–text)}
+.sb-sub{font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px}
 
-.contacts-bar{display:flex;gap:7px;padding:8px 16px 14px;overflow-x:auto;scrollbar-width:none}
+.contacts-bar{display:flex;gap:7px;padding:8px 16px 12px;overflow-x:auto;scrollbar-width:none}
 .contacts-bar::-webkit-scrollbar{display:none}
-.contact-chip{display:flex;align-items:center;gap:7px;background:var(–surface2);border:1px solid rgba(0,230,118,0.3);border-radius:100px;padding:6px 11px 6px 6px;white-space:nowrap;flex-shrink:0}
-.contact-chip.empty{border-color:var(–border);color:var(–muted);font-family:var(–mono);font-size:10px;letter-spacing:1px;padding:8px 14px}
-.c-avatar{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000;flex-shrink:0}
-.c-name{font-size:12px;font-weight:500}
-.c-wa{font-size:8px;font-family:var(–mono);color:#25D366;letter-spacing:.5px}
+.chip{display:flex;align-items:center;gap:7px;background:var(–surface2);border:1px solid rgba(0,230,118,0.3);border-radius:100px;padding:6px 11px 6px 6px;white-space:nowrap;flex-shrink:0}
+.chip.empty{border-color:var(–border);color:var(–muted);font-family:var(–mono);font-size:10px;letter-spacing:1px;padding:8px 14px}
+.chip-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000;flex-shrink:0}
+.chip-name{font-size:12px;font-weight:500}
+.chip-wa{font-size:8px;font-family:var(–mono);color:#25D366}
 
+/* SOS BUTTON */
 .sos-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px}
-.sos-wrapper{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:26px}
+.sos-wrapper{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:24px}
 .sos-ring{position:absolute;border-radius:50%;border:1px solid var(–red);opacity:0;animation:none}
 .ring1{width:248px;height:248px}.ring2{width:292px;height:292px}.ring3{width:336px;height:336px}
 @keyframes ring-pulse{0%{transform:scale(.86);opacity:.5}100%{transform:scale(1);opacity:0}}
-.sos-btn{position:relative;z-index:2;width:186px;height:186px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FF3A3A,#9B0000);border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 0 5px rgba(255,26,26,0.12),0 0 36px rgba(255,26,26,0.26),0 16px 48px rgba(0,0,0,0.5);transition:transform .12s,box-shadow .12s;-webkit-touch-callout:none}
+.sos-btn{position:relative;z-index:2;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FF3A3A,#9B0000);border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 0 5px rgba(255,26,26,0.12),0 0 36px rgba(255,26,26,0.26),0 16px 48px rgba(0,0,0,0.5);transition:transform .12s,box-shadow .12s;-webkit-touch-callout:none}
 .sos-btn.pressed{transform:scale(.93);box-shadow:0 0 0 8px rgba(255,26,26,0.2),0 0 52px rgba(255,26,26,0.48),0 8px 26px rgba(0,0,0,0.8)}
-.sos-label{font-family:var(–display);font-size:66px;letter-spacing:4px;color:#fff;line-height:1}
+.sos-label{font-family:var(–display);font-size:68px;letter-spacing:4px;color:#fff;line-height:1}
 .sos-sub{font-family:var(–mono);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase}
-.hold-hint{font-family:var(–mono);font-size:10px;letter-spacing:2px;color:var(–muted);text-transform:uppercase;text-align:center;margin-bottom:4px}
-.hold-ring{position:absolute;z-index:3;width:202px;height:202px;pointer-events:none}
-.hold-ring circle{fill:none;stroke:rgba(255,255,255,0.9);stroke-width:3;stroke-linecap:round;stroke-dasharray:635;stroke-dashoffset:635;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .04s linear;filter:drop-shadow(0 0 5px rgba(255,255,255,0.7))}
+.hold-hint{font-family:var(–mono);font-size:10px;letter-spacing:2px;color:var(–muted);text-transform:uppercase;text-align:center}
+.hold-ring{position:absolute;z-index:3;width:206px;height:206px;pointer-events:none}
+.hold-ring circle{fill:none;stroke:rgba(255,255,255,0.9);stroke-width:3;stroke-linecap:round;stroke-dasharray:647;stroke-dashoffset:647;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .04s linear;filter:drop-shadow(0 0 5px rgba(255,255,255,0.7))}
 
+/* QUICK ACTIONS */
 .quick-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 16px 22px}
 .qa-btn{background:var(–surface);border:1px solid var(–border);border-radius:13px;padding:13px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .15s}
 .qa-btn:active{background:var(–surface2);transform:scale(.96)}
 .qa-icon{font-size:20px}
-.qa-label{font-size:10px;color:var(–muted);font-weight:500;text-align:center;letter-spacing:.2px}
+.qa-label{font-size:10px;color:var(–muted);font-weight:500;text-align:center}
 
 /* ── COUNTDOWN ── */
 #countdown-screen{background:#080000;align-items:center;justify-content:center;gap:18px}
 .cd-label{font-family:var(–mono);font-size:11px;letter-spacing:4px;color:var(–red);text-transform:uppercase}
-.cd-number{font-family:var(–display);font-size:145px;color:var(–red);line-height:1;animation:cd-pulse 1s ease-in-out infinite}
+.cd-number{font-family:var(–display);font-size:150px;color:var(–red);line-height:1;animation:cd-pulse 1s ease-in-out infinite}
 @keyframes cd-pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .cd-msg{font-size:13px;color:var(–muted);text-align:center;line-height:1.7;padding:0 28px}
 .cd-cancel{background:var(–surface2);border:1px solid var(–border);color:var(–text);font-family:var(–mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:15px 36px;border-radius:100px;cursor:pointer}
 
 /* ── ACTIVE ── */
 #active-screen{background:#050505}
-.emg-header{background:var(–red);padding:46px 20px 16px;display:flex;align-items:center;justify-content:space-between}
+.emg-header{background:var(–red);padding:46px 20px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .emg-title{font-family:var(–display);font-size:29px;letter-spacing:2px}
 .emg-blink{font-family:var(–mono);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.8);text-transform:uppercase;animation:blink 1s step-end infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.emg-timer{font-family:var(–mono);font-size:36px;color:var(–red);text-align:center;padding:16px 0 6px;letter-spacing:2px}
-.map-box{position:relative;margin:0 14px;height:170px;border-radius:13px;overflow:hidden;border:1px solid rgba(255,26,26,0.22)}
-#map-canvas{width:100%;height:100%}
-.map-pin{position:absolute;top:50%;left:50%;transform:translate(-50%,-100%);display:flex;flex-direction:column;align-items:center;animation:pb 2s ease-in-out infinite}
-@keyframes pb{0%,100%{transform:translate(-50%,-100%)}50%{transform:translate(-50%,-113%)}}
-.pin-dot{width:16px;height:16px;background:var(–red);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 16px var(–red)}
-.pin-inner{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(45deg);width:6px;height:6px;background:#fff;border-radius:50%}
-.pin-pulse{position:absolute;width:32px;height:32px;border:2px solid var(–red);border-radius:50%;animation:pp 2s ease-out infinite;top:-8px;left:-8px}
-@keyframes pp{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.5);opacity:0}}
-.maps-fab{position:absolute;bottom:8px;right:8px}
-.maps-fab a{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.78);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:6px 10px;font-family:var(–mono);font-size:9px;color:#fff;text-decoration:none;letter-spacing:.5px}
+.emg-timer{font-family:var(–mono);font-size:36px;color:var(–red);text-align:center;padding:14px 0 6px;letter-spacing:2px;flex-shrink:0}
 
-.loc-bar{margin:7px 14px 0;padding:9px 12px;background:rgba(255,26,26,0.06);border:1px solid rgba(255,26,26,0.16);border-radius:9px;display:flex;align-items:center;gap:7px}
-#loc-text{font-family:var(–mono);font-size:10px;color:rgba(255,255,255,0.5);flex:1}
-#loc-coords{font-family:var(–mono);font-size:9px;color:var(–red)}
+/* GPS STATUS BAR */
+.gps-bar{margin:0 14px;padding:10px 14px;border-radius:11px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.gps-bar.active{background:rgba(0,230,118,0.07);border:1px solid rgba(0,230,118,0.2)}
+.gps-bar.waiting{background:rgba(255,140,0,0.07);border:1px solid rgba(255,140,0,0.2)}
+.gps-bar.error{background:rgba(255,26,26,0.07);border:1px solid rgba(255,26,26,0.2)}
+.gps-icon{font-size:18px;flex-shrink:0}
+.gps-info{flex:1;min-width:0}
+.gps-status{font-size:12px;font-weight:600}
+.gps-coords{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:2px}
+.gps-update{font-family:var(–mono);font-size:9px;flex-shrink:0}
 
-.rec-strip{margin:7px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:11px;padding:10px 13px;display:flex;align-items:center;gap:10px}
+/* LIVE LINK BOX */
+.live-link-box{margin:8px 14px 0;background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.2);border-radius:12px;padding:12px 14px;flex-shrink:0}
+.llb-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.llb-dot{width:8px;height:8px;border-radius:50%;background:var(–green);box-shadow:0 0 8px var(–green);animation:blink 1.5s ease-in-out infinite;flex-shrink:0}
+.llb-label{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–green)}
+.llb-url{font-family:var(–mono);font-size:10px;color:rgba(255,255,255,0.5);word-break:break-all;margin-bottom:8px;line-height:1.5}
+.llb-actions{display:flex;gap:7px}
+.llb-btn{flex:1;padding:9px;border-radius:8px;font-family:var(–mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-align:center;border:none;transition:opacity .2s}
+.llb-btn:active{opacity:.75}
+.btn-wa{background:#25D366;color:#fff}
+.btn-copy{background:var(–surface2);color:var(–text);border:1px solid var(–border)!important;border:none}
+
+/* REC STRIP */
+.rec-strip{margin:8px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:11px;padding:10px 13px;display:flex;align-items:center;gap:10px;flex-shrink:0}
 .rec-dot{width:8px;height:8px;background:var(–red);border-radius:50%;animation:blink 1s step-end infinite;flex-shrink:0}
-.rec-info{flex:1}
 .rec-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(–red)}
-#rec-size{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:1px}
-.badges{display:flex;gap:4px;margin-top:4px}
-.badge{font-family:var(–mono);font-size:8px;letter-spacing:.5px;padding:2px 6px;border-radius:3px;text-transform:uppercase}
+.rec-size{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:1px}
+.rec-badges{display:flex;gap:4px;margin-top:4px}
+.badge{font-family:var(–mono);font-size:8px;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.3px}
 .b-r{background:rgba(255,26,26,0.15);color:var(–red);border:1px solid rgba(255,26,26,0.22)}
 .b-a{background:rgba(255,140,0,0.1);color:var(–amber);border:1px solid rgba(255,140,0,0.22)}
 .b-g{background:rgba(0,230,118,0.07);color:var(–green);border:1px solid rgba(0,230,118,0.18)}
 
-.notif-section{margin:7px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:11px;overflow:hidden}
+/* NOTIF */
+.notif-section{margin:8px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:11px;overflow:hidden;flex-shrink:0}
 .notif-hdr{padding:8px 13px;font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);border-bottom:1px solid var(–border)}
 .ni{display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(–border)}
 .ni:last-child{border-bottom:none}
@@ -107,11 +119,11 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 .ni-info{flex:1;min-width:0}
 .ni-name{font-size:12px;font-weight:500}
 .ni-phone{font-family:var(–mono);font-size:9px;color:var(–muted);margin-top:1px}
-.ni-st{font-family:var(–mono);font-size:9px;flex-shrink:0}
+.ni-st{font-family:var(–mono);font-size:9px;flex-shrink:0;text-align:right}
 .st-ok{color:var(–green)}.st-go{color:var(–amber);animation:blink 1s step-end infinite}.st-no{color:var(–muted)}
-.resend-btn{display:flex;align-items:center;gap:4px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:6px;padding:4px 8px;font-family:var(–mono);font-size:8px;color:#25D366;cursor:pointer;flex-shrink:0;white-space:nowrap}
+.resend-btn{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:6px;padding:4px 8px;font-family:var(–mono);font-size:8px;color:#25D366;cursor:pointer;flex-shrink:0;white-space:nowrap;margin-top:3px}
 
-.stop-btn{width:calc(100% - 28px);margin:12px 14px 24px;display:block;padding:15px;background:var(–surface);border:1px solid var(–border);color:var(–text);font-family:var(–mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;border-radius:12px;cursor:pointer;text-align:center}
+.stop-btn{display:block;width:calc(100% - 28px);margin:12px 14px 28px;padding:15px;background:var(–surface);border:1px solid var(–border);color:var(–text);font-family:var(–mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;border-radius:12px;cursor:pointer;text-align:center;flex-shrink:0}
 .stop-btn:active{background:var(–surface2)}
 
 /* ── SETTINGS ── */
@@ -123,38 +135,40 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 .s-card{margin:0 14px 8px;background:var(–surface);border:1px solid var(–border);border-radius:13px;overflow:hidden}
 .s-row{padding:13px 15px;border-bottom:1px solid var(–border)}
 .s-row:last-child{border-bottom:none}
-.s-row-lbl{font-size:12px;font-weight:600;margin-bottom:4px}
-.s-row-sub{font-size:11px;color:var(–muted);line-height:1.45;margin-bottom:8px}
+.s-lbl{font-size:12px;font-weight:600;margin-bottom:3px}
+.s-sub{font-size:11px;color:var(–muted);line-height:1.4;margin-bottom:7px}
 .s-input{width:100%;background:var(–surface2);border:1px solid var(–border);border-radius:9px;padding:11px 13px;color:var(–text);font-family:var(–sans);font-size:14px;outline:none;transition:border-color .2s}
 .s-input:focus{border-color:rgba(255,26,26,0.4)}
 .s-input::placeholder{color:var(–muted)}
 
-.how-box{margin:0 14px 8px;background:rgba(37,211,102,0.04);border:1px solid rgba(37,211,102,0.13);border-radius:13px;padding:15px}
-.how-ttl{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–green);margin-bottom:10px}
-.how-step{display:flex;gap:9px;margin-bottom:7px;font-size:12px;color:rgba(255,255,255,0.65);line-height:1.5}
-.how-n{color:var(–green);font-weight:700;flex-shrink:0;font-family:var(–mono)}
+/* MAP URL card */
+.map-url-card{margin:0 14px 8px;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.15);border-radius:13px;padding:14px 15px}
+.muc-title{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–green);margin-bottom:8px}
+.muc-sub{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.55;margin-bottom:10px}
+.muc-input{width:100%;background:var(–surface2);border:1px solid rgba(0,230,118,0.2);border-radius:9px;padding:11px 13px;color:var(–green);font-family:var(–mono);font-size:11px;outline:none;margin-bottom:8px}
+.muc-note{font-size:11px;color:var(–muted);line-height:1.5;padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:7px;border:1px solid var(–border)}
 
 .c-list{margin:0 14px 8px}
 .c-card{background:var(–surface);border:1px solid var(–border);border-radius:12px;padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:11px}
 .c-card-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#000;flex-shrink:0}
-.c-card-info{flex:1;min-width:0}
+.c-card-info{flex:1}
 .c-card-name{font-size:13px;font-weight:600}
 .c-card-phone{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:1px}
 .c-card-wa{font-family:var(–mono);font-size:9px;color:#25D366;margin-top:3px}
 .c-del{background:rgba(255,26,26,0.08);border:1px solid rgba(255,26,26,0.18);border-radius:7px;padding:7px 10px;color:var(–red);font-size:14px;cursor:pointer;flex-shrink:0}
 
-.add-form{margin:0 14px;background:var(–surface);border:1px solid rgba(255,26,26,0.18);border-radius:13px;padding:15px}
-.add-form-ttl{font-size:13px;font-weight:600;margin-bottom:11px}
+.add-form{margin:0 14px;background:var(–surface);border:1px solid rgba(255,26,26,0.15);border-radius:13px;padding:15px}
+.add-form-title{font-size:13px;font-weight:600;margin-bottom:11px}
 .f-input{width:100%;background:var(–surface2);border:1px solid var(–border);border-radius:9px;padding:11px 13px;color:var(–text);font-family:var(–sans);font-size:14px;outline:none;margin-bottom:8px;transition:border-color .2s}
 .f-input:focus{border-color:rgba(255,26,26,0.35)}
 .f-input::placeholder{color:var(–muted)}
-.f-note{font-size:11px;color:var(–muted);line-height:1.55;margin-bottom:11px;padding:9px 12px;background:rgba(255,255,255,0.03);border-radius:7px;border:1px solid var(–border)}
-.f-note strong{color:rgba(255,255,255,0.7)}
+.f-note{font-size:11px;color:var(–muted);line-height:1.55;margin-bottom:10px;padding:9px 12px;background:rgba(255,255,255,0.02);border-radius:7px;border:1px solid var(–border)}
+.f-note strong{color:rgba(255,255,255,0.65)}
 .f-btn{width:100%;padding:13px;background:var(–red);border:none;border-radius:9px;color:#fff;font-family:var(–mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
 .f-btn:active{opacity:.85}
 
 /* TOAST */
-.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%);background:rgba(20,20,20,0.95);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:10px 20px;font-family:var(–mono);font-size:11px;letter-spacing:.5px;z-index:200;white-space:nowrap;transition:opacity .3s,transform .3s;pointer-events:none;backdrop-filter:blur(10px)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(18,18,18,0.97);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:10px 20px;font-family:var(–mono);font-size:11px;z-index:200;white-space:nowrap;transition:opacity .3s,transform .3s;pointer-events:none;backdrop-filter:blur(10px)}
 .toast.hidden{opacity:0;transform:translateX(-50%) translateY(8px)}
 </style>
 
@@ -166,20 +180,20 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 <div class="screen" id="main-screen">
   <div class="header">
     <div class="brand">GUARD<span>IAN</span></div>
-    <button class="settings-btn" onclick="showScreen('settings-screen')">⚙️ Ajustes</button>
+    <button class="settings-btn" onclick="showScreen('settings-screen')">⚙ AJUSTES</button>
   </div>
 
   <div class="setup-banner" id="setup-banner" onclick="showScreen('settings-screen')">
-    <div class="setup-icon" id="sb-icon">⚠️</div>
-    <div class="setup-text">
-      <div class="st-title" id="sb-title">Sin contactos configurados</div>
-      <div class="st-sub" id="sb-sub">Toca aquí → agrega números de WhatsApp</div>
+    <div class="sb-icon" id="sb-icon">⚠️</div>
+    <div style="flex:1">
+      <div class="sb-title" id="sb-title">Configura antes de usar</div>
+      <div class="sb-sub" id="sb-sub">Agrega tu URL del mapa y contactos de WhatsApp</div>
     </div>
-    <div style="color:var(--muted);font-size:18px;margin-left:auto">›</div>
+    <div style="color:var(--muted);font-size:18px">›</div>
   </div>
 
   <div class="contacts-bar" id="contacts-bar">
-    <div class="contact-chip empty">Sin contactos</div>
+    <div class="chip empty">Sin contactos aún</div>
   </div>
 
   <div class="sos-area">
@@ -187,8 +201,8 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
       <div class="sos-ring ring1" id="ring1"></div>
       <div class="sos-ring ring2" id="ring2"></div>
       <div class="sos-ring ring3" id="ring3"></div>
-      <svg class="hold-ring" viewBox="0 0 202 202" style="position:absolute;z-index:3;width:202px;height:202px;pointer-events:none">
-        <circle id="hold-circle" cx="101" cy="101" r="101"/>
+      <svg class="hold-ring" viewBox="0 0 206 206" style="position:absolute;z-index:3;pointer-events:none">
+        <circle id="hold-circle" cx="103" cy="103" r="103"/>
       </svg>
       <button class="sos-btn" id="sos-btn"
         ontouchstart="startHold(event)" ontouchend="endHold(event)"
@@ -197,7 +211,7 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
         <div class="sos-sub">mantén 3 seg</div>
       </button>
     </div>
-    <div class="hold-hint">Mantén presionado para activar emergencia</div>
+    <div class="hold-hint">Mantén presionado para activar</div>
   </div>
 
   <div class="quick-actions">
@@ -205,9 +219,9 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
       <div class="qa-icon">💬</div>
       <div class="qa-label">WA Rápido</div>
     </div>
-    <div class="qa-btn" onclick="shareMyLocation()">
-      <div class="qa-icon">📍</div>
-      <div class="qa-label">Ubicación</div>
+    <div class="qa-btn" onclick="copyMapLink()">
+      <div class="qa-icon">🗺</div>
+      <div class="qa-label">Copiar link mapa</div>
     </div>
     <div class="qa-btn" onclick="showScreen('settings-screen')">
       <div class="qa-icon">👥</div>
@@ -222,7 +236,7 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px">
     <div class="cd-label">Activando en</div>
     <div class="cd-number" id="cd-num">3</div>
-    <div class="cd-msg">Se abrirá WhatsApp para cada contacto<br>con tu ubicación en tiempo real</div>
+    <div class="cd-msg">Se publicará tu ubicación en vivo<br>y se enviará el link por WhatsApp</div>
     <button class="cd-cancel" onclick="cancelEmergency()">✕ &nbsp;Cancelar</button>
   </div>
 </div>
@@ -240,38 +254,50 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 
   <div class="emg-timer" id="emg-timer">00:00:00</div>
 
-  <div class="map-box">
-    <canvas id="map-canvas" style="width:100%;height:100%"></canvas>
-    <div class="map-pin">
-      <div class="pin-pulse"></div>
-      <div class="pin-dot"><div class="pin-inner"></div></div>
+  <!-- GPS STATUS -->
+
+  <div class="gps-bar waiting" id="gps-bar">
+    <div class="gps-icon">📡</div>
+    <div class="gps-info">
+      <div class="gps-status" id="gps-status">Obteniendo GPS…</div>
+      <div class="gps-coords" id="gps-coords">Esperando señal</div>
     </div>
-    <div class="maps-fab" id="maps-fab" style="display:none">
-      <a id="maps-href" href="#" target="_blank">🗺 Ver en mapa</a>
+    <div class="gps-update" id="gps-update" style="color:var(--muted)">—</div>
+  </div>
+
+  <!-- LIVE LINK BOX -->
+
+  <div class="live-link-box">
+    <div class="llb-top">
+      <div class="llb-dot"></div>
+      <div class="llb-label">Mapa en vivo — tus contactos ven esto</div>
+    </div>
+    <div class="llb-url" id="llb-url">Configura el URL del mapa en Ajustes…</div>
+    <div class="llb-actions">
+      <button class="llb-btn btn-wa" onclick="sendMapLinkWA()">📲 Enviar por WhatsApp</button>
+      <button class="llb-btn btn-copy" onclick="copyMapLink()">📋 Copiar link</button>
     </div>
   </div>
 
-  <div class="loc-bar">
-    <span>📡</span>
-    <div id="loc-text">Obteniendo GPS…</div>
-    <div id="loc-coords">—</div>
-  </div>
+  <!-- REC -->
 
   <div class="rec-strip">
     <div class="rec-dot"></div>
-    <div class="rec-info">
-      <div class="rec-label">Grabando</div>
-      <div id="rec-size">0.0 MB · 0s</div>
-      <div class="badges">
+    <div style="flex:1">
+      <div class="rec-label" id="rec-label">Grabando</div>
+      <div class="rec-size" id="rec-size">0.0 MB · 0s</div>
+      <div class="rec-badges" id="rec-badges">
         <span class="badge b-r">🎬 Video</span>
         <span class="badge b-a">🎙 Audio</span>
-        <span class="badge b-g">📍 GPS</span>
+        <span class="badge b-g">📍 GPS → Firebase</span>
       </div>
     </div>
   </div>
 
+  <!-- CONTACTS -->
+
   <div class="notif-section">
-    <div class="notif-hdr">Alertas WhatsApp</div>
+    <div class="notif-hdr">Alertas WhatsApp enviadas</div>
     <div id="notif-list"></div>
   </div>
 
@@ -290,39 +316,43 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
   <div class="sec-lbl">Tus datos</div>
   <div class="s-card">
     <div class="s-row">
-      <div class="s-row-lbl">Tu nombre</div>
-      <div class="s-row-sub">Aparece en el mensaje de emergencia</div>
-      <input class="s-input" id="my-name" type="text" placeholder="Ej: María García" oninput="saveSettings()">
+      <div class="s-lbl">Tu nombre</div>
+      <input class="s-input" id="my-name" type="text" placeholder="Ej: María García" oninput="saveCfg()">
     </div>
     <div class="s-row">
-      <div class="s-row-lbl">Mensaje SOS personalizado</div>
-      <textarea class="s-input" id="sos-msg" rows="3" style="resize:none;line-height:1.5" placeholder="🚨 ¡EMERGENCIA! Necesito ayuda urgente." oninput="saveSettings()"></textarea>
+      <div class="s-lbl">Mensaje SOS</div>
+      <textarea class="s-input" id="sos-msg" rows="3" style="resize:none;line-height:1.5" oninput="saveCfg()" placeholder="🚨 ¡EMERGENCIA! Necesito ayuda."></textarea>
     </div>
   </div>
 
-  <div class="sec-lbl">Cómo funciona el envío</div>
-  <div class="how-box">
-    <div class="how-ttl">📲 Envío real por WhatsApp</div>
-    <div class="how-step"><span class="how-n">1.</span><span>Al activar SOS, se abre WhatsApp automáticamente con el mensaje ya escrito + tu link de Google Maps</span></div>
-    <div class="how-step"><span class="how-n">2.</span><span>Solo toca <strong style="color:#fff">Enviar</strong> en WhatsApp — llega en segundos</span></div>
-    <div class="how-step"><span class="how-n">3.</span><span>Si tienes varios contactos, se abrirá uno a la vez cada 3 segundos</span></div>
-    <div class="how-step"><span class="how-n">4.</span><span>Tu contacto recibe el link y ve tu posición exacta en Google Maps</span></div>
+  <div class="sec-lbl">URL del mapa en vivo ⚡</div>
+  <div class="map-url-card">
+    <div class="muc-title">📍 Link que recibirán tus contactos</div>
+    <div class="muc-sub">
+      Este es el link a tu página <strong style="color:#fff">mapa-vivo.html</strong> publicada en GitHub Pages. Tus contactos lo abren y ven tu posición actualizándose cada 5 segundos.
+    </div>
+    <input class="muc-input" id="map-url" type="url"
+      placeholder="https://tuusuario.github.io/guardian/mapa-vivo.html"
+      oninput="saveCfg()">
+    <div class="muc-note">
+      👆 Sube <strong>mapa-vivo.html</strong> a tu repositorio de GitHub y pega aquí la URL de GitHub Pages. Ej: <em>https://juangarcia.github.io/guardian/mapa-vivo.html</em>
+    </div>
   </div>
 
   <div class="sec-lbl">Contactos de emergencia</div>
   <div class="c-list" id="c-list"></div>
 
   <div class="add-form">
-    <div class="add-form-ttl">➕ Agregar contacto</div>
+    <div class="add-form-title">➕ Agregar contacto</div>
     <input class="f-input" id="c-name" type="text" placeholder="Nombre (ej: Mamá)">
-    <input class="f-input" id="c-phone" type="tel" placeholder="Número WhatsApp con código de país">
+    <input class="f-input" id="c-phone" type="tel" placeholder="WhatsApp con código de país">
     <div class="f-note">
-      Escribe el número <strong>sin + ni espacios</strong>, incluyendo el código del país:<br><br>
-      🇲🇽 México: <strong>521</strong> + 10 dígitos → <em>5215512345678</em><br>
-      🇪🇸 España: <strong>34</strong> + 9 dígitos → <em>34612345678</em><br>
-      🇺🇸 EE.UU: <strong>1</strong> + 10 dígitos → <em>12025551234</em>
+      Sin + ni espacios:<br>
+      🇲🇽 México: <strong>521</strong>XXXXXXXXXX &nbsp;·&nbsp;
+      🇪🇸 España: <strong>34</strong>XXXXXXXXX &nbsp;·&nbsp;
+      🇺🇸 USA: <strong>1</strong>XXXXXXXXXX
     </div>
-    <select class="f-input" id="c-color" style="appearance:none;-webkit-appearance:none">
+    <select class="f-input" id="c-color" style="appearance:none">
       <option value="#FF6B6B">🔴 Rojo</option>
       <option value="#4ECDC4">🟢 Verde agua</option>
       <option value="#45B7D1">🔵 Azul</option>
@@ -336,131 +366,185 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 
 <div class="toast hidden" id="toast"></div>
 
+<!-- Firebase SDK -->
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDXlBFfqj9IarzYVpDgvtulb_eEHGQ-aWs",
+  authDomain: "guardian-sos-d410f.firebaseapp.com",
+  databaseURL: "https://guardian-sos-d410f-default-rtdb.firebaseio.com",
+  projectId: "guardian-sos-d410f",
+  storageBucket: "guardian-sos-d410f.firebasestorage.app",
+  messagingSenderId: "356894459494",
+  appId: "1:356894459494:web:2d06bb9506b3f47a0a4fa7"
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const db = getDatabase(fbApp);
+const locRef = ref(db, 'location');
+
+// Expose Firebase functions to global scope
+window.fbPublishLocation = async (lat, lng, accuracy, speed, name) => {
+  try {
+    await set(locRef, {
+      lat, lng,
+      accuracy: accuracy || null,
+      speed: speed || null,
+      name: name || 'Usuario',
+      timestamp: new Date().toISOString(),
+      active: true
+    });
+  } catch(e) { console.error('Firebase write error:', e); }
+};
+
+window.fbClearLocation = async () => {
+  try { await set(locRef, { active: false, timestamp: new Date().toISOString() }); }
+  catch(e) {}
+};
+</script>
+
 <script>
 // ══ STATE ══
-let contacts = JSON.parse(localStorage.getItem('g2_contacts') || '[]');
-let cfg = JSON.parse(localStorage.getItem('g2_cfg') || '{}');
+let contacts = JSON.parse(localStorage.getItem('g3_contacts') || '[]');
+let cfg = JSON.parse(localStorage.getItem('g3_cfg') || '{}');
 cfg.name = cfg.name || '';
-cfg.msg = cfg.msg || '🚨 ¡EMERGENCIA! Necesito ayuda urgente. Mi ubicación:';
+cfg.msg  = cfg.msg  || '🚨 ¡EMERGENCIA! Necesito ayuda urgente.';
+cfg.mapUrl = cfg.mapUrl || '';
 
 let holdInterval = null, holdStart = 0;
 let cdTimer = null, cdVal = 3;
 let timerInt = null, recInt = null;
 let timerSec = 0, recSec = 0;
-let mediaRec = null, mediaStream = null;
+let mediaRec = null, mediaStream = null, recChunks = [], recType = null;
 let watchId = null;
 let lat = null, lng = null;
-const CIRC = 635; // stroke-dasharray for r=101
+let gpsInterval = null; // publishes to Firebase every 5s
+const CIRC = 647;
 
 // ══ SETTINGS ══
-function saveSettings() {
-  cfg.name = document.getElementById('my-name').value;
-  cfg.msg = document.getElementById('sos-msg').value;
-  localStorage.setItem('g2_cfg', JSON.stringify(cfg));
+function saveCfg() {
+  cfg.name   = document.getElementById('my-name').value;
+  cfg.msg    = document.getElementById('sos-msg').value;
+  cfg.mapUrl = document.getElementById('map-url').value.trim();
+  localStorage.setItem('g3_cfg', JSON.stringify(cfg));
+  updateSetupBanner();
 }
-function loadSettings() {
+function loadCfg() {
   document.getElementById('my-name').value = cfg.name;
   document.getElementById('sos-msg').value = cfg.msg;
+  document.getElementById('map-url').value = cfg.mapUrl;
 }
 
 // ══ CONTACTS ══
-function saveContacts() { localStorage.setItem('g2_contacts', JSON.stringify(contacts)); }
-
+function saveCts() { localStorage.setItem('g3_contacts', JSON.stringify(contacts)); }
 function addContact() {
-  const name = document.getElementById('c-name').value.trim();
+  const name  = document.getElementById('c-name').value.trim();
   const phone = document.getElementById('c-phone').value.replace(/\D/g,'');
   const color = document.getElementById('c-color').value;
-  if (!name) { showToast('⚠ Escribe el nombre'); return; }
-  if (!phone || phone.length < 10) { showToast('⚠ Número inválido — incluye código de país'); return; }
+  if (!name)              { showToast('⚠ Escribe el nombre'); return; }
+  if (phone.length < 10)  { showToast('⚠ Número inválido — incluye código de país'); return; }
   contacts.push({ name, phone, color });
-  saveContacts();
+  saveCts(); renderAll();
   document.getElementById('c-name').value = '';
   document.getElementById('c-phone').value = '';
-  renderAll();
   showToast(`✓ ${name} agregado`);
 }
-
 function deleteContact(i) {
-  if (!confirm(`¿Eliminar a ${contacts[i].name}?`)) return;
-  contacts.splice(i, 1);
-  saveContacts(); renderAll();
+  contacts.splice(i, 1); saveCts(); renderAll();
 }
 
 function renderAll() {
-  // Bar
+  // Chips bar
   const bar = document.getElementById('contacts-bar');
-  if (contacts.length === 0) {
-    bar.innerHTML = '<div class="contact-chip empty">Sin contactos — configura en ⚙️</div>';
-  } else {
-    bar.innerHTML = contacts.map(c => `
-      <div class="contact-chip">
-        <div class="c-avatar" style="background:${c.color}">${c.name[0].toUpperCase()}</div>
-        <div><div class="c-name">${c.name}</div><div class="c-wa">● WA</div></div>
-      </div>`).join('');
-  }
+  bar.innerHTML = contacts.length === 0
+    ? '<div class="chip empty">Sin contactos — ve a ⚙ Ajustes</div>'
+    : contacts.map(c => `
+        <div class="chip">
+          <div class="chip-av" style="background:${c.color}">${c.name[0].toUpperCase()}</div>
+          <div><div class="chip-name">${c.name}</div><div class="chip-wa">● WA</div></div>
+        </div>`).join('');
 
   // Settings list
   const list = document.getElementById('c-list');
-  if (contacts.length === 0) {
-    list.innerHTML = '<div style="font-family:var(--mono);font-size:10px;color:var(--muted);padding:0 14px 8px;letter-spacing:1px">Aún no hay contactos</div>';
-  } else {
-    list.innerHTML = contacts.map((c,i) => `
-      <div class="c-card">
-        <div class="c-card-av" style="background:${c.color}">${c.name[0].toUpperCase()}</div>
-        <div class="c-card-info">
-          <div class="c-card-name">${c.name}</div>
-          <div class="c-card-phone">+${c.phone}</div>
-          <div class="c-card-wa">● WhatsApp configurado</div>
-        </div>
-        <button class="c-del" onclick="deleteContact(${i})">🗑</button>
-      </div>`).join('');
-  }
+  list.innerHTML = contacts.length === 0
+    ? '<div style="font-family:var(--mono);font-size:10px;color:var(--muted);padding:0 14px 8px;letter-spacing:1px">Sin contactos aún</div>'
+    : contacts.map((c,i) => `
+        <div class="c-card">
+          <div class="c-card-av" style="background:${c.color}">${c.name[0].toUpperCase()}</div>
+          <div class="c-card-info">
+            <div class="c-card-name">${c.name}</div>
+            <div class="c-card-phone">+${c.phone}</div>
+            <div class="c-card-wa">● WhatsApp listo</div>
+          </div>
+          <button class="c-del" onclick="deleteContact(${i})">🗑</button>
+        </div>`).join('');
 
-  // Banner
-  const b = document.getElementById('setup-banner');
-  if (contacts.length > 0) {
-    b.className = 'setup-banner done';
-    document.getElementById('sb-icon').textContent = '✅';
-    document.getElementById('sb-title').textContent = `${contacts.length} contacto${contacts.length>1?'s':''} listo${contacts.length>1?'s':''}`;
-    document.getElementById('sb-sub').textContent = 'Toca para gestionar · Al activar SOS se abrirá WA';
-  } else {
-    b.className = 'setup-banner';
-    document.getElementById('sb-icon').textContent = '⚠️';
-    document.getElementById('sb-title').textContent = 'Sin contactos de emergencia';
-    document.getElementById('sb-sub').textContent = 'Toca aquí → agrega números de WhatsApp';
-  }
+  updateSetupBanner();
+}
+
+function updateSetupBanner() {
+  const hasContacts = contacts.length > 0;
+  const hasMap = cfg.mapUrl.length > 10;
+  const allGood = hasContacts && hasMap;
+
+  document.getElementById('sb-icon').textContent  = allGood ? '✅' : '⚠️';
+  document.getElementById('sb-title').textContent = allGood
+    ? `${contacts.length} contacto${contacts.length>1?'s':''} · Mapa listo`
+    : 'Configuración incompleta';
+  document.getElementById('sb-sub').textContent = allGood
+    ? 'Todo listo — mantén SOS para activar'
+    : `${!hasMap?'Falta URL del mapa · ':''}${!hasContacts?'Falta agregar contactos':''}`;
+  document.getElementById('setup-banner').className = `setup-banner ${allGood?'done':''}`;
 }
 
 // ══ WHATSAPP ══
 function buildMsg() {
-  const who = cfg.name ? `👤 ${cfg.name}` : '';
+  const who  = cfg.name ? `👤 ${cfg.name}\n` : '';
   const body = cfg.msg || '🚨 ¡EMERGENCIA! Necesito ayuda urgente.';
-  let loc = '';
-  if (lat && lng) {
-    loc = `\n\n📍 UBICACIÓN EN TIEMPO REAL:\nhttps://maps.google.com/?q=${lat},${lng}\n🌐 ${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-  } else {
-    loc = '\n\n📍 (Obteniendo ubicación GPS...)';
-  }
-  const time = `\n\n⏰ ${new Date().toLocaleString('es-MX', {dateStyle:'short',timeStyle:'medium'})}`;
-  return encodeURIComponent(`${body}\n${who}${loc}${time}\n\n— Enviado desde GUARDIAN SOS`);
+  const mapLink = cfg.mapUrl
+    ? `\n\n🗺 MI UBICACIÓN EN VIVO (actualiza cada 5 seg):\n${cfg.mapUrl}`
+    : (lat && lng ? `\n\n📍 https://maps.google.com/?q=${lat},${lng}` : '');
+  const time = `\n\n⏰ ${new Date().toLocaleString('es-MX',{dateStyle:'short',timeStyle:'medium'})}`;
+  return encodeURIComponent(`${body}\n${who}${mapLink}${time}\n\n— GUARDIAN SOS`);
 }
 
-function openWA(phone, msg) {
-  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+function openWA(phone, msg) { window.open(`https://wa.me/${phone}?text=${msg}`, '_blank'); }
+
+function sendMapLinkWA() {
+  if (contacts.length === 0) { showToast('Sin contactos configurados'); return; }
+  const msg = buildMsg();
+  contacts.forEach((c,i) => setTimeout(() => openWA(c.phone, msg), i * 2800));
+  showToast('📲 Abriendo WhatsApp…');
 }
 
+function quickWA() {
+  if (contacts.length === 0) { showToast('Agrega contactos en ⚙ Ajustes'); return; }
+  const msg = buildMsg();
+  contacts.forEach((c,i) => setTimeout(() => openWA(c.phone, msg), i * 2800));
+  showToast('📲 Abriendo WhatsApp…');
+}
+
+function copyMapLink() {
+  const url = cfg.mapUrl || (lat && lng ? `https://maps.google.com/?q=${lat},${lng}` : '');
+  if (!url) { showToast('Configura el URL del mapa primero'); return; }
+  navigator.clipboard.writeText(url).then(() => showToast('📋 Link copiado')).catch(() => showToast('No se pudo copiar'));
+}
+
+// ══ SEND TO ALL ══
 async function sendToAll() {
   const list = document.getElementById('notif-list');
 
   if (contacts.length === 0) {
-    list.innerHTML = `<div class="ni" style="flex-direction:column;align-items:flex-start;gap:6px">
-      <div style="font-size:13px;color:var(--amber)">⚠ Sin contactos configurados</div>
-      <div style="font-size:11px;color:var(--muted);line-height:1.5">Ve a ⚙️ Ajustes y agrega números de WhatsApp para enviar alertas reales.</div>
+    list.innerHTML = `<div class="ni" style="flex-direction:column;gap:5px">
+      <div style="font-size:12px;color:var(--amber)">⚠ Sin contactos</div>
+      <div style="font-size:11px;color:var(--muted)">Agrega contactos en ⚙ Ajustes</div>
     </div>`;
     return;
   }
 
-  // Render rows
   list.innerHTML = contacts.map((c,i) => `
     <div class="ni" id="ni-${i}">
       <div class="ni-av" style="background:${c.color}">${c.name[0].toUpperCase()}</div>
@@ -468,63 +552,41 @@ async function sendToAll() {
         <div class="ni-name">${c.name}</div>
         <div class="ni-phone">+${c.phone}</div>
       </div>
-      <div class="ni-st st-go" id="ns-${i}">Preparando…</div>
+      <div style="text-align:right">
+        <div class="ni-st st-go" id="ns-${i}">Preparando…</div>
+      </div>
     </div>`).join('');
 
-  // Wait a beat for GPS
-  await new Promise(r => setTimeout(r, 900));
+  // Wait for GPS to get first fix
+  await new Promise(r => setTimeout(r, 1200));
   const msg = buildMsg();
+
+  // Update live link box
+  if (cfg.mapUrl) {
+    document.getElementById('llb-url').textContent = cfg.mapUrl;
+  }
 
   contacts.forEach((c, i) => {
     setTimeout(() => {
       const ns = document.getElementById(`ns-${i}`);
       if (ns) { ns.textContent = 'Abriendo WA…'; ns.className = 'ni-st st-go'; }
-
       openWA(c.phone, msg);
-
       setTimeout(() => {
         const ns2 = document.getElementById(`ns-${i}`);
-        if (ns2) { ns2.textContent = '✓ Enviado'; ns2.className = 'ni-st st-ok'; }
-        // Add resend button
+        if (ns2) { ns2.textContent = '✓ WA abierto'; ns2.className = 'ni-st st-ok'; }
         const row = document.getElementById(`ni-${i}`);
         if (row && !row.querySelector('.resend-btn')) {
           const btn = document.createElement('button');
-          btn.className = 'resend-btn';
-          btn.innerHTML = '↗ Reenviar';
+          btn.className = 'resend-btn'; btn.textContent = '↗ Reenviar';
           btn.onclick = () => openWA(c.phone, buildMsg());
-          row.appendChild(btn);
+          row.querySelector('.ni-info').appendChild(btn);
         }
       }, 2200);
     }, i * 3000);
   });
 
   document.getElementById('emg-sub').textContent =
-    `${contacts.length} alerta${contacts.length>1?'s':''} WA enviada${contacts.length>1?'s':''}`;
-}
-
-function quickWA() {
-  if (contacts.length === 0) { showToast('Agrega contactos en ⚙️ primero'); return; }
-  showToast('📲 Abriendo WhatsApp…');
-  const send = () => {
-    const msg = buildMsg();
-    contacts.forEach((c,i) => setTimeout(() => openWA(c.phone, msg), i * 2800));
-  };
-  navigator.geolocation.getCurrentPosition(
-    p => { lat = p.coords.latitude; lng = p.coords.longitude; send(); },
-    () => send(),
-    { timeout: 4000 }
-  );
-}
-
-function shareMyLocation() {
-  navigator.geolocation.getCurrentPosition(
-    p => {
-      const url = `https://maps.google.com/?q=${p.coords.latitude},${p.coords.longitude}`;
-      if (navigator.share) navigator.share({ title:'📍 Mi ubicación — GUARDIAN', url });
-      else { navigator.clipboard.writeText(url); showToast('📍 Link copiado'); }
-    },
-    () => showToast('⚠ Permite GPS primero')
-  );
+    `${contacts.length} alerta${contacts.length>1?'s':''} enviada${contacts.length>1?'s':''}`;
 }
 
 // ══ HOLD ══
@@ -557,8 +619,7 @@ function showRings(on) {
 
 // ══ COUNTDOWN ══
 function startCountdown() {
-  cdVal = 3;
-  showScreen('countdown-screen');
+  cdVal = 3; showScreen('countdown-screen');
   document.getElementById('cd-num').textContent = cdVal;
   if (navigator.vibrate) navigator.vibrate([200,100,200,100,200]);
   cdTimer = setInterval(() => {
@@ -575,16 +636,20 @@ async function activateEmergency() {
   showScreen('active-screen');
   timerSec = 0; recSec = 0;
 
+  // Show map URL in live link box
+  document.getElementById('llb-url').textContent =
+    cfg.mapUrl || '(Configura el URL en Ajustes)';
+
   timerInt = setInterval(() => {
     timerSec++;
     document.getElementById('emg-timer').textContent = fmtTime(timerSec);
   }, 1000);
   recInt = setInterval(() => {
     recSec++;
-    document.getElementById('rec-size').textContent = `${(recSec*0.18).toFixed(1)} MB · ${recSec}s`;
+    document.getElementById('rec-size').textContent =
+      `${(recSec * 0.18).toFixed(1)} MB · ${recSec}s`;
   }, 1000);
 
-  drawMap();
   startGPS();
   await startRec();
   await sendToAll();
@@ -592,103 +657,141 @@ async function activateEmergency() {
 }
 
 function stopEmergency() {
-  clearInterval(timerInt); clearInterval(recInt);
+  clearInterval(timerInt); clearInterval(recInt); clearInterval(gpsInterval);
   if (watchId) navigator.geolocation.clearWatch(watchId);
-  if (mediaRec && mediaRec.state !== 'inactive') mediaRec.stop();
-  if (mediaStream) mediaStream.getTracks().forEach(t => t.stop());
+
+  // Stop recording and save file
+  if (mediaRec && mediaRec.state !== 'inactive') {
+    mediaRec.stop(); // ondataavailable + onstop will fire
+  } else {
+    stopMediaStream();
+  }
+
+  // Clear Firebase location
+  if (window.fbClearLocation) window.fbClearLocation();
+
   showScreen('main-screen');
-  showToast('✓ Emergencia detenida');
+  showToast('✓ Emergencia detenida — guardando grabación…');
 }
 
-// ══ GPS ══
+function stopMediaStream() {
+  if (mediaStream) mediaStream.getTracks().forEach(t => t.stop());
+}
+
+// ══ GPS → FIREBASE ══
 function startGPS() {
-  if (!navigator.geolocation) { document.getElementById('loc-text').textContent = 'GPS no disponible'; return; }
+  if (!navigator.geolocation) {
+    document.getElementById('gps-status').textContent = 'GPS no disponible';
+    return;
+  }
+
+  const bar = document.getElementById('gps-bar');
+
   watchId = navigator.geolocation.watchPosition(
-    p => {
-      lat = p.coords.latitude; lng = p.coords.longitude;
-      document.getElementById('loc-text').textContent = 'GPS activo · Compartiendo';
-      document.getElementById('loc-coords').textContent = `${lat.toFixed(4)}, ${lng.toFixed(4)}`;
-      drawMap(lat, lng);
-      const fab = document.getElementById('maps-fab');
-      fab.style.display = 'block';
-      document.getElementById('maps-href').href = `https://maps.google.com/?q=${lat},${lng}`;
+    pos => {
+      lat = pos.coords.latitude;
+      lng = pos.coords.longitude;
+      const acc = pos.coords.accuracy;
+      const spd = pos.coords.speed;
+
+      bar.className = 'gps-bar active';
+      document.getElementById('gps-status').textContent = 'GPS activo — publicando en Firebase';
+      document.getElementById('gps-coords').textContent =
+        `${lat.toFixed(5)}, ${lng.toFixed(5)} · ±${Math.round(acc||0)}m`;
+      document.getElementById('gps-update').textContent = '● LIVE';
+      document.getElementById('gps-update').style.color = 'var(--green)';
+
+      // Publish to Firebase immediately on each GPS update
+      if (window.fbPublishLocation) {
+        window.fbPublishLocation(lat, lng, acc, spd, cfg.name);
+      }
     },
     err => {
-      const m = {1:'GPS denegado — acepta en Ajustes del navegador',2:'Señal GPS no disponible',3:'Tiempo GPS agotado'};
-      document.getElementById('loc-text').textContent = m[err.code]||'Error GPS';
+      const m = {1:'GPS denegado — acepta en Ajustes',2:'Señal GPS débil',3:'GPS: tiempo agotado'};
+      bar.className = 'gps-bar error';
+      document.getElementById('gps-status').textContent = m[err.code] || 'Error GPS';
     },
-    { enableHighAccuracy:true, timeout:12000 }
+    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
   );
-}
-
-// ══ MAP ══
-function drawMap(la, lo) {
-  const c = document.getElementById('map-canvas');
-  const ctx = c.getContext('2d');
-  const dpr = window.devicePixelRatio||1;
-  c.width = c.offsetWidth*dpr; c.height = c.offsetHeight*dpr;
-  ctx.scale(dpr,dpr);
-  const W=c.offsetWidth, H=c.offsetHeight;
-  ctx.fillStyle='#0D0D0D'; ctx.fillRect(0,0,W,H);
-  const s=((la||19.4)*1000+(lo||99.1)*1000)|0;
-  const r=n=>{let x=Math.sin(n+1)*10000;return x-Math.floor(x)};
-  for(let i=0;i<10;i++){
-    const y=(r(s+i*7)*.75+.08)*H;
-    ctx.strokeStyle=i%3===0?'#282828':'#181818';
-    ctx.lineWidth=i%3===0?2:1;
-    ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
-  }
-  for(let i=0;i<7;i++){
-    const x=(r(s+i*11+50)*.8+.1)*W;
-    ctx.strokeStyle=i%2===0?'#202020':'#161616';
-    ctx.lineWidth=i%2===0?2:1;
-    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
-  }
-  for(let i=0;i<5;i++){
-    ctx.fillStyle='#141414';
-    ctx.fillRect(r(s+i*13+100)*W,r(s+i*17+200)*H,22+r(s+i)*52,14+r(s+i+1)*32);
-  }
-  const cx=W/2,cy=H/2;
-  const g=ctx.createRadialGradient(cx,cy,0,cx,cy,50);
-  g.addColorStop(0,'rgba(255,26,26,0.1)');g.addColorStop(1,'rgba(255,26,26,0)');
-  ctx.fillStyle=g;ctx.beginPath();ctx.arc(cx,cy,50,0,Math.PI*2);ctx.fill();
-  ctx.strokeStyle='rgba(255,26,26,0.12)';ctx.lineWidth=.5;
-  ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,H);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();
 }
 
 // ══ RECORDING ══
 async function startRec() {
-  const inFrame=()=>{try{return window.self!==window.top}catch{return true}};
-  if(inFrame()) return;
-  try {
-    mediaStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});
-    mediaRec=new MediaRecorder(mediaStream); mediaRec.start();
-  } catch {
-    try {
-      mediaStream=await navigator.mediaDevices.getUserMedia({audio:true});
-      mediaRec=new MediaRecorder(mediaStream); mediaRec.start();
-    } catch {}
+  const inFrame = () => { try { return window.self !== window.top; } catch { return true; } };
+  if (inFrame()) { updateRecUI(null); return; }
+
+  recChunks = []; recType = null;
+
+  const constraints = [{ video:true, audio:true }, { audio:true }];
+  for (const c of constraints) {
+    try { mediaStream = await navigator.mediaDevices.getUserMedia(c); recType = c.video ? 'video' : 'audio'; break; }
+    catch {}
   }
+  if (!mediaStream) { updateRecUI(null); return; }
+
+  const types = recType === 'video'
+    ? ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
+    : ['audio/webm;codecs=opus','audio/webm','audio/ogg'];
+  const mimeType = types.find(t => MediaRecorder.isTypeSupported(t)) || '';
+
+  try { mediaRec = new MediaRecorder(mediaStream, mimeType ? { mimeType } : {}); }
+  catch { mediaRec = new MediaRecorder(mediaStream); }
+
+  mediaRec.ondataavailable = e => { if (e.data?.size > 0) recChunks.push(e.data); };
+  mediaRec.onstop = () => { saveRecording(); stopMediaStream(); };
+  mediaRec.start(1000);
+  updateRecUI(recType);
+}
+
+function updateRecUI(type) {
+  const lbl    = document.getElementById('rec-label');
+  const dot    = document.querySelector('.rec-dot');
+  const badges = document.getElementById('rec-badges');
+  if (!type) {
+    lbl.textContent = 'SIN PERMISO';
+    lbl.style.color = 'var(--amber)';
+    dot.style.background = 'var(--amber)';
+    badges.innerHTML = '<span class="badge b-a">⚠ Abre fuera de Claude</span><span class="badge b-g">📍 GPS → Firebase ✓</span>';
+    return;
+  }
+  lbl.textContent = 'GRABANDO'; lbl.style.color = 'var(--red)'; dot.style.background = 'var(--red)';
+  badges.innerHTML = type === 'video'
+    ? '<span class="badge b-r">🎬 Video</span><span class="badge b-a">🎙 Audio</span><span class="badge b-g">📍 GPS → Firebase</span>'
+    : '<span class="badge b-a">🎙 Solo audio</span><span class="badge b-g">📍 GPS → Firebase</span>';
+}
+
+function saveRecording() {
+  if (recChunks.length === 0) return;
+  const mime = mediaRec?.mimeType || (recType === 'video' ? 'video/webm' : 'audio/webm');
+  const ext  = mime.includes('mp4') ? 'mp4' : mime.includes('ogg') ? 'ogg' : 'webm';
+  const blob = new Blob(recChunks, { type: mime });
+  const url  = URL.createObjectURL(blob);
+  const ts   = new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+  const name = `GUARDIAN-SOS-${ts}.${ext}`;
+  const a    = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 15000);
+  recChunks = [];
+  showToast(`💾 Grabación guardada: ${name}`);
 }
 
 // ══ UTILS ══
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));
+  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
   window.scrollTo(0,0);
 }
-function fmtTime(s){return[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':')}
+function fmtTime(s) { return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':'); }
 let toastT;
-function showToast(m){
-  const t=document.getElementById('toast');
-  t.textContent=m;t.classList.remove('hidden');
-  clearTimeout(toastT);toastT=setTimeout(()=>t.classList.add('hidden'),2800);
+function showToast(m) {
+  const t = document.getElementById('toast');
+  t.textContent = m; t.classList.remove('hidden');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.add('hidden'), 3000);
 }
 
 // ══ INIT ══
-loadSettings();
-renderAll();
+loadCfg(); renderAll();
 </script>
 
 </body>
