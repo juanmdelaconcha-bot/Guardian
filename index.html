@@ -15,50 +15,60 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden;user-select:none}
-.screen{position:fixed;inset:0;display:flex;flex-direction:column;transition:opacity .35s,transform .35s;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.screen.hidden{opacity:0;pointer-events:none;transform:translateY(14px)}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;transition:opacity .3s,transform .3s;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen.hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
 
 /* ── MAIN ── */
 #main-screen{background:radial-gradient(ellipse at 50% 75%,rgba(255,26,26,0.07) 0%,transparent 65%),var(–bg)}
-.header{display:flex;align-items:center;justify-content:space-between;padding:52px 22px 10px}
-.brand{font-family:var(–display);font-size:26px;letter-spacing:3px}
+.header{display:flex;align-items:center;justify-content:space-between;padding:52px 20px 10px}
+.brand{font-family:var(–display);font-size:24px;letter-spacing:3px}
 .brand span{color:var(–red)}
-.settings-btn{background:var(–surface2);border:1px solid var(–border);border-radius:10px;padding:8px 12px;color:var(–text);font-size:14px;cursor:pointer;font-family:var(–mono);font-size:11px;letter-spacing:1px}
+.user-pill{display:flex;align-items:center;gap:8px;background:var(–surface2);border:1px solid var(–border);border-radius:100px;padding:6px 12px 6px 6px;cursor:pointer}
+.user-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover;background:var(–red);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.user-name{font-size:12px;font-weight:500;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-.setup-banner{margin:10px 16px;border-radius:13px;padding:13px 15px;display:flex;align-items:center;gap:11px;cursor:pointer;transition:all .2s;border:1px solid rgba(255,140,0,0.25);background:rgba(255,140,0,0.08)}
-.setup-banner.done{background:rgba(0,230,118,0.05);border-color:rgba(0,230,118,0.2)}
-.sb-icon{font-size:20px;flex-shrink:0}
-.sb-title{font-size:13px;font-weight:600;color:var(–text)}
-.sb-sub{font-size:11px;color:rgba(255,255,255,0.45);margin-top:2px}
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(–border);margin:0 16px}
+.tab{flex:1;padding:10px;text-align:center;font-family:var(–mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(–muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab.active{color:var(–text);border-bottom-color:var(–red)}
 
-.contacts-bar{display:flex;gap:7px;padding:8px 16px 12px;overflow-x:auto;scrollbar-width:none}
-.contacts-bar::-webkit-scrollbar{display:none}
-.chip{display:flex;align-items:center;gap:7px;background:var(–surface2);border:1px solid rgba(0,230,118,0.3);border-radius:100px;padding:6px 11px 6px 6px;white-space:nowrap;flex-shrink:0}
-.chip.empty{border-color:var(–border);color:var(–muted);font-family:var(–mono);font-size:10px;letter-spacing:1px;padding:8px 14px}
-.chip-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#000;flex-shrink:0}
-.chip-name{font-size:12px;font-weight:500}
-.chip-wa{font-size:8px;font-family:var(–mono);color:#25D366}
+.tab-content{display:none;flex:1;flex-direction:column}
+.tab-content.active{display:flex}
 
-/* SOS BUTTON */
-.sos-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 20px}
+/* CONTACTOS TAB */
+.contacts-list{padding:12px 16px;display:flex;flex-direction:column;gap:8px;flex:1;overflow-y:auto}
+.contact-card{background:var(–surface);border:1px solid var(–border);border-radius:13px;padding:13px 15px;display:flex;align-items:center;gap:12px}
+.cc-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000;flex-shrink:0;position:relative}
+.cc-online{position:absolute;bottom:0;right:0;width:11px;height:11px;border-radius:50%;border:2px solid var(–surface);background:var(–green)}
+.cc-offline{position:absolute;bottom:0;right:0;width:11px;height:11px;border-radius:50%;border:2px solid var(–surface);background:var(–muted)}
+.cc-info{flex:1;min-width:0}
+.cc-name{font-size:14px;font-weight:600}
+.cc-status{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:2px}
+.cc-emg{font-family:var(–mono);font-size:9px;color:var(–red);margin-top:2px;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.cc-actions{display:flex;gap:6px}
+.cc-btn{background:var(–surface2);border:1px solid var(–border);border-radius:8px;padding:7px 10px;font-size:14px;cursor:pointer}
+.cc-btn.live{background:rgba(255,26,26,0.12);border-color:rgba(255,26,26,0.3)}
+.no-contacts{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(–muted);text-align:center;padding:40px}
+.no-contacts-icon{font-size:48px;opacity:.4}
+.no-contacts-text{font-size:14px;line-height:1.6}
+
+.add-contact-btn{margin:12px 16px;padding:14px;background:var(–surface);border:1px solid rgba(255,26,26,0.2);border-radius:13px;color:var(–red);font-family:var(–mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;text-align:center}
+
+/* SOS TAB */
+.sos-tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 20px}
 .sos-wrapper{position:relative;display:flex;align-items:center;justify-content:center;margin-bottom:24px}
 .sos-ring{position:absolute;border-radius:50%;border:1px solid var(–red);opacity:0;animation:none}
 .ring1{width:248px;height:248px}.ring2{width:292px;height:292px}.ring3{width:336px;height:336px}
 @keyframes ring-pulse{0%{transform:scale(.86);opacity:.5}100%{transform:scale(1);opacity:0}}
 .sos-btn{position:relative;z-index:2;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FF3A3A,#9B0000);border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;box-shadow:0 0 0 5px rgba(255,26,26,0.12),0 0 36px rgba(255,26,26,0.26),0 16px 48px rgba(0,0,0,0.5);transition:transform .12s,box-shadow .12s;-webkit-touch-callout:none}
-.sos-btn.pressed{transform:scale(.93);box-shadow:0 0 0 8px rgba(255,26,26,0.2),0 0 52px rgba(255,26,26,0.48),0 8px 26px rgba(0,0,0,0.8)}
+.sos-btn.pressed{transform:scale(.93);box-shadow:0 0 0 8px rgba(255,26,26,0.2),0 0 52px rgba(255,26,26,0.48)}
 .sos-label{font-family:var(–display);font-size:68px;letter-spacing:4px;color:#fff;line-height:1}
 .sos-sub{font-family:var(–mono);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.6);text-transform:uppercase}
 .hold-hint{font-family:var(–mono);font-size:10px;letter-spacing:2px;color:var(–muted);text-transform:uppercase;text-align:center}
 .hold-ring{position:absolute;z-index:3;width:206px;height:206px;pointer-events:none}
-.hold-ring circle{fill:none;stroke:rgba(255,255,255,0.9);stroke-width:3;stroke-linecap:round;stroke-dasharray:647;stroke-dashoffset:647;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .04s linear;filter:drop-shadow(0 0 5px rgba(255,255,255,0.7))}
-
-/* QUICK ACTIONS */
-.quick-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 16px 22px}
-.qa-btn{background:var(–surface);border:1px solid var(–border);border-radius:13px;padding:13px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .15s}
-.qa-btn:active{background:var(–surface2);transform:scale(.96)}
-.qa-icon{font-size:20px}
-.qa-label{font-size:10px;color:var(–muted);font-weight:500;text-align:center}
+.hold-ring circle{fill:none;stroke:rgba(255,255,255,0.9);stroke-width:3;stroke-linecap:round;stroke-dasharray:647;stroke-dashoffset:647;transform:rotate(-90deg);transform-origin:center;transition:stroke-dashoffset .04s linear;filter:drop-shadow(0 0 5px rgba(255,255,255,.7))}
+.sos-contacts-count{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:16px;letter-spacing:1px}
 
 /* ── COUNTDOWN ── */
 #countdown-screen{background:#080000;align-items:center;justify-content:center;gap:18px}
@@ -72,103 +82,81 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 #active-screen{background:#050505}
 .emg-header{background:var(–red);padding:46px 20px 16px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .emg-title{font-family:var(–display);font-size:29px;letter-spacing:2px}
-.emg-blink{font-family:var(–mono);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.8);text-transform:uppercase;animation:blink 1s step-end infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.emg-timer{font-family:var(–mono);font-size:36px;color:var(–red);text-align:center;padding:14px 0 6px;letter-spacing:2px;flex-shrink:0}
+.emg-blink{font-family:var(–mono);font-size:9px;letter-spacing:3px;color:rgba(255,255,255,.8);text-transform:uppercase;animation:blink 1s step-end infinite}
+.emg-timer{font-family:var(–mono);font-size:36px;color:var(–red);text-align:center;padding:14px 0 6px;letter-spacing:2px}
 
-/* GPS STATUS BAR */
-.gps-bar{margin:0 14px;padding:10px 14px;border-radius:11px;display:flex;align-items:center;gap:10px;flex-shrink:0}
-.gps-bar.active{background:rgba(0,230,118,0.07);border:1px solid rgba(0,230,118,0.2)}
-.gps-bar.waiting{background:rgba(255,140,0,0.07);border:1px solid rgba(255,140,0,0.2)}
-.gps-bar.error{background:rgba(255,26,26,0.07);border:1px solid rgba(255,26,26,0.2)}
-.gps-icon{font-size:18px;flex-shrink:0}
+.gps-bar{margin:0 14px;padding:10px 14px;border-radius:11px;display:flex;align-items:center;gap:10px;border:1px solid rgba(255,140,0,.2);background:rgba(255,140,0,.06)}
+.gps-bar.ok{border-color:rgba(0,230,118,.2);background:rgba(0,230,118,.05)}
+.gps-bar.err{border-color:rgba(255,26,26,.2);background:rgba(255,26,26,.05)}
 .gps-info{flex:1;min-width:0}
 .gps-status{font-size:12px;font-weight:600}
-.gps-coords{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:2px}
-.gps-update{font-family:var(–mono);font-size:9px;flex-shrink:0}
+.gps-coords{font-family:var(–mono);font-size:9px;color:var(–muted);margin-top:2px}
 
-/* LIVE LINK BOX */
-.live-link-box{margin:8px 14px 0;background:rgba(37,211,102,0.06);border:1px solid rgba(37,211,102,0.2);border-radius:12px;padding:12px 14px;flex-shrink:0}
-.llb-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.llb-dot{width:8px;height:8px;border-radius:50%;background:var(–green);box-shadow:0 0 8px var(–green);animation:blink 1.5s ease-in-out infinite;flex-shrink:0}
-.llb-label{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–green)}
-.llb-url{font-family:var(–mono);font-size:10px;color:rgba(255,255,255,0.5);word-break:break-all;margin-bottom:8px;line-height:1.5}
-.llb-actions{display:flex;gap:7px}
-.llb-btn{flex:1;padding:9px;border-radius:8px;font-family:var(–mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-align:center;border:none;transition:opacity .2s}
-.llb-btn:active{opacity:.75}
+.live-box{margin:8px 14px 0;background:rgba(0,230,118,.05);border:1px solid rgba(0,230,118,.18);border-radius:12px;padding:12px 14px}
+.lb-top{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.lb-dot{width:8px;height:8px;border-radius:50%;background:var(–green);box-shadow:0 0 8px var(–green);animation:blink 1.5s ease-in-out infinite;flex-shrink:0}
+.lb-label{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–green)}
+.lb-url{font-family:var(–mono);font-size:10px;color:rgba(255,255,255,.45);word-break:break-all;margin-bottom:8px;line-height:1.5}
+.lb-actions{display:flex;gap:7px}
+.lb-btn{flex:1;padding:9px;border-radius:8px;font-family:var(–mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-align:center;border:none}
+.lb-btn:active{opacity:.75}
 .btn-wa{background:#25D366;color:#fff}
-.btn-copy{background:var(–surface2);color:var(–text);border:1px solid var(–border)!important;border:none}
+.btn-copy{background:var(–surface2);color:var(–text);border:1px solid var(–border)!important}
 
-/* REC STRIP */
-.rec-strip{margin:8px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:11px;padding:10px 13px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.rec-strip{margin:8px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:11px;padding:10px 13px;display:flex;align-items:center;gap:10px}
 .rec-dot{width:8px;height:8px;background:var(–red);border-radius:50%;animation:blink 1s step-end infinite;flex-shrink:0}
-.rec-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(–red)}
-.rec-size{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:1px}
-.rec-badges{display:flex;gap:4px;margin-top:4px}
-.badge{font-family:var(–mono);font-size:8px;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.3px}
-.b-r{background:rgba(255,26,26,0.15);color:var(–red);border:1px solid rgba(255,26,26,0.22)}
-.b-a{background:rgba(255,140,0,0.1);color:var(–amber);border:1px solid rgba(255,140,0,0.22)}
-.b-g{background:rgba(0,230,118,0.07);color:var(–green);border:1px solid rgba(0,230,118,0.18)}
+.rec-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(–red)}
+.rec-sz{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:1px}
+.badges{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.badge{font-family:var(–mono);font-size:8px;padding:2px 6px;border-radius:3px;text-transform:uppercase}
+.b-r{background:rgba(255,26,26,.15);color:var(–red);border:1px solid rgba(255,26,26,.22)}
+.b-a{background:rgba(255,140,0,.1);color:var(–amber);border:1px solid rgba(255,140,0,.22)}
+.b-g{background:rgba(0,230,118,.07);color:var(–green);border:1px solid rgba(0,230,118,.18)}
 
-/* NOTIF */
-.notif-section{margin:8px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:11px;overflow:hidden;flex-shrink:0}
+.notif-section{margin:8px 14px 0;background:var(–surface);border:1px solid var(–border);border-radius:11px;overflow:hidden}
 .notif-hdr{padding:8px 13px;font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);border-bottom:1px solid var(–border)}
 .ni{display:flex;align-items:center;gap:10px;padding:9px 13px;border-bottom:1px solid var(–border)}
 .ni:last-child{border-bottom:none}
 .ni-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#000;flex-shrink:0}
-.ni-info{flex:1;min-width:0}
+.ni-info{flex:1}
 .ni-name{font-size:12px;font-weight:500}
-.ni-phone{font-family:var(–mono);font-size:9px;color:var(–muted);margin-top:1px}
-.ni-st{font-family:var(–mono);font-size:9px;flex-shrink:0;text-align:right}
-.st-ok{color:var(–green)}.st-go{color:var(–amber);animation:blink 1s step-end infinite}.st-no{color:var(–muted)}
-.resend-btn{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.25);border-radius:6px;padding:4px 8px;font-family:var(–mono);font-size:8px;color:#25D366;cursor:pointer;flex-shrink:0;white-space:nowrap;margin-top:3px}
+.ni-ph{font-family:var(–mono);font-size:9px;color:var(–muted);margin-top:1px}
+.ni-st{font-family:var(–mono);font-size:9px;flex-shrink:0}
+.st-ok{color:var(–green)}.st-go{color:var(–amber);animation:blink 1s step-end infinite}
+.resend-btn{background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.25);border-radius:6px;padding:3px 7px;font-family:var(–mono);font-size:8px;color:#25D366;cursor:pointer;margin-top:3px;display:inline-block}
 
-.stop-btn{display:block;width:calc(100% - 28px);margin:12px 14px 28px;padding:15px;background:var(–surface);border:1px solid var(–border);color:var(–text);font-family:var(–mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;border-radius:12px;cursor:pointer;text-align:center;flex-shrink:0}
+.stop-btn{display:block;width:calc(100% - 28px);margin:12px 14px 28px;padding:15px;background:var(–surface);border:1px solid var(–border);color:var(–text);font-family:var(–mono);font-size:11px;letter-spacing:3px;text-transform:uppercase;border-radius:12px;cursor:pointer;text-align:center}
 .stop-btn:active{background:var(–surface2)}
 
-/* ── SETTINGS ── */
-#settings-screen{background:var(–bg);padding-bottom:50px}
-.s-header{display:flex;align-items:center;gap:14px;padding:50px 20px 18px}
-.back-btn{background:none;border:1px solid var(–border);border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(–text);font-size:20px;cursor:pointer;flex-shrink:0}
-.s-title{font-family:var(–display);font-size:26px;letter-spacing:2px}
-.sec-lbl{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);padding:14px 20px 6px}
-.s-card{margin:0 14px 8px;background:var(–surface);border:1px solid var(–border);border-radius:13px;overflow:hidden}
-.s-row{padding:13px 15px;border-bottom:1px solid var(–border)}
-.s-row:last-child{border-bottom:none}
-.s-lbl{font-size:12px;font-weight:600;margin-bottom:3px}
-.s-sub{font-size:11px;color:var(–muted);line-height:1.4;margin-bottom:7px}
-.s-input{width:100%;background:var(–surface2);border:1px solid var(–border);border-radius:9px;padding:11px 13px;color:var(–text);font-family:var(–sans);font-size:14px;outline:none;transition:border-color .2s}
-.s-input:focus{border-color:rgba(255,26,26,0.4)}
-.s-input::placeholder{color:var(–muted)}
+/* ── ADD CONTACT MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:flex-end;z-index:100;transition:opacity .3s}
+.modal-overlay.hidden{opacity:0;pointer-events:none}
+.modal{width:100%;background:var(–surface);border-radius:22px 22px 0 0;padding:20px 22px 40px;transition:transform .3s}
+.modal-overlay.hidden .modal{transform:translateY(100%)}
+.modal-handle{width:36px;height:3px;background:var(–border);border-radius:2px;margin:0 auto 18px}
+.modal-title{font-family:var(–display);font-size:26px;letter-spacing:1px;margin-bottom:16px}
+.m-input{width:100%;background:var(–surface2);border:1px solid var(–border);border-radius:10px;padding:12px 14px;color:var(–text);font-family:var(–sans);font-size:14px;outline:none;margin-bottom:10px;transition:border-color .2s}
+.m-input:focus{border-color:rgba(255,26,26,.4)}
+.m-input::placeholder{color:var(–muted)}
+.m-note{font-size:11px;color:var(–muted);line-height:1.55;margin-bottom:12px;padding:9px 12px;background:rgba(255,255,255,.02);border-radius:8px;border:1px solid var(–border)}
+.m-note strong{color:rgba(255,255,255,.65)}
+.m-btn{width:100%;padding:14px;background:var(–red);border:none;border-radius:10px;color:#fff;font-family:var(–mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
+.m-btn:active{opacity:.85}
 
-/* MAP URL card */
-.map-url-card{margin:0 14px 8px;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.15);border-radius:13px;padding:14px 15px}
-.muc-title{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–green);margin-bottom:8px}
-.muc-sub{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.55;margin-bottom:10px}
-.muc-input{width:100%;background:var(–surface2);border:1px solid rgba(0,230,118,0.2);border-radius:9px;padding:11px 13px;color:var(–green);font-family:var(–mono);font-size:11px;outline:none;margin-bottom:8px}
-.muc-note{font-size:11px;color:var(–muted);line-height:1.5;padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:7px;border:1px solid var(–border)}
-
-.c-list{margin:0 14px 8px}
-.c-card{background:var(–surface);border:1px solid var(–border);border-radius:12px;padding:12px 14px;margin-bottom:7px;display:flex;align-items:center;gap:11px}
-.c-card-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#000;flex-shrink:0}
-.c-card-info{flex:1}
-.c-card-name{font-size:13px;font-weight:600}
-.c-card-phone{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:1px}
-.c-card-wa{font-family:var(–mono);font-size:9px;color:#25D366;margin-top:3px}
-.c-del{background:rgba(255,26,26,0.08);border:1px solid rgba(255,26,26,0.18);border-radius:7px;padding:7px 10px;color:var(–red);font-size:14px;cursor:pointer;flex-shrink:0}
-
-.add-form{margin:0 14px;background:var(–surface);border:1px solid rgba(255,26,26,0.15);border-radius:13px;padding:15px}
-.add-form-title{font-size:13px;font-weight:600;margin-bottom:11px}
-.f-input{width:100%;background:var(–surface2);border:1px solid var(–border);border-radius:9px;padding:11px 13px;color:var(–text);font-family:var(–sans);font-size:14px;outline:none;margin-bottom:8px;transition:border-color .2s}
-.f-input:focus{border-color:rgba(255,26,26,0.35)}
-.f-input::placeholder{color:var(–muted)}
-.f-note{font-size:11px;color:var(–muted);line-height:1.55;margin-bottom:10px;padding:9px 12px;background:rgba(255,255,255,0.02);border-radius:7px;border:1px solid var(–border)}
-.f-note strong{color:rgba(255,255,255,0.65)}
-.f-btn{width:100%;padding:13px;background:var(–red);border:none;border-radius:9px;color:#fff;font-family:var(–mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer}
-.f-btn:active{opacity:.85}
+/* ── PROFILE MODAL ── */
+.profile-modal{width:100%;background:var(–surface);border-radius:22px 22px 0 0;padding:20px 22px 40px;transition:transform .3s}
+.modal-overlay.hidden .profile-modal{transform:translateY(100%)}
+.p-avatar{width:64px;height:64px;border-radius:50%;object-fit:cover;background:var(–red);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:#fff;margin:0 auto 12px}
+.p-name{font-size:18px;font-weight:700;text-align:center;margin-bottom:4px}
+.p-uid{font-family:var(–mono);font-size:9px;color:var(–muted);text-align:center;margin-bottom:20px;letter-spacing:1px}
+.p-row{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(–border);cursor:pointer}
+.p-row:last-child{border-bottom:none}
+.p-row-icon{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+.p-row-text{font-size:14px}
+.p-row-sub{font-size:11px;color:var(–muted);margin-top:1px}
 
 /* TOAST */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(18,18,18,0.97);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:10px 20px;font-family:var(–mono);font-size:11px;z-index:200;white-space:nowrap;transition:opacity .3s,transform .3s;pointer-events:none;backdrop-filter:blur(10px)}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(18,18,18,.97);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:10px 20px;font-family:var(–mono);font-size:11px;z-index:300;white-space:nowrap;transition:opacity .3s,transform .3s;pointer-events:none;backdrop-filter:blur(10px)}
 .toast.hidden{opacity:0;transform:translateX(-50%) translateY(8px)}
 </style>
 
@@ -180,53 +168,50 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 <div class="screen" id="main-screen">
   <div class="header">
     <div class="brand">GUARD<span>IAN</span></div>
-    <button class="settings-btn" onclick="showScreen('settings-screen')">⚙ AJUSTES</button>
+    <div class="user-pill" onclick="openProfile()">
+      <div class="user-avatar" id="hdr-avatar">?</div>
+      <div class="user-name" id="hdr-name">Cargando…</div>
+    </div>
   </div>
 
-  <div class="setup-banner" id="setup-banner" onclick="showScreen('settings-screen')">
-    <div class="sb-icon" id="sb-icon">⚠️</div>
-    <div style="flex:1">
-      <div class="sb-title" id="sb-title">Configura antes de usar</div>
-      <div class="sb-sub" id="sb-sub">Agrega tu URL del mapa y contactos de WhatsApp</div>
-    </div>
-    <div style="color:var(--muted);font-size:18px">›</div>
+  <div class="tabs">
+    <div class="tab active" id="tab-sos" onclick="switchTab('sos')">🔴 SOS</div>
+    <div class="tab" id="tab-contacts" onclick="switchTab('contacts')">👥 Contactos</div>
   </div>
 
-  <div class="contacts-bar" id="contacts-bar">
-    <div class="chip empty">Sin contactos aún</div>
+  <!-- SOS TAB -->
+
+  <div class="tab-content active" id="content-sos">
+    <div class="sos-tab">
+      <div class="sos-wrapper">
+        <div class="sos-ring ring1" id="ring1"></div>
+        <div class="sos-ring ring2" id="ring2"></div>
+        <div class="sos-ring ring3" id="ring3"></div>
+        <svg class="hold-ring" viewBox="0 0 206 206" style="position:absolute;z-index:3;pointer-events:none">
+          <circle id="hold-circle" cx="103" cy="103" r="103"/>
+        </svg>
+        <button class="sos-btn" id="sos-btn"
+          ontouchstart="startHold(event)" ontouchend="endHold(event)"
+          onmousedown="startHold(event)" onmouseup="endHold(event)" onmouseleave="endHold(event)">
+          <div class="sos-label">SOS</div>
+          <div class="sos-sub">mantén 3 seg</div>
+        </button>
+      </div>
+      <div class="hold-hint">Mantén presionado para activar</div>
+      <div class="sos-contacts-count" id="sos-contacts-count">— contactos autorizados</div>
+    </div>
   </div>
 
-  <div class="sos-area">
-    <div class="sos-wrapper">
-      <div class="sos-ring ring1" id="ring1"></div>
-      <div class="sos-ring ring2" id="ring2"></div>
-      <div class="sos-ring ring3" id="ring3"></div>
-      <svg class="hold-ring" viewBox="0 0 206 206" style="position:absolute;z-index:3;pointer-events:none">
-        <circle id="hold-circle" cx="103" cy="103" r="103"/>
-      </svg>
-      <button class="sos-btn" id="sos-btn"
-        ontouchstart="startHold(event)" ontouchend="endHold(event)"
-        onmousedown="startHold(event)" onmouseup="endHold(event)" onmouseleave="endHold(event)">
-        <div class="sos-label">SOS</div>
-        <div class="sos-sub">mantén 3 seg</div>
-      </button>
-    </div>
-    <div class="hold-hint">Mantén presionado para activar</div>
-  </div>
+  <!-- CONTACTS TAB -->
 
-  <div class="quick-actions">
-    <div class="qa-btn" onclick="quickWA()">
-      <div class="qa-icon">💬</div>
-      <div class="qa-label">WA Rápido</div>
+  <div class="tab-content" id="content-contacts">
+    <div class="contacts-list" id="contacts-list">
+      <div class="no-contacts">
+        <div class="no-contacts-icon">👥</div>
+        <div class="no-contacts-text">Cargando contactos…</div>
+      </div>
     </div>
-    <div class="qa-btn" onclick="copyMapLink()">
-      <div class="qa-icon">🗺</div>
-      <div class="qa-label">Copiar link mapa</div>
-    </div>
-    <div class="qa-btn" onclick="showScreen('settings-screen')">
-      <div class="qa-icon">👥</div>
-      <div class="qa-label">Contactos</div>
-    </div>
+    <button class="add-contact-btn" onclick="openAddContact()">+ Agregar contacto de emergencia</button>
   </div>
 </div>
 
@@ -236,7 +221,7 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
   <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px">
     <div class="cd-label">Activando en</div>
     <div class="cd-number" id="cd-num">3</div>
-    <div class="cd-msg">Se publicará tu ubicación en vivo<br>y se enviará el link por WhatsApp</div>
+    <div class="cd-msg">Tu ubicación se publicará en vivo<br>y se avisará a tus contactos</div>
     <button class="cd-cancel" onclick="cancelEmergency()">✕ &nbsp;Cancelar</button>
   </div>
 </div>
@@ -254,50 +239,42 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 
   <div class="emg-timer" id="emg-timer">00:00:00</div>
 
-  <!-- GPS STATUS -->
-
-  <div class="gps-bar waiting" id="gps-bar">
-    <div class="gps-icon">📡</div>
+  <div class="gps-bar" id="gps-bar">
+    <span style="font-size:18px">📡</span>
     <div class="gps-info">
       <div class="gps-status" id="gps-status">Obteniendo GPS…</div>
       <div class="gps-coords" id="gps-coords">Esperando señal</div>
     </div>
-    <div class="gps-update" id="gps-update" style="color:var(--muted)">—</div>
+    <span style="font-family:var(--mono);font-size:9px;color:var(--muted)" id="gps-upd">—</span>
   </div>
 
-  <!-- LIVE LINK BOX -->
-
-  <div class="live-link-box">
-    <div class="llb-top">
-      <div class="llb-dot"></div>
-      <div class="llb-label">Mapa en vivo — tus contactos ven esto</div>
+  <div class="live-box">
+    <div class="lb-top">
+      <div class="lb-dot"></div>
+      <div class="lb-label">Mapa en vivo — lo que ven tus contactos</div>
     </div>
-    <div class="llb-url" id="llb-url">Configura el URL del mapa en Ajustes…</div>
-    <div class="llb-actions">
-      <button class="llb-btn btn-wa" onclick="sendMapLinkWA()">📲 Enviar por WhatsApp</button>
-      <button class="llb-btn btn-copy" onclick="copyMapLink()">📋 Copiar link</button>
+    <div class="lb-url" id="lb-url">Generando link…</div>
+    <div class="lb-actions">
+      <button class="lb-btn btn-wa" onclick="sendMapWA()">📲 Enviar WA</button>
+      <button class="lb-btn btn-copy" onclick="copyLink()">📋 Copiar</button>
     </div>
   </div>
-
-  <!-- REC -->
 
   <div class="rec-strip">
     <div class="rec-dot"></div>
     <div style="flex:1">
-      <div class="rec-label" id="rec-label">Grabando</div>
-      <div class="rec-size" id="rec-size">0.0 MB · 0s</div>
-      <div class="rec-badges" id="rec-badges">
+      <div class="rec-lbl" id="rec-lbl">Grabando</div>
+      <div class="rec-sz" id="rec-sz">0.0 MB · 0s</div>
+      <div class="badges" id="rec-badges">
         <span class="badge b-r">🎬 Video</span>
         <span class="badge b-a">🎙 Audio</span>
-        <span class="badge b-g">📍 GPS → Firebase</span>
+        <span class="badge b-g">📍 Firebase</span>
       </div>
     </div>
   </div>
 
-  <!-- CONTACTS -->
-
   <div class="notif-section">
-    <div class="notif-hdr">Alertas WhatsApp enviadas</div>
+    <div class="notif-hdr">Contactos alertados</div>
     <div id="notif-list"></div>
   </div>
 
@@ -305,54 +282,19 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 
 </div>
 
-<!-- ══ SETTINGS ══ -->
+<!-- ══ ADD CONTACT MODAL ══ -->
 
-<div class="screen hidden" id="settings-screen">
-  <div class="s-header">
-    <button class="back-btn" onclick="showScreen('main-screen')">‹</button>
-    <div class="s-title">Configuración</div>
-  </div>
-
-  <div class="sec-lbl">Tus datos</div>
-  <div class="s-card">
-    <div class="s-row">
-      <div class="s-lbl">Tu nombre</div>
-      <input class="s-input" id="my-name" type="text" placeholder="Ej: María García" oninput="saveCfg()">
-    </div>
-    <div class="s-row">
-      <div class="s-lbl">Mensaje SOS</div>
-      <textarea class="s-input" id="sos-msg" rows="3" style="resize:none;line-height:1.5" oninput="saveCfg()" placeholder="🚨 ¡EMERGENCIA! Necesito ayuda."></textarea>
-    </div>
-  </div>
-
-  <div class="sec-lbl">URL del mapa en vivo ⚡</div>
-  <div class="map-url-card">
-    <div class="muc-title">📍 Link que recibirán tus contactos</div>
-    <div class="muc-sub">
-      Este es el link a tu página <strong style="color:#fff">mapa-vivo.html</strong> publicada en GitHub Pages. Tus contactos lo abren y ven tu posición actualizándose cada 5 segundos.
-    </div>
-    <input class="muc-input" id="map-url" type="url"
-      placeholder="https://tuusuario.github.io/guardian/mapa-vivo.html"
-      oninput="saveCfg()">
-    <div class="muc-note">
-      👆 Sube <strong>mapa-vivo.html</strong> a tu repositorio de GitHub y pega aquí la URL de GitHub Pages. Ej: <em>https://juangarcia.github.io/guardian/mapa-vivo.html</em>
-    </div>
-  </div>
-
-  <div class="sec-lbl">Contactos de emergencia</div>
-  <div class="c-list" id="c-list"></div>
-
-  <div class="add-form">
-    <div class="add-form-title">➕ Agregar contacto</div>
-    <input class="f-input" id="c-name" type="text" placeholder="Nombre (ej: Mamá)">
-    <input class="f-input" id="c-phone" type="tel" placeholder="WhatsApp con código de país">
-    <div class="f-note">
+<div class="modal-overlay hidden" id="add-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Agregar Contacto</div>
+    <input class="m-input" id="c-name" type="text" placeholder="Nombre (ej: Mamá)">
+    <input class="m-input" id="c-phone" type="tel" placeholder="WhatsApp con código de país">
+    <div class="m-note">
       Sin + ni espacios:<br>
-      🇲🇽 México: <strong>521</strong>XXXXXXXXXX &nbsp;·&nbsp;
-      🇪🇸 España: <strong>34</strong>XXXXXXXXX &nbsp;·&nbsp;
-      🇺🇸 USA: <strong>1</strong>XXXXXXXXXX
+      🇲🇽 <strong>521</strong>XXXXXXXXXX · 🇪🇸 <strong>34</strong>XXXXXXXXX · 🇺🇸 <strong>1</strong>XXXXXXXXXX
     </div>
-    <select class="f-input" id="c-color" style="appearance:none">
+    <select class="m-input" id="c-color" style="appearance:none">
       <option value="#FF6B6B">🔴 Rojo</option>
       <option value="#4ECDC4">🟢 Verde agua</option>
       <option value="#45B7D1">🔵 Azul</option>
@@ -360,17 +302,35 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
       <option value="#DDA0DD">🟣 Lila</option>
       <option value="#FFD700">🟡 Dorado</option>
     </select>
-    <button class="f-btn" onclick="addContact()">Guardar Contacto</button>
+    <button class="m-btn" onclick="addContact()">Guardar Contacto</button>
+  </div>
+</div>
+
+<!-- ══ PROFILE MODAL ══ -->
+
+<div class="modal-overlay hidden" id="profile-modal">
+  <div class="profile-modal">
+    <div class="modal-handle"></div>
+    <div class="p-avatar" id="p-avatar">?</div>
+    <div class="p-name" id="p-name">—</div>
+    <div class="p-uid" id="p-uid">UID: —</div>
+    <div class="p-row" onclick="copyMyLink()">
+      <div class="p-row-icon">🔗</div>
+      <div><div class="p-row-text">Mi link de mapa</div><div class="p-row-sub">Comparte esto para que te vean</div></div>
+    </div>
+    <div class="p-row" onclick="logout()">
+      <div class="p-row-icon">🚪</div>
+      <div><div class="p-row-text">Cerrar sesión</div></div>
+    </div>
   </div>
 </div>
 
 <div class="toast hidden" id="toast"></div>
 
-<!-- Firebase SDK -->
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, set, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, set, get, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXlBFfqj9IarzYVpDgvtulb_eEHGQ-aWs",
@@ -382,216 +342,207 @@ const firebaseConfig = {
   appId: "1:356894459494:web:2d06bb9506b3f47a0a4fa7"
 };
 
-const fbApp = initializeApp(firebaseConfig);
-const db = getDatabase(fbApp);
-const locRef = ref(db, 'location');
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
 
-// Expose Firebase functions to global scope
-window.fbPublishLocation = async (lat, lng, accuracy, speed, name) => {
-  try {
-    await set(locRef, {
-      lat, lng,
-      accuracy: accuracy || null,
-      speed: speed || null,
-      name: name || 'Usuario',
-      timestamp: new Date().toISOString(),
-      active: true
+// ── STATE ──
+let currentUser = null;
+let myUID = null;
+let myContacts = []; // [{name, phone, color, uid?}]
+let contactsUnsubscribe = [];
+
+// URL base del mapa — cambia esto a tu GitHub Pages
+const BASE_URL = 'https://juanmdelaconcha-bot.github.io/Guardian/mapa-vivo.html';
+const getMapUrl = (uid) => `${BASE_URL}?uid=${uid}`;
+
+// ── AUTH CHECK ──
+onAuthStateChanged(auth, async user => {
+  if (!user) { window.location.href = 'login.html'; return; }
+  currentUser = user;
+  myUID = user.uid;
+  await loadProfile(user);
+  loadContacts();
+});
+
+async function loadProfile(user) {
+  const snap = await get(ref(db, `usuarios/${user.uid}/perfil`));
+  const p = snap.val() || {};
+  const name = p.nombre || user.displayName || user.phoneNumber || 'Usuario';
+
+  document.getElementById('hdr-name').textContent = name;
+  document.getElementById('p-name').textContent = name;
+  document.getElementById('p-uid').textContent = `ID: ${user.uid.slice(0,12)}…`;
+
+  // Avatar
+  if (user.photoURL) {
+    const img = `<img src="${user.photoURL}" style="width:28px;height:28px;border-radius:50%;object-fit:cover">`;
+    document.getElementById('hdr-avatar').innerHTML = img;
+    const pAv = document.getElementById('p-avatar');
+    pAv.style.background = 'transparent';
+    pAv.innerHTML = `<img src="${user.photoURL}" style="width:64px;height:64px;border-radius:50%;object-fit:cover">`;
+  } else {
+    document.getElementById('hdr-avatar').textContent = name[0].toUpperCase();
+    document.getElementById('p-avatar').textContent = name[0].toUpperCase();
+  }
+}
+
+// ── CONTACTS ──
+function loadContacts() {
+  const listRef = ref(db, `usuarios/${myUID}/contactos`);
+  onValue(listRef, snap => {
+    myContacts = [];
+    const data = snap.val() || {};
+    Object.values(data).forEach(c => myContacts.push(c));
+    renderContacts();
+    updateSOSCount();
+    // Watch their emergency status
+    watchContactsEmergency();
+  });
+}
+
+function watchContactsEmergency() {
+  // Listen to each contact's emergency status
+  contactsUnsubscribe.forEach(u => u());
+  contactsUnsubscribe = [];
+  myContacts.forEach(c => {
+    if (!c.uid) return;
+    const emgRef = ref(db, `usuarios/${c.uid}/emergencia`);
+    const unsub = onValue(emgRef, snap => {
+      const emg = snap.val();
+      if (emg?.activa) notifyContactEmergency(c, emg);
+      renderContacts();
     });
-  } catch(e) { console.error('Firebase write error:', e); }
-};
-
-window.fbClearLocation = async () => {
-  try { await set(locRef, { active: false, timestamp: new Date().toISOString() }); }
-  catch(e) {}
-};
-</script>
-
-<script>
-// ══ STATE ══
-let contacts = JSON.parse(localStorage.getItem('g3_contacts') || '[]');
-let cfg = JSON.parse(localStorage.getItem('g3_cfg') || '{}');
-cfg.name = cfg.name || '';
-cfg.msg  = cfg.msg  || '🚨 ¡EMERGENCIA! Necesito ayuda urgente.';
-cfg.mapUrl = cfg.mapUrl || '';
-
-let holdInterval = null, holdStart = 0;
-let cdTimer = null, cdVal = 3;
-let timerInt = null, recInt = null;
-let timerSec = 0, recSec = 0;
-let mediaRec = null, mediaStream = null, recChunks = [], recType = null;
-let watchId = null;
-let lat = null, lng = null;
-let gpsInterval = null; // publishes to Firebase every 5s
-const CIRC = 647;
-
-// ══ SETTINGS ══
-function saveCfg() {
-  cfg.name   = document.getElementById('my-name').value;
-  cfg.msg    = document.getElementById('sos-msg').value;
-  cfg.mapUrl = document.getElementById('map-url').value.trim();
-  localStorage.setItem('g3_cfg', JSON.stringify(cfg));
-  updateSetupBanner();
-}
-function loadCfg() {
-  document.getElementById('my-name').value = cfg.name;
-  document.getElementById('sos-msg').value = cfg.msg;
-  document.getElementById('map-url').value = cfg.mapUrl;
+    contactsUnsubscribe.push(unsub);
+  });
 }
 
-// ══ CONTACTS ══
-function saveCts() { localStorage.setItem('g3_contacts', JSON.stringify(contacts)); }
-function addContact() {
-  const name  = document.getElementById('c-name').value.trim();
-  const phone = document.getElementById('c-phone').value.replace(/\D/g,'');
-  const color = document.getElementById('c-color').value;
-  if (!name)              { showToast('⚠ Escribe el nombre'); return; }
-  if (phone.length < 10)  { showToast('⚠ Número inválido — incluye código de país'); return; }
-  contacts.push({ name, phone, color });
-  saveCts(); renderAll();
-  document.getElementById('c-name').value = '';
-  document.getElementById('c-phone').value = '';
-  showToast(`✓ ${name} agregado`);
-}
-function deleteContact(i) {
-  contacts.splice(i, 1); saveCts(); renderAll();
-}
-
-function renderAll() {
-  // Chips bar
-  const bar = document.getElementById('contacts-bar');
-  bar.innerHTML = contacts.length === 0
-    ? '<div class="chip empty">Sin contactos — ve a ⚙ Ajustes</div>'
-    : contacts.map(c => `
-        <div class="chip">
-          <div class="chip-av" style="background:${c.color}">${c.name[0].toUpperCase()}</div>
-          <div><div class="chip-name">${c.name}</div><div class="chip-wa">● WA</div></div>
-        </div>`).join('');
-
-  // Settings list
-  const list = document.getElementById('c-list');
-  list.innerHTML = contacts.length === 0
-    ? '<div style="font-family:var(--mono);font-size:10px;color:var(--muted);padding:0 14px 8px;letter-spacing:1px">Sin contactos aún</div>'
-    : contacts.map((c,i) => `
-        <div class="c-card">
-          <div class="c-card-av" style="background:${c.color}">${c.name[0].toUpperCase()}</div>
-          <div class="c-card-info">
-            <div class="c-card-name">${c.name}</div>
-            <div class="c-card-phone">+${c.phone}</div>
-            <div class="c-card-wa">● WhatsApp listo</div>
-          </div>
-          <button class="c-del" onclick="deleteContact(${i})">🗑</button>
-        </div>`).join('');
-
-  updateSetupBanner();
-}
-
-function updateSetupBanner() {
-  const hasContacts = contacts.length > 0;
-  const hasMap = cfg.mapUrl.length > 10;
-  const allGood = hasContacts && hasMap;
-
-  document.getElementById('sb-icon').textContent  = allGood ? '✅' : '⚠️';
-  document.getElementById('sb-title').textContent = allGood
-    ? `${contacts.length} contacto${contacts.length>1?'s':''} · Mapa listo`
-    : 'Configuración incompleta';
-  document.getElementById('sb-sub').textContent = allGood
-    ? 'Todo listo — mantén SOS para activar'
-    : `${!hasMap?'Falta URL del mapa · ':''}${!hasContacts?'Falta agregar contactos':''}`;
-  document.getElementById('setup-banner').className = `setup-banner ${allGood?'done':''}`;
-}
-
-// ══ WHATSAPP ══
-function buildMsg() {
-  const who  = cfg.name ? `👤 ${cfg.name}\n` : '';
-  const body = cfg.msg || '🚨 ¡EMERGENCIA! Necesito ayuda urgente.';
-  const mapLink = cfg.mapUrl
-    ? `\n\n🗺 MI UBICACIÓN EN VIVO (actualiza cada 5 seg):\n${cfg.mapUrl}`
-    : (lat && lng ? `\n\n📍 https://maps.google.com/?q=${lat},${lng}` : '');
-  const time = `\n\n⏰ ${new Date().toLocaleString('es-MX',{dateStyle:'short',timeStyle:'medium'})}`;
-  return encodeURIComponent(`${body}\n${who}${mapLink}${time}\n\n— GUARDIAN SOS`);
-}
-
-function openWA(phone, msg) { window.open(`https://wa.me/${phone}?text=${msg}`, '_blank'); }
-
-function sendMapLinkWA() {
-  if (contacts.length === 0) { showToast('Sin contactos configurados'); return; }
-  const msg = buildMsg();
-  contacts.forEach((c,i) => setTimeout(() => openWA(c.phone, msg), i * 2800));
-  showToast('📲 Abriendo WhatsApp…');
-}
-
-function quickWA() {
-  if (contacts.length === 0) { showToast('Agrega contactos en ⚙ Ajustes'); return; }
-  const msg = buildMsg();
-  contacts.forEach((c,i) => setTimeout(() => openWA(c.phone, msg), i * 2800));
-  showToast('📲 Abriendo WhatsApp…');
-}
-
-function copyMapLink() {
-  const url = cfg.mapUrl || (lat && lng ? `https://maps.google.com/?q=${lat},${lng}` : '');
-  if (!url) { showToast('Configura el URL del mapa primero'); return; }
-  navigator.clipboard.writeText(url).then(() => showToast('📋 Link copiado')).catch(() => showToast('No se pudo copiar'));
-}
-
-// ══ SEND TO ALL ══
-async function sendToAll() {
-  const list = document.getElementById('notif-list');
-
-  if (contacts.length === 0) {
-    list.innerHTML = `<div class="ni" style="flex-direction:column;gap:5px">
-      <div style="font-size:12px;color:var(--amber)">⚠ Sin contactos</div>
-      <div style="font-size:11px;color:var(--muted)">Agrega contactos en ⚙ Ajustes</div>
+function renderContacts() {
+  const list = document.getElementById('contacts-list');
+  if (myContacts.length === 0) {
+    list.innerHTML = `<div class="no-contacts">
+      <div class="no-contacts-icon">👥</div>
+      <div class="no-contacts-text">Sin contactos de emergencia aún.<br>Agrega personas de confianza.</div>
     </div>`;
     return;
   }
-
-  list.innerHTML = contacts.map((c,i) => `
-    <div class="ni" id="ni-${i}">
-      <div class="ni-av" style="background:${c.color}">${c.name[0].toUpperCase()}</div>
-      <div class="ni-info">
-        <div class="ni-name">${c.name}</div>
-        <div class="ni-phone">+${c.phone}</div>
+  list.innerHTML = myContacts.map((c, i) => {
+    const hasUID = !!c.uid;
+    return `<div class="contact-card">
+      <div class="cc-av" style="background:${c.color||'#FF6B6B'}">
+        ${c.name[0].toUpperCase()}
+        <div class="${hasUID ? 'cc-online' : 'cc-offline'}"></div>
       </div>
-      <div style="text-align:right">
-        <div class="ni-st st-go" id="ns-${i}">Preparando…</div>
+      <div class="cc-info">
+        <div class="cc-name">${c.name}</div>
+        <div class="cc-status">${hasUID ? '● En GUARDIAN' : '○ Pendiente de unirse'}</div>
+        ${c.emergencyActive ? `<div class="cc-emg">🚨 EN EMERGENCIA AHORA</div>` : ''}
       </div>
-    </div>`).join('');
-
-  // Wait for GPS to get first fix
-  await new Promise(r => setTimeout(r, 1200));
-  const msg = buildMsg();
-
-  // Update live link box
-  if (cfg.mapUrl) {
-    document.getElementById('llb-url').textContent = cfg.mapUrl;
-  }
-
-  contacts.forEach((c, i) => {
-    setTimeout(() => {
-      const ns = document.getElementById(`ns-${i}`);
-      if (ns) { ns.textContent = 'Abriendo WA…'; ns.className = 'ni-st st-go'; }
-      openWA(c.phone, msg);
-      setTimeout(() => {
-        const ns2 = document.getElementById(`ns-${i}`);
-        if (ns2) { ns2.textContent = '✓ WA abierto'; ns2.className = 'ni-st st-ok'; }
-        const row = document.getElementById(`ni-${i}`);
-        if (row && !row.querySelector('.resend-btn')) {
-          const btn = document.createElement('button');
-          btn.className = 'resend-btn'; btn.textContent = '↗ Reenviar';
-          btn.onclick = () => openWA(c.phone, buildMsg());
-          row.querySelector('.ni-info').appendChild(btn);
-        }
-      }, 2200);
-    }, i * 3000);
-  });
-
-  document.getElementById('emg-sub').textContent =
-    `${contacts.length} alerta${contacts.length>1?'s':''} enviada${contacts.length>1?'s':''}`;
+      <div class="cc-actions">
+        ${hasUID ? `<button class="cc-btn live" onclick="openContactMap('${c.uid}')" title="Ver en vivo">🗺</button>` : ''}
+        <button class="cc-btn" onclick="removeContact(${i})" title="Eliminar">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
-// ══ HOLD ══
+function updateSOSCount() {
+  document.getElementById('sos-contacts-count').textContent =
+    `${myContacts.length} contacto${myContacts.length!==1?'s':''} de emergencia`;
+}
+
+function notifyContactEmergency(contact, emg) {
+  if (Notification.permission === 'granted') {
+    new Notification(`🚨 ${contact.name} activó SOS`, {
+      body: 'Toca para ver su ubicación en vivo',
+      icon: '🛡'
+    });
+  }
+  showToast(`🚨 ${contact.name} activó SOS`);
+}
+
+window.openContactMap = (uid) => {
+  window.open(getMapUrl(uid), '_blank');
+};
+
+window.removeContact = async (i) => {
+  const c = myContacts[i];
+  if (!confirm(`¿Eliminar a ${c.name}?`)) return;
+  myContacts.splice(i, 1);
+  await saveContacts();
+};
+
+async function saveContacts() {
+  const obj = {};
+  myContacts.forEach((c, i) => obj[`c${i}`] = c);
+  await set(ref(db, `usuarios/${myUID}/contactos`), obj);
+}
+
+window.addContact = async () => {
+  const name  = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.replace(/\D/g,'');
+  const color = document.getElementById('c-color').value;
+  if (!name)             { showToast('⚠ Escribe el nombre'); return; }
+  if (phone.length < 10) { showToast('⚠ Número inválido'); return; }
+
+  // Try to find if this phone number is already a Guardian user
+  let contactUID = null;
+  try {
+    const snap = await get(ref(db, 'usuarios'));
+    if (snap.exists()) {
+      snap.forEach(child => {
+        const p = child.val()?.perfil;
+        if (p?.telefono && p.telefono.replace(/\D/g,'').includes(phone)) {
+          contactUID = child.key;
+        }
+      });
+    }
+  } catch {}
+
+  myContacts.push({ name, phone, color, uid: contactUID });
+  await saveContacts();
+
+  document.getElementById('c-name').value = '';
+  document.getElementById('c-phone').value = '';
+  closeModal('add-modal');
+  showToast(contactUID ? `✓ ${name} vinculado en GUARDIAN` : `✓ ${name} agregado (aún no en GUARDIAN)`);
+};
+
+// ── WHATSAPP ──
+function buildMsg(uid) {
+  const snap_name = document.getElementById('hdr-name').textContent;
+  const mapUrl = getMapUrl(uid);
+  return encodeURIComponent(
+    `🚨 ¡EMERGENCIA! ${snap_name} necesita ayuda urgente.\n\n` +
+    `📍 Ver ubicación en VIVO:\n${mapUrl}\n\n` +
+    `⏰ ${new Date().toLocaleString('es-MX',{dateStyle:'short',timeStyle:'medium'})}\n\n` +
+    `— GUARDIAN SOS`
+  );
+}
+
+window.sendMapWA = () => {
+  if (myContacts.length === 0) { showToast('Sin contactos'); return; }
+  const msg = buildMsg(myUID);
+  myContacts.forEach((c,i) => setTimeout(() => window.open(`https://wa.me/${c.phone}?text=${msg}`,'_blank'), i*2800));
+  showToast('📲 Abriendo WhatsApp…');
+};
+
+window.copyLink = () => {
+  const url = getMapUrl(myUID);
+  navigator.clipboard.writeText(url).then(() => showToast('📋 Link copiado'));
+};
+
+window.copyMyLink = () => {
+  copyLink();
+  closeModal('profile-modal');
+};
+
+// ── HOLD ──
+const CIRC = 647;
 const circleEl = document.getElementById('hold-circle');
-function startHold(e) {
+let holdInterval = null, holdStart = 0;
+
+window.startHold = (e) => {
   e.preventDefault();
   holdStart = Date.now();
   document.getElementById('sos-btn').classList.add('pressed');
@@ -601,14 +552,14 @@ function startHold(e) {
     circleEl.style.strokeDashoffset = CIRC*(1-p);
     if (p >= 1) { clearInterval(holdInterval); endHold(null, true); }
   }, 30);
-}
-function endHold(e, done=false) {
+};
+window.endHold = (e, done=false) => {
   clearInterval(holdInterval);
   document.getElementById('sos-btn').classList.remove('pressed');
   circleEl.style.strokeDashoffset = CIRC;
   showRings(false);
   if (done) startCountdown();
-}
+};
 function showRings(on) {
   ['ring1','ring2','ring3'].forEach((id,i) => {
     const el = document.getElementById(id);
@@ -617,28 +568,39 @@ function showRings(on) {
   });
 }
 
-// ══ COUNTDOWN ══
+// ── COUNTDOWN ──
+let cdTimer=null, cdVal=3;
 function startCountdown() {
-  cdVal = 3; showScreen('countdown-screen');
+  cdVal=3; showScreen('countdown-screen');
   document.getElementById('cd-num').textContent = cdVal;
   if (navigator.vibrate) navigator.vibrate([200,100,200,100,200]);
   cdTimer = setInterval(() => {
     cdVal--;
     document.getElementById('cd-num').textContent = cdVal;
     if (navigator.vibrate) navigator.vibrate(100);
-    if (cdVal <= 0) { clearInterval(cdTimer); activateEmergency(); }
+    if (cdVal<=0) { clearInterval(cdTimer); activateEmergency(); }
   }, 1000);
 }
-function cancelEmergency() { clearInterval(cdTimer); showScreen('main-screen'); showToast('Cancelado'); }
+window.cancelEmergency = () => { clearInterval(cdTimer); showScreen('main-screen'); showToast('Cancelado'); };
 
-// ══ ACTIVATE ══
+// ── ACTIVATE ──
+let timerInt=null, recInt=null, watchId=null;
+let timerSec=0, recSec=0;
+let lat=null, lng=null;
+let mediaRec=null, mediaStream=null, recChunks=[], recType=null;
+
 async function activateEmergency() {
   showScreen('active-screen');
-  timerSec = 0; recSec = 0;
+  timerSec=0; recSec=0;
+  const mapUrl = getMapUrl(myUID);
+  document.getElementById('lb-url').textContent = mapUrl;
 
-  // Show map URL in live link box
-  document.getElementById('llb-url').textContent =
-    cfg.mapUrl || '(Configura el URL en Ajustes)';
+  // Mark emergency active in Firebase
+  await set(ref(db, `usuarios/${myUID}/emergencia`), {
+    activa: true,
+    inicio: new Date().toISOString(),
+    mapUrl
+  });
 
   timerInt = setInterval(() => {
     timerSec++;
@@ -646,152 +608,168 @@ async function activateEmergency() {
   }, 1000);
   recInt = setInterval(() => {
     recSec++;
-    document.getElementById('rec-size').textContent =
-      `${(recSec * 0.18).toFixed(1)} MB · ${recSec}s`;
+    document.getElementById('rec-sz').textContent = `${(recSec*0.18).toFixed(1)} MB · ${recSec}s`;
   }, 1000);
 
   startGPS();
   await startRec();
-  await sendToAll();
+  await sendAlerts();
   if (navigator.vibrate) navigator.vibrate([600,150,600]);
+  // Request notification permission
+  if (Notification.permission === 'default') Notification.requestPermission();
 }
 
-function stopEmergency() {
-  clearInterval(timerInt); clearInterval(recInt); clearInterval(gpsInterval);
+window.stopEmergency = async () => {
+  clearInterval(timerInt); clearInterval(recInt);
   if (watchId) navigator.geolocation.clearWatch(watchId);
 
-  // Stop recording and save file
-  if (mediaRec && mediaRec.state !== 'inactive') {
-    mediaRec.stop(); // ondataavailable + onstop will fire
-  } else {
-    stopMediaStream();
-  }
+  // Clear emergency + location in Firebase
+  await set(ref(db, `usuarios/${myUID}/emergencia`), { activa: false });
+  await set(ref(db, `usuarios/${myUID}/location`), null);
 
-  // Clear Firebase location
-  if (window.fbClearLocation) window.fbClearLocation();
+  if (mediaRec && mediaRec.state !== 'inactive') {
+    mediaRec.stop(); // triggers onstop → saveRecording
+  } else {
+    if (mediaStream) mediaStream.getTracks().forEach(t=>t.stop());
+  }
 
   showScreen('main-screen');
   showToast('✓ Emergencia detenida — guardando grabación…');
-}
+};
 
-function stopMediaStream() {
-  if (mediaStream) mediaStream.getTracks().forEach(t => t.stop());
-}
-
-// ══ GPS → FIREBASE ══
+// ── GPS → FIREBASE (per user) ──
 function startGPS() {
   if (!navigator.geolocation) {
     document.getElementById('gps-status').textContent = 'GPS no disponible';
     return;
   }
-
-  const bar = document.getElementById('gps-bar');
-
   watchId = navigator.geolocation.watchPosition(
-    pos => {
-      lat = pos.coords.latitude;
-      lng = pos.coords.longitude;
-      const acc = pos.coords.accuracy;
-      const spd = pos.coords.speed;
-
-      bar.className = 'gps-bar active';
-      document.getElementById('gps-status').textContent = 'GPS activo — publicando en Firebase';
-      document.getElementById('gps-coords').textContent =
-        `${lat.toFixed(5)}, ${lng.toFixed(5)} · ±${Math.round(acc||0)}m`;
-      document.getElementById('gps-update').textContent = '● LIVE';
-      document.getElementById('gps-update').style.color = 'var(--green)';
-
-      // Publish to Firebase immediately on each GPS update
-      if (window.fbPublishLocation) {
-        window.fbPublishLocation(lat, lng, acc, spd, cfg.name);
-      }
+    async pos => {
+      lat = pos.coords.latitude; lng = pos.coords.longitude;
+      const acc = pos.coords.accuracy, spd = pos.coords.speed;
+      const bar = document.getElementById('gps-bar');
+      bar.className = 'gps-bar ok';
+      document.getElementById('gps-status').textContent = 'GPS activo → Firebase';
+      document.getElementById('gps-coords').textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)} · ±${Math.round(acc||0)}m`;
+      document.getElementById('gps-upd').textContent = '● LIVE';
+      document.getElementById('gps-upd').style.color = 'var(--green)';
+      // Write to user's own node
+      await set(ref(db, `usuarios/${myUID}/location`), {
+        lat, lng, accuracy: acc, speed: spd,
+        nombre: document.getElementById('hdr-name').textContent,
+        timestamp: new Date().toISOString()
+      });
     },
     err => {
-      const m = {1:'GPS denegado — acepta en Ajustes',2:'Señal GPS débil',3:'GPS: tiempo agotado'};
-      bar.className = 'gps-bar error';
-      document.getElementById('gps-status').textContent = m[err.code] || 'Error GPS';
+      const m={1:'GPS denegado',2:'GPS no disponible',3:'GPS: tiempo agotado'};
+      document.getElementById('gps-bar').className = 'gps-bar err';
+      document.getElementById('gps-status').textContent = m[err.code]||'Error GPS';
     },
-    { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+    { enableHighAccuracy:true, timeout:15000, maximumAge:0 }
   );
 }
 
-// ══ RECORDING ══
-async function startRec() {
-  const inFrame = () => { try { return window.self !== window.top; } catch { return true; } };
-  if (inFrame()) { updateRecUI(null); return; }
-
-  recChunks = []; recType = null;
-
-  const constraints = [{ video:true, audio:true }, { audio:true }];
-  for (const c of constraints) {
-    try { mediaStream = await navigator.mediaDevices.getUserMedia(c); recType = c.video ? 'video' : 'audio'; break; }
-    catch {}
+// ── SEND ALERTS ──
+async function sendAlerts() {
+  const list = document.getElementById('notif-list');
+  if (myContacts.length === 0) {
+    list.innerHTML = '<div class="ni"><span style="font-size:12px;color:var(--amber)">⚠ Sin contactos — ve a la pestaña Contactos</span></div>';
+    return;
   }
-  if (!mediaStream) { updateRecUI(null); return; }
+  list.innerHTML = myContacts.map((c,i) => `
+    <div class="ni" id="ni-${i}">
+      <div class="ni-av" style="background:${c.color||'#FF6B6B'}">${c.name[0].toUpperCase()}</div>
+      <div class="ni-info">
+        <div class="ni-name">${c.name}</div>
+        <div class="ni-ph">+${c.phone}</div>
+      </div>
+      <div class="ni-st st-go" id="ns-${i}">Enviando…</div>
+    </div>`).join('');
 
-  const types = recType === 'video'
-    ? ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4']
-    : ['audio/webm;codecs=opus','audio/webm','audio/ogg'];
-  const mimeType = types.find(t => MediaRecorder.isTypeSupported(t)) || '';
+  await new Promise(r=>setTimeout(r,1000));
+  const msg = buildMsg(myUID);
 
-  try { mediaRec = new MediaRecorder(mediaStream, mimeType ? { mimeType } : {}); }
-  catch { mediaRec = new MediaRecorder(mediaStream); }
+  myContacts.forEach((c,i) => {
+    setTimeout(() => {
+      window.open(`https://wa.me/${c.phone}?text=${msg}`,'_blank');
+      setTimeout(() => {
+        const ns = document.getElementById(`ns-${i}`);
+        if (ns) { ns.textContent='✓ WA abierto'; ns.className='ni-st st-ok'; }
+        const row = document.getElementById(`ni-${i}`);
+        if (row && !row.querySelector('.resend-btn')) {
+          const btn = document.createElement('div');
+          btn.className='resend-btn'; btn.textContent='↗ Reenviar';
+          btn.onclick=()=>window.open(`https://wa.me/${c.phone}?text=${buildMsg(myUID)}`,'_blank');
+          row.querySelector('.ni-info').appendChild(btn);
+        }
+      }, 2000);
+    }, i*3000);
+  });
 
-  mediaRec.ondataavailable = e => { if (e.data?.size > 0) recChunks.push(e.data); };
-  mediaRec.onstop = () => { saveRecording(); stopMediaStream(); };
+  document.getElementById('emg-sub').textContent=`${myContacts.length} alerta${myContacts.length>1?'s':''} enviada${myContacts.length>1?'s':''}`;
+}
+
+// ── RECORDING ──
+async function startRec() {
+  const inFrame=()=>{try{return window.self!==window.top}catch{return true}};
+  if(inFrame()){updateRecUI(null);return;}
+  recChunks=[];recType=null;
+  const constraints=[{video:true,audio:true},{audio:true}];
+  for(const c of constraints){
+    try{mediaStream=await navigator.mediaDevices.getUserMedia(c);recType=c.video?'video':'audio';break;}catch{}
+  }
+  if(!mediaStream){updateRecUI(null);return;}
+  const types=recType==='video'
+    ?['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm']
+    :['audio/webm;codecs=opus','audio/webm','audio/ogg'];
+  const mime=types.find(t=>MediaRecorder.isTypeSupported(t))||'';
+  try{mediaRec=new MediaRecorder(mediaStream,mime?{mimeType:mime}:{});}catch{mediaRec=new MediaRecorder(mediaStream);}
+  mediaRec.ondataavailable=e=>{if(e.data?.size>0)recChunks.push(e.data)};
+  mediaRec.onstop=()=>{saveRecording();if(mediaStream)mediaStream.getTracks().forEach(t=>t.stop())};
   mediaRec.start(1000);
   updateRecUI(recType);
 }
-
-function updateRecUI(type) {
-  const lbl    = document.getElementById('rec-label');
-  const dot    = document.querySelector('.rec-dot');
-  const badges = document.getElementById('rec-badges');
-  if (!type) {
-    lbl.textContent = 'SIN PERMISO';
-    lbl.style.color = 'var(--amber)';
-    dot.style.background = 'var(--amber)';
-    badges.innerHTML = '<span class="badge b-a">⚠ Abre fuera de Claude</span><span class="badge b-g">📍 GPS → Firebase ✓</span>';
-    return;
-  }
-  lbl.textContent = 'GRABANDO'; lbl.style.color = 'var(--red)'; dot.style.background = 'var(--red)';
-  badges.innerHTML = type === 'video'
-    ? '<span class="badge b-r">🎬 Video</span><span class="badge b-a">🎙 Audio</span><span class="badge b-g">📍 GPS → Firebase</span>'
-    : '<span class="badge b-a">🎙 Solo audio</span><span class="badge b-g">📍 GPS → Firebase</span>';
+function updateRecUI(type){
+  const lbl=document.getElementById('rec-lbl'),dot=document.querySelector('.rec-dot'),badges=document.getElementById('rec-badges');
+  if(!type){lbl.textContent='SIN PERMISO';lbl.style.color='var(--amber)';dot.style.background='var(--amber)';badges.innerHTML='<span class="badge b-a">⚠ Abre fuera de Claude</span><span class="badge b-g">📍 Firebase ✓</span>';return;}
+  lbl.textContent='GRABANDO';lbl.style.color='var(--red)';dot.style.background='var(--red)';
+  badges.innerHTML=type==='video'
+    ?'<span class="badge b-r">🎬 Video</span><span class="badge b-a">🎙 Audio</span><span class="badge b-g">📍 Firebase</span>'
+    :'<span class="badge b-a">🎙 Solo audio</span><span class="badge b-g">📍 Firebase</span>';
+}
+function saveRecording(){
+  if(!recChunks.length)return;
+  const mime=mediaRec?.mimeType||'video/webm';
+  const ext=mime.includes('mp4')?'mp4':mime.includes('ogg')?'ogg':'webm';
+  const blob=new Blob(recChunks,{type:mime});
+  const url=URL.createObjectURL(blob);
+  const ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+  const a=document.createElement('a');
+  a.href=url;a.download=`GUARDIAN-SOS-${ts}.${ext}`;
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url),15000);
+  recChunks=[];
+  showToast(`💾 Grabación guardada`);
 }
 
-function saveRecording() {
-  if (recChunks.length === 0) return;
-  const mime = mediaRec?.mimeType || (recType === 'video' ? 'video/webm' : 'audio/webm');
-  const ext  = mime.includes('mp4') ? 'mp4' : mime.includes('ogg') ? 'ogg' : 'webm';
-  const blob = new Blob(recChunks, { type: mime });
-  const url  = URL.createObjectURL(blob);
-  const ts   = new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
-  const name = `GUARDIAN-SOS-${ts}.${ext}`;
-  const a    = document.createElement('a');
-  a.href = url; a.download = name;
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 15000);
-  recChunks = [];
-  showToast(`💾 Grabación guardada: ${name}`);
-}
+// ── UI ──
+window.switchTab = (tab) => {
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.getElementById(`content-${tab}`).classList.add('active');
+};
+window.openAddContact = () => { document.getElementById('add-modal').classList.remove('hidden'); };
+window.openProfile = () => { document.getElementById('profile-modal').classList.remove('hidden'); };
+window.closeModal = (id) => { document.getElementById(id).classList.add('hidden'); };
+document.getElementById('add-modal').addEventListener('click', e => { if(e.target===e.currentTarget)closeModal('add-modal'); });
+document.getElementById('profile-modal').addEventListener('click', e => { if(e.target===e.currentTarget)closeModal('profile-modal'); });
+window.logout = async () => { await signOut(auth); window.location.href='login.html'; };
 
-// ══ UTILS ══
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
-  window.scrollTo(0,0);
-}
-function fmtTime(s) { return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':'); }
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo(0,0);}
+function fmtTime(s){return[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');}
 let toastT;
-function showToast(m) {
-  const t = document.getElementById('toast');
-  t.textContent = m; t.classList.remove('hidden');
-  clearTimeout(toastT); toastT = setTimeout(() => t.classList.add('hidden'), 3000);
-}
-
-// ══ INIT ══
-loadCfg(); renderAll();
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.remove('hidden');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.add('hidden'),3000);}
 </script>
 
 </body>
