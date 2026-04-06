@@ -4,64 +4,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>📍 GUARDIAN — Ubicación en Vivo</title>
+<title>GUARDIAN — Ubicación en Vivo</title>
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: -apple-system, sans-serif; background:#0a0a0a; color:#fff; height:100vh; display:flex; flex-direction:column; }
-
-.top-bar {
-background:#FF1A1A; padding:14px 18px;
-display:flex; align-items:center; gap:12px;
-z-index:10; flex-shrink:0;
-}
-.pulse-dot {
-width:10px; height:10px; border-radius:50%; background:#fff;
-animation: pulse 1.2s ease-in-out infinite; flex-shrink:0;
-}
-@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.7)} }
-.top-info { flex:1; }
-.top-title { font-size:15px; font-weight:700; letter-spacing:.5px; }
-.top-sub { font-size:11px; opacity:.85; margin-top:1px; }
-.top-time { font-size:11px; font-family:monospace; opacity:.8; }
-
-#map { flex:1; width:100%; }
-
-.bottom-card {
-background:#111; border-top:1px solid rgba(255,255,255,0.08);
-padding:14px 18px; flex-shrink:0;
-}
-.coords-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-.coords-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#555; font-family:monospace; }
-#coords-val { font-size:13px; font-family:monospace; color:#FF1A1A; }
-.info-row { display:flex; gap:12px; }
-.info-chip { background:#1a1a1a; border:1px solid rgba(255,255,255,0.07); border-radius:8px; padding:7px 12px; flex:1; text-align:center; }
-.info-chip .val { font-size:14px; font-weight:600; color:#fff; font-family:monospace; }
-.info-chip .lbl { font-size:9px; color:#555; text-transform:uppercase; letter-spacing:1px; margin-top:2px; }
-
-.offline-banner {
-display:none; background:#1a0a00; border:1px solid rgba(255,140,0,0.3);
-margin:10px 18px; border-radius:10px; padding:11px 14px;
-font-size:12px; color:rgba(255,140,0,0.9); line-height:1.5;
-}
-.offline-banner.show { display:block; }
-
-.wa-btn {
-display:block; background:#25D366; border-radius:10px;
-padding:12px; text-align:center; text-decoration:none;
-color:#fff; font-weight:600; font-size:14px; margin-top:10px;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:#0a0a0a;color:#fff;height:100vh;display:flex;flex-direction:column}
+.top-bar{background:#FF1A1A;padding:14px 18px;display:flex;align-items:center;gap:12px;z-index:10;flex-shrink:0}
+.pulse-dot{width:10px;height:10px;border-radius:50%;background:#fff;animation:pulse 1.2s ease-in-out infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.top-info{flex:1}
+.top-title{font-size:15px;font-weight:700;letter-spacing:.5px}
+.top-sub{font-size:11px;opacity:.85;margin-top:1px}
+.top-ago{font-size:11px;font-family:monospace;opacity:.8;flex-shrink:0}
+#map{flex:1;width:100%}
+.bottom-card{background:#111;border-top:1px solid rgba(255,255,255,.08);padding:14px 18px;flex-shrink:0}
+.coords-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.coords-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#555;font-family:monospace}
+#coords-val{font-size:13px;font-family:monospace;color:#FF1A1A}
+.info-row{display:flex;gap:10px}
+.info-chip{background:#1a1a1a;border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:7px 10px;flex:1;text-align:center}
+.chip-val{font-size:13px;font-weight:600;font-family:monospace}
+.chip-lbl{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.offline-banner{display:none;background:#1a0a00;border:1px solid rgba(255,140,0,.3);margin:10px 18px;border-radius:10px;padding:11px 14px;font-size:12px;color:rgba(255,140,0,.9);line-height:1.5}
+.offline-banner.show{display:block}
+.error-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;text-align:center}
+.error-icon{font-size:56px;opacity:.5}
+.error-title{font-size:18px;font-weight:700}
+.error-sub{font-size:13px;color:#555;line-height:1.6}
+.wa-share{display:block;background:#25D366;border-radius:10px;padding:12px;text-align:center;text-decoration:none;color:#fff;font-weight:600;font-size:14px;margin-top:10px}
+.loading-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.1);border-top-color:#FF1A1A;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-family:monospace;font-size:12px;letter-spacing:2px;color:#555;text-transform:uppercase}
 </style>
-
-<!-- Leaflet for real map -->
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+</head>
+<body>
 
-<!-- Firebase -->
+<div class="top-bar" id="top-bar" style="display:none">
+  <div class="pulse-dot"></div>
+  <div class="top-info">
+    <div class="top-title" id="top-title">🚨 Cargando…</div>
+    <div class="top-sub" id="top-sub">Conectando…</div>
+  </div>
+  <div class="top-ago" id="top-ago">—</div>
+</div>
+
+<div id="map" style="display:none"></div>
+
+<div class="offline-banner" id="offline-banner">
+  ⚠ Sin actualizaciones hace más de 30 segundos. El dispositivo puede estar sin señal.
+</div>
+
+<div class="bottom-card" id="bottom-card" style="display:none">
+  <div class="coords-row">
+    <span class="coords-lbl">GPS</span>
+    <span id="coords-val">Esperando señal…</span>
+  </div>
+  <div class="info-row">
+    <div class="info-chip"><div class="chip-val" id="acc-val">—</div><div class="chip-lbl">Precisión</div></div>
+    <div class="info-chip"><div class="chip-val" id="spd-val">—</div><div class="chip-lbl">Velocidad</div></div>
+    <div class="info-chip"><div class="chip-val" id="upd-val">—</div><div class="chip-lbl">Actualizado</div></div>
+  </div>
+  <a class="wa-share" id="wa-share" href="#" target="_blank">📲 Compartir este mapa</a>
+</div>
+
+<!-- LOADING -->
+
+<div class="loading-screen" id="loading-screen">
+  <div class="spinner"></div>
+  <div class="loading-text">Conectando…</div>
+</div>
+
+<!-- ERROR -->
+
+<div class="error-screen" id="error-screen" style="display:none">
+  <div class="error-icon">📍</div>
+  <div class="error-title" id="err-title">Sin ubicación activa</div>
+  <div class="error-sub" id="err-sub">Esta persona no está transmitiendo su ubicación en este momento o el link es inválido.</div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXlBFfqj9IarzYVpDgvtulb_eEHGQ-aWs",
@@ -76,145 +101,126 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// ── Map setup ──
-const map = L.map('map', { zoomControl:true, attributionControl:false });
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  maxZoom: 19
-}).addTo(map);
-map.setView([19.4326, -99.1332], 15); // Default Mexico City
+// Get UID from URL param
+const params = new URLSearchParams(window.location.search);
+const uid = params.get('uid');
 
-// Custom red marker
-const markerIcon = L.divIcon({
-  html: `<div style="
-    width:20px;height:20px;background:#FF1A1A;border-radius:50% 50% 50% 0;
-    transform:rotate(-45deg);border:3px solid #fff;
-    box-shadow:0 0 20px rgba(255,26,26,0.8),0 0 0 6px rgba(255,26,26,0.2)">
-  </div>`,
-  iconSize:[20,20], iconAnchor:[10,20], className:''
-});
+if (!uid) {
+  showError('Link inválido', 'Este link no contiene un identificador de usuario válido.');
+} else {
+  initMap();
+  loadUserAndListen(uid);
+}
 
-let marker = null;
-let accuracyCircle = null;
-let firstLoad = true;
-let lastUpdateTime = null;
-let offlineTimer = null;
+let map, marker, accuracyCircle, firstLoad=true, lastUpdate=null, offlineTimer=null;
 
-// ── Listen to Firebase ──
-const locRef = ref(db, 'location');
-onValue(locRef, (snapshot) => {
-  const d = snapshot.val();
-  if (!d || !d.lat || !d.lng) return;
+function initMap() {
+  map = L.map('map', { zoomControl:true, attributionControl:false });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom:19 }).addTo(map);
+  map.setView([19.4326, -99.1332], 15);
+}
 
-  const latlng = [d.lat, d.lng];
-  lastUpdateTime = d.timestamp ? new Date(d.timestamp) : new Date();
-
-  // Update marker
-  if (!marker) {
-    marker = L.marker(latlng, { icon: markerIcon }).addTo(map);
-  } else {
-    marker.setLatLng(latlng);
-  }
-
-  // Accuracy circle
-  if (d.accuracy) {
-    if (!accuracyCircle) {
-      accuracyCircle = L.circle(latlng, {
-        radius: d.accuracy,
-        color: '#FF1A1A', fillColor: '#FF1A1A',
-        fillOpacity: 0.08, weight: 1
-      }).addTo(map);
-    } else {
-      accuracyCircle.setLatLng(latlng).setRadius(d.accuracy);
+async function loadUserAndListen(uid) {
+  // Get user profile first
+  try {
+    const snap = await get(ref(db, `usuarios/${uid}/perfil`));
+    const p = snap.val();
+    if (p) {
+      document.getElementById('top-title').textContent = `🚨 ${p.nombre} — EMERGENCIA`;
     }
+  } catch {}
+
+  // Listen to location
+  onValue(ref(db, `usuarios/${uid}/location`), snap => {
+    const d = snap.val();
+
+    document.getElementById('loading-screen').style.display = 'none';
+
+    if (!d || !d.lat || !d.lng) {
+      showError('Sin señal GPS', 'La ubicación aún no está disponible. La página se actualizará automáticamente.');
+      return;
+    }
+
+    // Show map UI
+    document.getElementById('top-bar').style.display = 'flex';
+    document.getElementById('map').style.display = 'block';
+    document.getElementById('bottom-card').style.display = 'block';
+    document.getElementById('error-screen').style.display = 'none';
+
+    const latlng = [d.lat, d.lng];
+    lastUpdate = d.timestamp ? new Date(d.timestamp) : new Date();
+
+    // Marker
+    const icon = L.divIcon({
+      html:`<div style="width:20px;height:20px;background:#FF1A1A;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 0 20px rgba(255,26,26,.8),0 0 0 6px rgba(255,26,26,.2)"></div>`,
+      iconSize:[20,20],iconAnchor:[10,20],className:''
+    });
+    if (!marker) {
+      marker = L.marker(latlng,{icon}).addTo(map);
+      marker.bindPopup(`<strong>${d.nombre||'Usuario'}</strong><br>${d.lat.toFixed(5)}, ${d.lng.toFixed(5)}`);
+    } else {
+      marker.setLatLng(latlng);
+      marker.getPopup()?.setContent(`<strong>${d.nombre||'Usuario'}</strong><br>${d.lat.toFixed(5)}, ${d.lng.toFixed(5)}`);
+    }
+
+    if (d.accuracy) {
+      if (!accuracyCircle) {
+        accuracyCircle = L.circle(latlng,{radius:d.accuracy,color:'#FF1A1A',fillColor:'#FF1A1A',fillOpacity:.08,weight:1}).addTo(map);
+      } else {
+        accuracyCircle.setLatLng(latlng).setRadius(d.accuracy);
+      }
+    }
+
+    if (firstLoad) { map.setView(latlng,17); firstLoad=false; }
+    else map.panTo(latlng,{animate:true,duration:1});
+
+    // Update UI
+    const name = d.nombre || 'Usuario';
+    document.getElementById('top-title').textContent = `🚨 ${name} — EMERGENCIA`;
+    document.getElementById('top-sub').textContent = `Última señal: ${fmtTime(lastUpdate)}`;
+    document.getElementById('coords-val').textContent = `${d.lat.toFixed(6)}, ${d.lng.toFixed(6)}`;
+    document.getElementById('acc-val').textContent = d.accuracy ? `±${Math.round(d.accuracy)}m` : '—';
+    document.getElementById('spd-val').textContent = d.speed!=null ? `${(d.speed*3.6).toFixed(0)} km/h` : '—';
+    document.getElementById('upd-val').textContent = fmtTime(lastUpdate);
+    document.getElementById('wa-share').href = `https://wa.me/?text=${encodeURIComponent(`🚨 ${name} activó SOS — ver ubicación en vivo:\n${window.location.href}`)}`;
+
+    // Offline detection
+    document.getElementById('offline-banner').classList.remove('show');
+    clearTimeout(offlineTimer);
+    offlineTimer = setTimeout(() => document.getElementById('offline-banner').classList.add('show'), 30000);
+  });
+
+  // Listen to emergency status
+  onValue(ref(db, `usuarios/${uid}/emergencia`), snap => {
+    const emg = snap.val();
+    if (emg && !emg.activa) {
+      document.getElementById('top-bar').style.background = '#333';
+      document.getElementById('top-title').textContent = '✓ Emergencia finalizada';
+      document.getElementById('top-sub').textContent = 'Esta persona detuvo la emergencia';
+    }
+  });
+}
+
+// Live clock
+setInterval(() => {
+  if (lastUpdate) {
+    const secs = Math.round((Date.now()-lastUpdate.getTime())/1000);
+    document.getElementById('top-ago').textContent = secs<60?`Hace ${secs}s`:`Hace ${Math.floor(secs/60)}min`;
   }
+}, 1000);
 
-  if (firstLoad) {
-    map.setView(latlng, 17);
-    firstLoad = false;
-  } else {
-    map.panTo(latlng, { animate: true, duration: 1 });
-  }
-
-  // Update UI
-  document.getElementById('coords-val').textContent =
-    `${d.lat.toFixed(6)}, ${d.lng.toFixed(6)}`;
-  document.getElementById('acc-val').textContent =
-    d.accuracy ? `±${Math.round(d.accuracy)}m` : '—';
-  document.getElementById('speed-val').textContent =
-    d.speed != null ? `${(d.speed * 3.6).toFixed(1)} km/h` : '—';
-  document.getElementById('update-val').textContent = fmtTime(lastUpdateTime);
-  document.getElementById('name-val').textContent = d.name || 'Usuario';
-  document.querySelector('.top-sub').textContent =
-    `Última actualización: ${fmtTime(lastUpdateTime)}`;
-
-  // Update WhatsApp link
-  const waLink = document.getElementById('wa-link');
-  waLink.href = `https://wa.me/?text=${encodeURIComponent(`📍 Ver ubicación en vivo: ${window.location.href}`)}`;
-
-  // Reset offline detection
-  document.querySelector('.offline-banner').classList.remove('show');
-  clearTimeout(offlineTimer);
-  offlineTimer = setTimeout(() => {
-    document.querySelector('.offline-banner').classList.add('show');
-  }, 30000); // 30s without update = offline warning
-});
+function showError(title, sub) {
+  document.getElementById('loading-screen').style.display='none';
+  document.getElementById('error-screen').style.display='flex';
+  document.getElementById('err-title').textContent=title;
+  document.getElementById('err-sub').textContent=sub;
+}
 
 function fmtTime(d) {
   if (!d) return '—';
-  return d.toLocaleTimeString('es-MX', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+  return d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
 }
-
-// Update clock
-setInterval(() => {
-  if (lastUpdateTime) {
-    const secs = Math.round((Date.now() - lastUpdateTime.getTime()) / 1000);
-    document.querySelector('.top-time').textContent =
-      secs < 60 ? `Hace ${secs}s` : `Hace ${Math.floor(secs/60)}min`;
-  }
-}, 1000);
 </script>
-
-</head>
-<body>
-
-<div class="top-bar">
-  <div class="pulse-dot"></div>
-  <div class="top-info">
-    <div class="top-title">🚨 <span id="name-val">Cargando...</span> — EMERGENCIA</div>
-    <div class="top-sub">Conectando con Firebase...</div>
-  </div>
-  <div class="top-time" id="update-time">—</div>
-</div>
-
-<div id="map"></div>
-
-<div class="offline-banner">
-  ⚠ Sin actualizaciones de ubicación en los últimos 30 segundos. El dispositivo puede estar sin señal.
-</div>
-
-<div class="bottom-card">
-  <div class="coords-row">
-    <span class="coords-label">GPS</span>
-    <span id="coords-val" style="font-size:13px;font-family:monospace;color:#FF1A1A">Esperando señal...</span>
-  </div>
-  <div class="info-row">
-    <div class="info-chip">
-      <div class="val" id="acc-val">—</div>
-      <div class="lbl">Precisión</div>
-    </div>
-    <div class="info-chip">
-      <div class="val" id="speed-val">—</div>
-      <div class="lbl">Velocidad</div>
-    </div>
-    <div class="info-chip">
-      <div class="val" id="update-val">—</div>
-      <div class="lbl">Actualizado</div>
-    </div>
-  </div>
-  <a class="wa-btn" id="wa-link" href="#" target="_blank">
-    📲 Compartir este mapa por WhatsApp
-  </a>
-</div>
 
 </body>
 </html>
