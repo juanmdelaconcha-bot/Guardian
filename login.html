@@ -112,12 +112,12 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
     <div class="phone-input-wrap">
       <input class="f-input" id="phone-number" type="tel" placeholder="55 1234 5678" maxlength="15">
     </div>
-    <div id="recaptcha-container" style="display:flex;justify-content:center;margin:4px 0"></div>
-    <button class="btn btn-red" id="send-sms-btn" onclick="sendSMS()" disabled style="opacity:0.5">
+    <div id="recaptcha-container" style="display:flex;justify-content:center;margin:8px 0;min-height:78px"></div>
+    <button class="btn btn-red" id="send-sms-btn" onclick="sendSMS()">
       Enviar código SMS
     </button>
-    <div style="font-size:11px;color:#555;text-align:center;margin-top:-4px">
-      Completa el reCAPTCHA para continuar
+    <div style="font-size:11px;color:#555;text-align:center;margin-top:-4px" id="captcha-hint">
+      Al tocar el botón aparecerá el reCAPTCHA
     </div>
     <button class="btn btn-back" onclick="showScreen('welcome-screen')">‹ Volver</button>
   </div>
@@ -203,32 +203,9 @@ window.loginGoogle = async () => {
 };
 
 // ── PHONE ──
-// ── reCAPTCHA ──
-let recaptchaWidgetId = null;
-
-function initRecaptcha() {
-  const el = document.getElementById('recaptcha-container');
-  if (!el) return;
-  el.innerHTML = ''; // clear old widget
-  recaptchaWidgetId = null;
-  if (window.recaptchaVerifier) {
-    try { window.recaptchaVerifier.clear(); } catch {}
-    window.recaptchaVerifier = null;
-  }
-  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-    size: 'normal',
-    callback: (token) => {
-      // reCAPTCHA solved — enable send button
-      document.getElementById('send-sms-btn').disabled = false;
-      document.getElementById('send-sms-btn').style.opacity = '1';
-    },
-    'expired-callback': () => {
-      document.getElementById('send-sms-btn').disabled = true;
-      document.getElementById('send-sms-btn').style.opacity = '0.5';
-    }
-  });
-  window.recaptchaVerifier.render().then(id => { recaptchaWidgetId = id; });
-}
+// ── PHONE AUTH ──
+// Uses a two-step approach compatible with Safari/iOS
+let phoneConfirmation = null;
 
 window.sendSMS = async () => {
   const code = document.getElementById('country-code').value;
@@ -240,79 +217,55 @@ window.sendSMS = async () => {
   document.getElementById('loading-text').textContent = 'Enviando SMS…';
 
   try {
-    confirmationResult = await signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier);
-    document.getElementById('otp-sub').textContent = `Código enviado a ${fullPhone}`;
-    showScreen('otp-screen');
-    setTimeout(() => document.getElementById('d0').focus(), 300);
+    // Clean up any previous verifier completely
+    if (window.recaptchaVerifier) {
+      try { window.recaptchaVerifier.clear(); } catch {}
+      window.recaptchaVerifier = null;
+    }
+
+    // Reset container
+    const container = document.getElementById('recaptcha-container');
+    container.innerHTML = '';
+
+    // Create fresh verifier
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      size: 'normal',
+      callback: async () => {
+        // Called after captcha is solved - now send the SMS
+        try {
+          phoneConfirmation = await signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier);
+          document.getElementById('otp-sub').textContent = `Código enviado a ${fullPhone}`;
+          showScreen('otp-screen');
+          setTimeout(() => document.getElementById('d0')?.focus(), 300);
+        } catch(err) {
+          showScreen('phone-screen');
+          showToast('Error enviando SMS: ' + err.code);
+        }
+      },
+      'expired-callback': () => {
+        showToast('reCAPTCHA expiró — intenta de nuevo');
+      }
+    });
+
+    await window.recaptchaVerifier.render();
+    showScreen('phone-screen'); // show captcha
+    document.getElementById('loading-text') && (document.getElementById('loading-screen').classList.add('hidden'));
+    document.getElementById('phone-screen').classList.remove('hidden');
+    document.getElementById('send-sms-btn').textContent = '✓ Resuelve el reCAPTCHA arriba';
+    document.getElementById('send-sms-btn').disabled = true;
+    document.getElementById('send-sms-btn').style.opacity = '0.5';
+
   } catch(e) {
     showScreen('phone-screen');
-    showToast('Error: ' + e.message);
-    initRecaptcha(); // reset captcha on error
+    showToast('Error: ' + (e.code || e.message));
   }
 };
 
-window.verifyOTP = async () => {
-  const code = [0,1,2,3,4,5].map(i => document.getElementById(`d${i}`).value).join('');
-  if (code.length < 6) { showToast('⚠ Ingresa los 6 dígitos'); return; }
-
-  showScreen('loading-screen');
-  document.getElementById('loading-text').textContent = 'Verificando código…';
-
-  try {
-    const result = await confirmationResult.confirm(code);
-    await handleUser(result.user);
-  } catch(e) {
-    showScreen('otp-screen');
-    showToast('Código incorrecto — intenta de nuevo');
-  }
-};
-
-window.otpInput = (i) => {
-  const val = document.getElementById(`d${i}`).value;
-  if (val && i < 5) document.getElementById(`d${i+1}`).focus();
-};
-
-// ── HANDLE USER ──
-async function handleUser(user) {
-  document.getElementById('loading-text').textContent = 'Configurando perfil…';
-
-  // Save/update user profile in Firebase
-  const userRef = ref(db, `usuarios/${user.uid}/perfil`);
-  const snap = await get(userRef);
-
-  if (!snap.exists()) {
-    // New user — create profile
-    await set(userRef, {
-      nombre: user.displayName || user.phoneNumber || 'Usuario Guardian',
-      email: user.email || null,
-      telefono: user.phoneNumber || null,
-      foto: user.photoURL || null,
-      uid: user.uid,
-      creado: new Date().toISOString()
-    });
-  }
-
-  goToApp(user);
-}
-
-function goToApp(user) {
-  // Store UID for the app
-  localStorage.setItem('guardian_uid', user.uid);
-  localStorage.setItem('guardian_name', user.displayName || user.phoneNumber || 'Usuario');
-  localStorage.setItem('guardian_photo', user.photoURL || '');
-  window.location.href = 'index.html';
-}
-
-// ── UTILS ──
 window.showScreen = (id) => {
   document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
-  // Init recaptcha whenever phone screen shows
-  if (id === 'phone-screen') {
-    setTimeout(() => initRecaptcha(), 100);
-  }
 };
-let toastT;
+
 window.showToast = (m) => {
   const t = document.getElementById('toast');
   t.textContent = m; t.classList.remove('hidden');
