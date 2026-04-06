@@ -8,64 +8,48 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --red:#FF1A1A;--amber:#FF8C00;--green:#00E676;
-  --bg:#0A0A0A;--surface:#141414;--surface2:#1E1E1E;
+  --red:#FF1A1A;--bg:#0A0A0A;--surface:#141414;--surface2:#1E1E1E;
   --border:rgba(255,255,255,0.08);--text:#F0F0F0;--muted:#555;
   --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--display:'Bebas Neue',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden}
-
 .screen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 24px;transition:opacity .3s,transform .3s}
-.screen.hidden{opacity:0;pointer-events:none;transform:translateY(16px)}
+.screen.hidden{opacity:0;pointer-events:none;transform:translateY(12px)}
 
-/* WELCOME */
-.logo-area{text-align:center;margin-bottom:48px}
-.logo{font-family:var(–display);font-size:52px;letter-spacing:6px;color:var(–text)}
+.logo-area{text-align:center;margin-bottom:40px}
+.logo-ring{width:88px;height:88px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FF3A3A,#6B0000);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;box-shadow:0 0 40px rgba(255,26,26,0.3)}
+.logo-icon{font-size:34px}
+.logo{font-family:var(–display);font-size:50px;letter-spacing:6px}
 .logo span{color:var(–red)}
 .logo-sub{font-family:var(–mono);font-size:10px;letter-spacing:4px;color:var(–muted);text-transform:uppercase;margin-top:6px}
-.logo-ring{width:90px;height:90px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#FF3A3A,#6B0000);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 0 40px rgba(255,26,26,0.3),0 0 80px rgba(255,26,26,0.1)}
-.logo-icon{font-size:36px}
 
-.login-card{width:100%;max-width:360px;background:var(–surface);border:1px solid var(–border);border-radius:20px;padding:28px 24px;display:flex;flex-direction:column;gap:12px}
-.login-title{font-size:18px;font-weight:700;text-align:center;margin-bottom:4px}
-.login-sub{font-size:12px;color:var(–muted);text-align:center;margin-bottom:8px;line-height:1.5}
+.card{width:100%;max-width:360px;background:var(–surface);border:1px solid var(–border);border-radius:20px;padding:26px 22px;display:flex;flex-direction:column;gap:11px}
+.card-title{font-size:17px;font-weight:700;text-align:center}
+.card-sub{font-size:12px;color:var(–muted);text-align:center;line-height:1.55;margin-bottom:4px}
 
-.btn{width:100%;padding:15px;border-radius:12px;font-family:var(–sans);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .2s,transform .15s;border:none}
-.btn:active{opacity:.85;transform:scale(.98)}
+.btn{width:100%;padding:15px;border-radius:12px;font-family:var(–sans);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:opacity .15s,transform .12s;border:none}
+.btn:active{opacity:.82;transform:scale(.98)}
 .btn-google{background:#fff;color:#1a1a1a}
-.btn-phone{background:var(–surface2);color:var(–text);border:1px solid var(–border)!important}
-.btn-divider{display:flex;align-items:center;gap:10px;color:var(–muted);font-size:11px}
-.btn-divider::before,.btn-divider::after{content:’’;flex:1;height:1px;background:var(–border)}
-
-/* PHONE FORM */
-#phone-screen .login-card{gap:14px}
-.phone-input-wrap{position:relative}
-.phone-prefix{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-family:var(–mono);font-size:14px;color:var(–muted)}
-.f-input{width:100%;background:var(–surface2);border:1px solid var(–border);border-radius:11px;padding:13px 14px;color:var(–text);font-family:var(–sans);font-size:15px;outline:none;transition:border-color .2s}
-.f-input:focus{border-color:rgba(255,26,26,0.4)}
-.f-input::placeholder{color:var(–muted)}
-.f-input.phone-pad{padding-left:46px}
+.btn-guest{background:var(–surface2);color:var(–text);border:1px solid var(–border)}
 .btn-red{background:var(–red);color:#fff}
-.btn-back{background:none;border:1px solid var(–border);color:var(–muted);font-size:13px;padding:10px}
+.btn-back{background:none;border:1px solid var(–border);color:var(–muted);font-size:13px;padding:11px}
+.divider{display:flex;align-items:center;gap:10px;color:var(–muted);font-size:11px}
+.divider::before,.divider::after{content:’’;flex:1;height:1px;background:var(–border)}
 
-/* OTP */
-.otp-wrap{display:flex;gap:10px;justify-content:center}
-.otp-digit{width:46px;height:56px;background:var(–surface2);border:1px solid var(–border);border-radius:11px;text-align:center;font-size:24px;font-weight:700;color:var(–text);outline:none;transition:border-color .2s}
-.otp-digit:focus{border-color:var(–red)}
+.f-input{width:100%;background:var(–surface2);border:1px solid var(–border);border-radius:11px;padding:13px 14px;color:var(–text);font-family:var(–sans);font-size:15px;outline:none;transition:border-color .2s}
+.f-input:focus{border-color:rgba(255,26,26,0.45)}
+.f-input::placeholder{color:var(–muted)}
 
-/* LOADING */
+.note{font-size:11px;color:var(–muted);text-align:center;line-height:1.6;padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(–border)}
+
 .loading{display:flex;flex-direction:column;align-items:center;gap:16px}
-.spinner{width:40px;height:40px;border:3px solid var(–border);border-top-color:var(–red);border-radius:50%;animation:spin .8s linear infinite}
+.spinner{width:42px;height:42px;border:3px solid rgba(255,255,255,0.08);border-top-color:var(–red);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-family:var(–mono);font-size:12px;letter-spacing:2px;color:var(–muted);text-transform:uppercase}
+.loading-text{font-family:var(–mono);font-size:11px;letter-spacing:2px;color:var(–muted);text-transform:uppercase}
 
-/* TOAST */
-.toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:rgba(18,18,18,0.97);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:10px 20px;font-family:var(–mono);font-size:11px;z-index:200;white-space:nowrap;transition:opacity .3s,transform .3s;pointer-events:none}
+.toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);background:rgba(15,15,15,0.97);border:1px solid rgba(255,255,255,0.1);border-radius:100px;padding:10px 20px;font-family:var(–mono);font-size:11px;z-index:200;white-space:nowrap;transition:opacity .3s,transform .3s;pointer-events:none}
 .toast.hidden{opacity:0;transform:translateX(-50%) translateY(8px)}
-
-/* recaptcha */
-#recaptcha-container{display:flex;justify-content:center;margin-top:4px}
 </style>
 
 </head>
@@ -79,66 +63,32 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
     <div class="logo">GUARD<span>IAN</span></div>
     <div class="logo-sub">Red de emergencias personal</div>
   </div>
-  <div class="login-card">
-    <div class="login-title">Iniciar sesión</div>
-    <div class="login-sub">Tu cuenta protege tus datos y permite<br>compartir tu ubicación de forma segura</div>
+  <div class="card">
+    <div class="card-title">Iniciar sesión</div>
+    <div class="card-sub">Tu cuenta protege tus datos y permite compartir tu ubicación de forma segura</div>
     <button class="btn btn-google" onclick="loginGoogle()">
       <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       Continuar con Google
     </button>
-    <div class="btn-divider">o</div>
-    <button class="btn btn-phone" onclick="showScreen('phone-screen')">
-      📱 Continuar con teléfono
+    <div class="divider">o entra sin cuenta</div>
+    <button class="btn btn-guest" onclick="showScreen('guest-screen')">
+      👤 Entrar con mi nombre
     </button>
+    <div class="note">Google recomendado — tus datos se sincronizan entre dispositivos</div>
   </div>
 </div>
 
-<!-- PHONE -->
+<!-- GUEST / NAME LOGIN -->
 
-<div class="screen hidden" id="phone-screen">
-  <div class="login-card" style="width:100%;max-width:360px">
-    <div class="login-title">Tu número de teléfono</div>
-    <div class="login-sub">Te enviaremos un código SMS para verificar tu identidad</div>
-    <select class="f-input" id="country-code">
-      <option value="+52">🇲🇽 México (+52)</option>
-      <option value="+1">🇺🇸 EE.UU / Canadá (+1)</option>
-      <option value="+34">🇪🇸 España (+34)</option>
-      <option value="+54">🇦🇷 Argentina (+54)</option>
-      <option value="+57">🇨🇴 Colombia (+57)</option>
-      <option value="+56">🇨🇱 Chile (+56)</option>
-      <option value="+51">🇵🇪 Perú (+51)</option>
-      <option value="+58">🇻🇪 Venezuela (+58)</option>
-    </select>
-    <div class="phone-input-wrap">
-      <input class="f-input" id="phone-number" type="tel" placeholder="55 1234 5678" maxlength="15">
-    </div>
-    <div id="recaptcha-container" style="display:flex;justify-content:center;margin:8px 0;min-height:78px"></div>
-    <button class="btn btn-red" id="send-sms-btn" onclick="sendSMS()">
-      Enviar código SMS
-    </button>
-    <div style="font-size:11px;color:#555;text-align:center;margin-top:-4px" id="captcha-hint">
-      Al tocar el botón aparecerá el reCAPTCHA
-    </div>
+<div class="screen hidden" id="guest-screen">
+  <div class="card" style="width:100%;max-width:360px">
+    <div class="card-title">¿Cómo te llamas?</div>
+    <div class="card-sub">Usaremos tu nombre en los mensajes de emergencia</div>
+    <input class="f-input" id="guest-name" type="text" placeholder="Tu nombre completo" maxlength="40" autocomplete="name">
+    <input class="f-input" id="guest-phone" type="tel" placeholder="Tu teléfono (opcional, para tus contactos)" maxlength="20">
+    <button class="btn btn-red" onclick="loginGuest()">Entrar →</button>
     <button class="btn btn-back" onclick="showScreen('welcome-screen')">‹ Volver</button>
-  </div>
-</div>
-
-<!-- OTP -->
-
-<div class="screen hidden" id="otp-screen">
-  <div class="login-card" style="width:100%;max-width:360px">
-    <div class="login-title">Código de verificación</div>
-    <div class="login-sub" id="otp-sub">Ingresa el código que enviamos a tu número</div>
-    <div class="otp-wrap">
-      <input class="otp-digit" maxlength="1" type="tel" id="d0" oninput="otpInput(0)">
-      <input class="otp-digit" maxlength="1" type="tel" id="d1" oninput="otpInput(1)">
-      <input class="otp-digit" maxlength="1" type="tel" id="d2" oninput="otpInput(2)">
-      <input class="otp-digit" maxlength="1" type="tel" id="d3" oninput="otpInput(3)">
-      <input class="otp-digit" maxlength="1" type="tel" id="d4" oninput="otpInput(4)">
-      <input class="otp-digit" maxlength="1" type="tel" id="d5" oninput="otpInput(5)">
-    </div>
-    <button class="btn btn-red" onclick="verifyOTP()">Verificar</button>
-    <button class="btn btn-back" onclick="showScreen('phone-screen')">‹ Cambiar número</button>
+    <div class="note">Sin contraseña — tus datos se guardan en este dispositivo.<br>Para sincronizar entre dispositivos usa Google.</div>
   </div>
 </div>
 
@@ -155,8 +105,8 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, RecaptchaVerifier, signInWithPhoneNumber, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signInAnonymously, updateProfile, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXlBFfqj9IarzYVpDgvtulb_eEHGQ-aWs",
@@ -171,105 +121,129 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
-let confirmationResult = null;
 
-// Check if already logged in
+// ── Already logged in? ──
 onAuthStateChanged(auth, user => {
-  if (user) goToApp(user);
+  if (user) {
+    // Check if guest has set their name
+    const savedName = localStorage.getItem('guardian_name');
+    if (user.isAnonymous && !savedName) {
+      showScreen('guest-screen');
+      return;
+    }
+    goToApp(user);
+  }
 });
 
-// Check redirect result (Google on mobile)
+// ── Google redirect result ──
 getRedirectResult(auth).then(result => {
   if (result?.user) handleUser(result.user);
-}).catch(e => { if (e.code !== 'auth/no-current-user') showToast('Error: ' + e.message); });
+}).catch(e => {
+  if (e.code !== 'auth/no-current-user' && e.code !== 'auth/null-user') {
+    showToast('Error Google: ' + e.code);
+  }
+});
 
-// ── GOOGLE ──
+// ── GOOGLE LOGIN ──
 window.loginGoogle = async () => {
-  showScreen('loading-screen');
-  document.getElementById('loading-text').textContent = 'Conectando con Google…';
+  setLoading('Conectando con Google…');
   const provider = new GoogleAuthProvider();
   try {
-    // Try popup first, fallback to redirect on mobile
     const result = await signInWithPopup(auth, provider);
     await handleUser(result.user);
   } catch(e) {
     if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user') {
-      await signInWithRedirect(auth, provider);
+      // Fallback to redirect on mobile
+      try { await signInWithRedirect(auth, provider); }
+      catch(e2) { showScreen('welcome-screen'); showToast('Error: ' + e2.code); }
+    } else if (e.code === 'auth/cancelled-popup-request') {
+      showScreen('welcome-screen');
     } else {
       showScreen('welcome-screen');
-      showToast('Error Google: ' + e.message);
+      showToast('Error: ' + e.code);
     }
   }
 };
 
-// ── PHONE ──
-// ── PHONE AUTH ──
-// Uses a two-step approach compatible with Safari/iOS
-let phoneConfirmation = null;
+// ── GUEST / ANONYMOUS LOGIN ──
+window.loginGuest = async () => {
+  const name = document.getElementById('guest-name').value.trim();
+  const phone = document.getElementById('guest-phone').value.replace(/\D/g, '');
+  if (!name || name.length < 2) { showToast('⚠ Escribe tu nombre'); return; }
 
-window.sendSMS = async () => {
-  const code = document.getElementById('country-code').value;
-  const num = document.getElementById('phone-number').value.replace(/\D/g,'');
-  if (num.length < 8) { showToast('⚠ Número inválido'); return; }
-  const fullPhone = code + num;
-
-  showScreen('loading-screen');
-  document.getElementById('loading-text').textContent = 'Enviando SMS…';
-
+  setLoading('Creando tu perfil…');
   try {
-    // Clean up any previous verifier completely
-    if (window.recaptchaVerifier) {
-      try { window.recaptchaVerifier.clear(); } catch {}
-      window.recaptchaVerifier = null;
+    // Sign in anonymously with Firebase
+    let user = auth.currentUser;
+    if (!user || !user.isAnonymous) {
+      const result = await signInAnonymously(auth);
+      user = result.user;
     }
-
-    // Reset container
-    const container = document.getElementById('recaptcha-container');
-    container.innerHTML = '';
-
-    // Create fresh verifier
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      size: 'normal',
-      callback: async () => {
-        // Called after captcha is solved - now send the SMS
-        try {
-          phoneConfirmation = await signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier);
-          document.getElementById('otp-sub').textContent = `Código enviado a ${fullPhone}`;
-          showScreen('otp-screen');
-          setTimeout(() => document.getElementById('d0')?.focus(), 300);
-        } catch(err) {
-          showScreen('phone-screen');
-          showToast('Error enviando SMS: ' + err.code);
-        }
-      },
-      'expired-callback': () => {
-        showToast('reCAPTCHA expiró — intenta de nuevo');
-      }
-    });
-
-    await window.recaptchaVerifier.render();
-    showScreen('phone-screen'); // show captcha
-    document.getElementById('loading-text') && (document.getElementById('loading-screen').classList.add('hidden'));
-    document.getElementById('phone-screen').classList.remove('hidden');
-    document.getElementById('send-sms-btn').textContent = '✓ Resuelve el reCAPTCHA arriba';
-    document.getElementById('send-sms-btn').disabled = true;
-    document.getElementById('send-sms-btn').style.opacity = '0.5';
-
+    // Update display name
+    await updateProfile(user, { displayName: name });
+    // Save to localStorage
+    localStorage.setItem('guardian_name', name);
+    if (phone) localStorage.setItem('guardian_phone', phone);
+    await handleUser(user, name, phone);
   } catch(e) {
-    showScreen('phone-screen');
-    showToast('Error: ' + (e.code || e.message));
+    showScreen('guest-screen');
+    showToast('Error: ' + e.message);
   }
 };
+
+// ── HANDLE USER ──
+async function handleUser(user, nameOverride, phoneOverride) {
+  setLoading('Configurando perfil…');
+  const name = nameOverride || user.displayName || localStorage.getItem('guardian_name') || 'Usuario';
+  const phone = phoneOverride || user.phoneNumber || localStorage.getItem('guardian_phone') || null;
+
+  // Save/update profile in Firebase
+  const profileRef = ref(db, `usuarios/${user.uid}/perfil`);
+  try {
+    const snap = await get(profileRef);
+    if (!snap.exists()) {
+      await set(profileRef, {
+        nombre: name,
+        email: user.email || null,
+        telefono: phone,
+        foto: user.photoURL || null,
+        uid: user.uid,
+        anonimo: user.isAnonymous || false,
+        creado: new Date().toISOString()
+      });
+    } else {
+      // Update name if changed
+      await update(profileRef, { nombre: name, ultimoAcceso: new Date().toISOString() });
+    }
+  } catch(e) { console.warn('Profile save error:', e); }
+
+  // Store locally
+  localStorage.setItem('guardian_uid', user.uid);
+  localStorage.setItem('guardian_name', name);
+  localStorage.setItem('guardian_photo', user.photoURL || '');
+
+  goToApp(user);
+}
+
+function goToApp(user) {
+  window.location.href = 'index.html';
+}
+
+function setLoading(msg) {
+  document.getElementById('loading-text').textContent = msg;
+  showScreen('loading-screen');
+}
 
 window.showScreen = (id) => {
   document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
 };
 
+let toastT;
 window.showToast = (m) => {
   const t = document.getElementById('toast');
   t.textContent = m; t.classList.remove('hidden');
-  clearTimeout(toastT); toastT = setTimeout(() => t.classList.add('hidden'), 3000);
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.add('hidden'), 3500);
 };
 </script>
 
