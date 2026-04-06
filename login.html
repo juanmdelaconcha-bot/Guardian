@@ -112,7 +112,13 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
     <div class="phone-input-wrap">
       <input class="f-input" id="phone-number" type="tel" placeholder="55 1234 5678" maxlength="15">
     </div>
-    <button class="btn btn-red" onclick="sendSMS()">Enviar código SMS</button>
+    <div id="recaptcha-container" style="display:flex;justify-content:center;margin:4px 0"></div>
+    <button class="btn btn-red" id="send-sms-btn" onclick="sendSMS()" disabled style="opacity:0.5">
+      Enviar código SMS
+    </button>
+    <div style="font-size:11px;color:#555;text-align:center;margin-top:-4px">
+      Completa el reCAPTCHA para continuar
+    </div>
     <button class="btn btn-back" onclick="showScreen('welcome-screen')">‹ Volver</button>
   </div>
 </div>
@@ -145,7 +151,6 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
   </div>
 </div>
 
-<div id="recaptcha-container" style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:9999"></div>
 <div class="toast hidden" id="toast"></div>
 
 <script type="module">
@@ -198,37 +203,51 @@ window.loginGoogle = async () => {
 };
 
 // ── PHONE ──
-function clearRecaptcha() {
-  try { if (window.recaptchaVerifier) { window.recaptchaVerifier.clear(); window.recaptchaVerifier = null; } } catch {}
+// ── reCAPTCHA ──
+let recaptchaWidgetId = null;
+
+function initRecaptcha() {
   const el = document.getElementById('recaptcha-container');
-  if (el) el.innerHTML = '';
+  if (!el) return;
+  el.innerHTML = ''; // clear old widget
+  recaptchaWidgetId = null;
+  if (window.recaptchaVerifier) {
+    try { window.recaptchaVerifier.clear(); } catch {}
+    window.recaptchaVerifier = null;
+  }
+  window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+    size: 'normal',
+    callback: (token) => {
+      // reCAPTCHA solved — enable send button
+      document.getElementById('send-sms-btn').disabled = false;
+      document.getElementById('send-sms-btn').style.opacity = '1';
+    },
+    'expired-callback': () => {
+      document.getElementById('send-sms-btn').disabled = true;
+      document.getElementById('send-sms-btn').style.opacity = '0.5';
+    }
+  });
+  window.recaptchaVerifier.render().then(id => { recaptchaWidgetId = id; });
 }
 
 window.sendSMS = async () => {
   const code = document.getElementById('country-code').value;
   const num = document.getElementById('phone-number').value.replace(/\D/g,'');
-  if (num.length < 8) { showToast('\u26a0 Número inválido'); return; }
+  if (num.length < 8) { showToast('⚠ Número inválido'); return; }
   const fullPhone = code + num;
 
   showScreen('loading-screen');
-  document.getElementById('loading-text').textContent = 'Enviando SMS\u2026';
+  document.getElementById('loading-text').textContent = 'Enviando SMS…';
 
   try {
-    clearRecaptcha();
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      size: 'invisible',
-      callback: () => {},
-      'expired-callback': () => { clearRecaptcha(); }
-    });
-    await window.recaptchaVerifier.render();
     confirmationResult = await signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier);
     document.getElementById('otp-sub').textContent = `Código enviado a ${fullPhone}`;
     showScreen('otp-screen');
-    document.getElementById('d0').focus();
+    setTimeout(() => document.getElementById('d0').focus(), 300);
   } catch(e) {
-    clearRecaptcha();
     showScreen('phone-screen');
-    showToast('Error SMS: ' + e.message);
+    showToast('Error: ' + e.message);
+    initRecaptcha(); // reset captcha on error
   }
 };
 
@@ -288,6 +307,10 @@ function goToApp(user) {
 window.showScreen = (id) => {
   document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
   document.getElementById(id).classList.remove('hidden');
+  // Init recaptcha whenever phone screen shows
+  if (id === 'phone-screen') {
+    setTimeout(() => initRecaptcha(), 100);
+  }
 };
 let toastT;
 window.showToast = (m) => {
