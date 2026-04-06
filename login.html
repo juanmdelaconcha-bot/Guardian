@@ -112,7 +112,6 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
     <div class="phone-input-wrap">
       <input class="f-input" id="phone-number" type="tel" placeholder="55 1234 5678" maxlength="15">
     </div>
-    <div id="recaptcha-container"></div>
     <button class="btn btn-red" onclick="sendSMS()">Enviar código SMS</button>
     <button class="btn btn-back" onclick="showScreen('welcome-screen')">‹ Volver</button>
   </div>
@@ -146,6 +145,7 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
   </div>
 </div>
 
+<div id="recaptcha-container" style="position:fixed;bottom:0;left:50%;transform:translateX(-50%);z-index:9999"></div>
 <div class="toast hidden" id="toast"></div>
 
 <script type="module">
@@ -198,27 +198,37 @@ window.loginGoogle = async () => {
 };
 
 // ── PHONE ──
+function clearRecaptcha() {
+  try { if (window.recaptchaVerifier) { window.recaptchaVerifier.clear(); window.recaptchaVerifier = null; } } catch {}
+  const el = document.getElementById('recaptcha-container');
+  if (el) el.innerHTML = '';
+}
+
 window.sendSMS = async () => {
   const code = document.getElementById('country-code').value;
   const num = document.getElementById('phone-number').value.replace(/\D/g,'');
-  if (num.length < 8) { showToast('⚠ Número inválido'); return; }
+  if (num.length < 8) { showToast('\u26a0 Número inválido'); return; }
   const fullPhone = code + num;
 
   showScreen('loading-screen');
-  document.getElementById('loading-text').textContent = 'Enviando SMS…';
+  document.getElementById('loading-text').textContent = 'Enviando SMS\u2026';
 
   try {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
-    }
+    clearRecaptcha();
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      size: 'invisible',
+      callback: () => {},
+      'expired-callback': () => { clearRecaptcha(); }
+    });
+    await window.recaptchaVerifier.render();
     confirmationResult = await signInWithPhoneNumber(auth, fullPhone, window.recaptchaVerifier);
     document.getElementById('otp-sub').textContent = `Código enviado a ${fullPhone}`;
     showScreen('otp-screen');
     document.getElementById('d0').focus();
   } catch(e) {
+    clearRecaptcha();
     showScreen('phone-screen');
     showToast('Error SMS: ' + e.message);
-    window.recaptchaVerifier = null;
   }
 };
 
