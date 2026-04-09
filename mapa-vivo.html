@@ -7,86 +7,89 @@
 <title>GUARDIAN — Ubicación en Vivo</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,sans-serif;background:#0a0a0a;color:#fff;height:100vh;display:flex;flex-direction:column}
-.top-bar{background:#FF1A1A;padding:14px 18px;display:flex;align-items:center;gap:12px;z-index:10;flex-shrink:0}
-.pulse-dot{width:10px;height:10px;border-radius:50%;background:#fff;animation:pulse 1.2s ease-in-out infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-.top-info{flex:1}
-.top-title{font-size:15px;font-weight:700;letter-spacing:.5px}
-.top-sub{font-size:11px;opacity:.85;margin-top:1px}
-.top-ago{font-size:11px;font-family:monospace;opacity:.8;flex-shrink:0}
-#map{flex:1;width:100%}
-.bottom-card{background:#111;border-top:1px solid rgba(255,255,255,.08);padding:14px 18px;flex-shrink:0}
-.coords-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.coords-lbl{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#555;font-family:monospace}
-#coords-val{font-size:13px;font-family:monospace;color:#FF1A1A}
-.info-row{display:flex;gap:10px}
-.info-chip{background:#1a1a1a;border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:7px 10px;flex:1;text-align:center}
-.chip-val{font-size:13px;font-weight:600;font-family:monospace}
-.chip-lbl{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
-.offline-banner{display:none;background:#1a0a00;border:1px solid rgba(255,140,0,.3);margin:10px 18px;border-radius:10px;padding:11px 14px;font-size:12px;color:rgba(255,140,0,.9);line-height:1.5}
-.offline-banner.show{display:block}
-.error-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:40px;text-align:center}
-.error-icon{font-size:56px;opacity:.5}
-.error-title{font-size:18px;font-weight:700}
-.error-sub{font-size:13px;color:#555;line-height:1.6}
-.wa-share{display:block;background:#25D366;border-radius:10px;padding:12px;text-align:center;text-decoration:none;color:#fff;font-weight:600;font-size:14px;margin-top:10px}
-.loading-screen{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
-.spinner{width:40px;height:40px;border:3px solid rgba(255,255,255,.1);border-top-color:#FF1A1A;border-radius:50%;animation:spin .8s linear infinite}
+body{font-family:-apple-system,sans-serif;background:#0a0a0a;color:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+#status-bar{background:#FF1A1A;padding:48px 18px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.pulse{width:10px;height:10px;border-radius:50%;background:#fff;animation:p 1.2s ease-in-out infinite;flex-shrink:0}
+@keyframes p{0%,100%{opacity:1}50%{opacity:.3}}
+#status-title{font-size:15px;font-weight:700;flex:1}
+#status-ago{font-size:11px;font-family:monospace;opacity:.8}
+#map{flex:1;width:100%;position:relative;background:#111}
+#map-canvas{width:100%;height:100%}
+#bottom{background:#111;border-top:1px solid rgba(255,255,255,.08);padding:14px 18px;flex-shrink:0}
+#coords{font-size:12px;font-family:monospace;color:#FF1A1A;margin-bottom:10px}
+.chips{display:flex;gap:8px;margin-bottom:10px}
+.chip{background:#1a1a1a;border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:7px 12px;flex:1;text-align:center}
+.chip-v{font-size:13px;font-weight:700;font-family:monospace}
+.chip-l{font-size:9px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+#share-btn{display:block;width:100%;background:#25D366;border:none;border-radius:10px;padding:12px;color:#fff;font-weight:700;font-size:14px;cursor:pointer}
+/* Loading overlay */
+#overlay{position:absolute;inset:0;background:#0a0a0a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:10}
+.spinner{width:44px;height:44px;border:3px solid rgba(255,255,255,.08);border-top-color:#FF1A1A;border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-family:monospace;font-size:12px;letter-spacing:2px;color:#555;text-transform:uppercase}
+#overlay-text{font-family:monospace;font-size:12px;letter-spacing:2px;color:#444;text-transform:uppercase;text-align:center;padding:0 30px;line-height:1.8}
+/* Error */
+#error-box{display:none;position:absolute;inset:0;background:#0a0a0a;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:40px;text-align:center;z-index:10}
+#error-box .icon{font-size:52px}
+#error-box .title{font-size:17px;font-weight:700}
+#error-box .sub{font-size:13px;color:#555;line-height:1.65}
+/* Offline warning */
+#offline{display:none;background:#1a0800;border:1px solid rgba(255,140,0,.3);margin:8px 14px;border-radius:9px;padding:10px 14px;font-size:12px;color:rgba(255,140,0,.9);line-height:1.5}
+/* Map pin */
+#pin{position:absolute;top:50%;left:50%;transform:translate(-50%,-100%);pointer-events:none;animation:bounce 2s ease-in-out infinite;z-index:5}
+@keyframes bounce{0%,100%{transform:translate(-50%,-100%)}50%{transform:translate(-50%,-115%)}}
+.pin-body{width:20px;height:20px;background:#FF1A1A;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 0 20px rgba(255,26,26,.8)}
+.pin-ring{position:absolute;width:34px;height:34px;border:2px solid #FF1A1A;border-radius:50%;top:-7px;left:-7px;animation:ring 2s ease-out infinite}
+@keyframes ring{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.6);opacity:0}}
 </style>
+<!-- Leaflet real map -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 </head>
 <body>
 
-<div class="top-bar" id="top-bar" style="display:none">
-  <div class="pulse-dot"></div>
-  <div class="top-info">
-    <div class="top-title" id="top-title">🚨 Cargando…</div>
-    <div class="top-sub" id="top-sub">Conectando…</div>
+<div id="status-bar">
+  <div class="pulse"></div>
+  <div id="status-title">🚨 Conectando…</div>
+  <div id="status-ago">—</div>
+</div>
+
+<div id="map">
+  <!-- Loading overlay -->
+  <div id="overlay">
+    <div class="spinner"></div>
+    <div id="overlay-text">Conectando con Firebase…</div>
   </div>
-  <div class="top-ago" id="top-ago">—</div>
-</div>
-
-<div id="map" style="display:none"></div>
-
-<div class="offline-banner" id="offline-banner">
-  ⚠ Sin actualizaciones hace más de 30 segundos. El dispositivo puede estar sin señal.
-</div>
-
-<div class="bottom-card" id="bottom-card" style="display:none">
-  <div class="coords-row">
-    <span class="coords-lbl">GPS</span>
-    <span id="coords-val">Esperando señal…</span>
+  <!-- Error box -->
+  <div id="error-box">
+    <div class="icon">📍</div>
+    <div class="title" id="err-title">Sin ubicación</div>
+    <div class="sub" id="err-sub">La persona no ha activado el SOS aún.</div>
   </div>
-  <div class="info-row">
-    <div class="info-chip"><div class="chip-val" id="acc-val">—</div><div class="chip-lbl">Precisión</div></div>
-    <div class="info-chip"><div class="chip-val" id="spd-val">—</div><div class="chip-lbl">Velocidad</div></div>
-    <div class="info-chip"><div class="chip-val" id="upd-val">—</div><div class="chip-lbl">Actualizado</div></div>
+  <!-- Map tiles -->
+  <div id="map-tiles" style="width:100%;height:100%;display:none"></div>
+  <!-- Pin overlay -->
+  <div id="pin" style="display:none">
+    <div class="pin-ring"></div>
+    <div class="pin-body"></div>
   </div>
-  <a class="wa-share" id="wa-share" href="#" target="_blank">📲 Compartir este mapa</a>
 </div>
 
-<!-- LOADING -->
+<div id="offline">⚠ Sin señal hace más de 30 segundos</div>
 
-<div class="loading-screen" id="loading-screen">
-  <div class="spinner"></div>
-  <div class="loading-text">Conectando…</div>
-</div>
-
-<!-- ERROR -->
-
-<div class="error-screen" id="error-screen" style="display:none">
-  <div class="error-icon">📍</div>
-  <div class="error-title" id="err-title">Sin ubicación activa</div>
-  <div class="error-sub" id="err-sub">Esta persona no está transmitiendo su ubicación en este momento o el link es inválido.</div>
+<div id="bottom">
+  <div id="coords">Esperando señal GPS…</div>
+  <div class="chips">
+    <div class="chip"><div class="chip-v" id="acc">—</div><div class="chip-l">Precisión</div></div>
+    <div class="chip"><div class="chip-v" id="spd">—</div><div class="chip-l">Velocidad</div></div>
+    <div class="chip"><div class="chip-v" id="upd">—</div><div class="chip-l">Actualizado</div></div>
+  </div>
+  <button id="share-btn" onclick="shareMap()">📲 Compartir este mapa</button>
 </div>
 
 <script type="module">
+// ── Firebase ──
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDXlBFfqj9IarzYVpDgvtulb_eEHGQ-aWs",
@@ -98,128 +101,180 @@ const firebaseConfig = {
   appId: "1:356894459494:web:2d06bb9506b3f47a0a4fa7"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const fbApp = initializeApp(firebaseConfig);
+const db = getDatabase(fbApp);
 
-// Get UID from URL param
-const params = new URLSearchParams(window.location.search);
-const uid = params.get('uid');
+// ── Get UID from URL ──
+const uid = new URLSearchParams(window.location.search).get('uid');
+console.log('UID from URL:', uid);
 
 if (!uid) {
-  showError('Link inválido', 'Este link no contiene un identificador de usuario válido.');
+  showError('Link incompleto', 'Este link no tiene el identificador del usuario. Pide que te reenvíen el link desde GUARDIAN.');
 } else {
-  initMap();
-  loadUserAndListen(uid);
+  startListening(uid);
 }
 
-let map, marker, accuracyCircle, firstLoad=true, lastUpdate=null, offlineTimer=null;
+// ── Leaflet map ──
+let map = null;
+let marker = null;
+let circle = null;
+let firstFix = true;
+let lastUpdate = null;
+let offlineTimer = null;
+let hasData = false;
 
-function initMap() {
-  map = L.map('map', { zoomControl:true, attributionControl:false });
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom:19 }).addTo(map);
+function initLeaflet() {
+  if (map) return;
+  const container = document.getElementById('map-tiles');
+  container.style.display = 'block';
+  map = L.map(container, { zoomControl: true, attributionControl: false });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19
+  }).addTo(map);
   map.setView([19.4326, -99.1332], 15);
 }
 
-async function loadUserAndListen(uid) {
-  // Get user profile first
-  try {
-    const snap = await get(ref(db, `usuarios/${uid}/perfil`));
-    const p = snap.val();
-    if (p) {
-      document.getElementById('top-title').textContent = `🚨 ${p.nombre} — EMERGENCIA`;
-    }
-  } catch {}
+// ── Listen to Firebase ──
+function startListening(uid) {
+  console.log('Listening to: usuarios/' + uid + '/location');
+  document.getElementById('overlay-text').textContent = 'Esperando ubicación de ' + uid.slice(0,8) + '…';
 
-  // Listen to location
-  onValue(ref(db, `usuarios/${uid}/location`), snap => {
+  const locRef = ref(db, 'usuarios/' + uid + '/location');
+
+  onValue(locRef, (snap) => {
+    console.log('Firebase snapshot:', snap.val());
     const d = snap.val();
 
-    document.getElementById('loading-screen').style.display = 'none';
-
     if (!d || !d.lat || !d.lng) {
-      showError('Sin señal GPS', 'La ubicación aún no está disponible. La página se actualizará automáticamente.');
+      // No data yet — keep showing loader but update text
+      if (!hasData) {
+        document.getElementById('overlay-text').textContent =
+          'Esperando que la persona active el SOS…\n\nEsta página se actualizará automáticamente.';
+      }
       return;
     }
 
-    // Show map UI
-    document.getElementById('top-bar').style.display = 'flex';
-    document.getElementById('map').style.display = 'block';
-    document.getElementById('bottom-card').style.display = 'block';
-    document.getElementById('error-screen').style.display = 'none';
-
-    const latlng = [d.lat, d.lng];
+    // ── Got location data! ──
+    hasData = true;
     lastUpdate = d.timestamp ? new Date(d.timestamp) : new Date();
 
-    // Marker
-    const icon = L.divIcon({
-      html:`<div style="width:20px;height:20px;background:#FF1A1A;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 0 20px rgba(255,26,26,.8),0 0 0 6px rgba(255,26,26,.2)"></div>`,
-      iconSize:[20,20],iconAnchor:[10,20],className:''
-    });
+    // Hide overlays, show map
+    document.getElementById('overlay').style.display = 'none';
+    document.getElementById('error-box').style.display = 'none';
+
+    // Init map on first data
+    initLeaflet();
+
+    const latlng = [d.lat, d.lng];
+
+    // Update/create marker
     if (!marker) {
-      marker = L.marker(latlng,{icon}).addTo(map);
-      marker.bindPopup(`<strong>${d.nombre||'Usuario'}</strong><br>${d.lat.toFixed(5)}, ${d.lng.toFixed(5)}`);
+      const icon = L.divIcon({
+        html: '<div style="width:16px;height:16px;background:#FF1A1A;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:3px solid #fff;box-shadow:0 0 16px rgba(255,26,26,.9)"></div>',
+        iconSize: [16, 16],
+        iconAnchor: [8, 16],
+        className: ''
+      });
+      marker = L.marker(latlng, { icon }).addTo(map);
+      marker.bindPopup('<b>' + (d.nombre || 'Usuario') + '</b><br>' + d.lat.toFixed(5) + ', ' + d.lng.toFixed(5));
     } else {
       marker.setLatLng(latlng);
-      marker.getPopup()?.setContent(`<strong>${d.nombre||'Usuario'}</strong><br>${d.lat.toFixed(5)}, ${d.lng.toFixed(5)}`);
     }
 
+    // Accuracy circle
     if (d.accuracy) {
-      if (!accuracyCircle) {
-        accuracyCircle = L.circle(latlng,{radius:d.accuracy,color:'#FF1A1A',fillColor:'#FF1A1A',fillOpacity:.08,weight:1}).addTo(map);
+      if (!circle) {
+        circle = L.circle(latlng, {
+          radius: d.accuracy,
+          color: '#FF1A1A', fillColor: '#FF1A1A', fillOpacity: 0.08, weight: 1
+        }).addTo(map);
       } else {
-        accuracyCircle.setLatLng(latlng).setRadius(d.accuracy);
+        circle.setLatLng(latlng).setRadius(d.accuracy);
       }
     }
 
-    if (firstLoad) { map.setView(latlng,17); firstLoad=false; }
-    else map.panTo(latlng,{animate:true,duration:1});
+    // Pan map
+    if (firstFix) {
+      map.setView(latlng, 17);
+      firstFix = false;
+    } else {
+      map.panTo(latlng, { animate: true, duration: 1.2 });
+    }
 
     // Update UI
     const name = d.nombre || 'Usuario';
-    document.getElementById('top-title').textContent = `🚨 ${name} — EMERGENCIA`;
-    document.getElementById('top-sub').textContent = `Última señal: ${fmtTime(lastUpdate)}`;
-    document.getElementById('coords-val').textContent = `${d.lat.toFixed(6)}, ${d.lng.toFixed(6)}`;
-    document.getElementById('acc-val').textContent = d.accuracy ? `±${Math.round(d.accuracy)}m` : '—';
-    document.getElementById('spd-val').textContent = d.speed!=null ? `${(d.speed*3.6).toFixed(0)} km/h` : '—';
-    document.getElementById('upd-val').textContent = fmtTime(lastUpdate);
-    document.getElementById('wa-share').href = `https://wa.me/?text=${encodeURIComponent(`🚨 ${name} activó SOS — ver ubicación en vivo:\n${window.location.href}`)}`;
+    document.getElementById('status-title').textContent = '🚨 ' + name + ' — EN EMERGENCIA';
+    document.getElementById('coords').textContent =
+      '📍 ' + d.lat.toFixed(6) + ', ' + d.lng.toFixed(6);
+    document.getElementById('acc').textContent =
+      d.accuracy ? '±' + Math.round(d.accuracy) + 'm' : '—';
+    document.getElementById('spd').textContent =
+      (d.speed != null && d.speed > 0) ? (d.speed * 3.6).toFixed(0) + ' km/h' : '0 km/h';
+    document.getElementById('upd').textContent = fmtTime(lastUpdate);
 
     // Offline detection
-    document.getElementById('offline-banner').classList.remove('show');
+    document.getElementById('offline').style.display = 'none';
     clearTimeout(offlineTimer);
-    offlineTimer = setTimeout(() => document.getElementById('offline-banner').classList.add('show'), 30000);
+    offlineTimer = setTimeout(() => {
+      document.getElementById('offline').style.display = 'block';
+    }, 30000);
+
+  }, (error) => {
+    console.error('Firebase error:', error);
+    showError('Error de conexión', 'No se pudo conectar: ' + error.message);
   });
 
-  // Listen to emergency status
-  onValue(ref(db, `usuarios/${uid}/emergencia`), snap => {
+  // Also listen to emergency status
+  const emgRef = ref(db, 'usuarios/' + uid + '/emergencia');
+  onValue(emgRef, (snap) => {
     const emg = snap.val();
-    if (emg && !emg.activa) {
-      document.getElementById('top-bar').style.background = '#333';
-      document.getElementById('top-title').textContent = '✓ Emergencia finalizada';
-      document.getElementById('top-sub').textContent = 'Esta persona detuvo la emergencia';
+    if (emg && emg.activa === false && hasData) {
+      document.getElementById('status-bar').style.background = '#333';
+      document.getElementById('status-title').textContent = '✓ Emergencia finalizada';
     }
   });
+
+  // Timeout: after 15s still no data, show helpful message
+  setTimeout(() => {
+    if (!hasData) {
+      document.getElementById('overlay-text').innerHTML =
+        '📡 Esperando activación SOS…<br><br>' +
+        '<span style="color:#333">La persona debe abrir GUARDIAN y activar el SOS para que aparezca su ubicación aquí.</span>';
+    }
+  }, 15000);
 }
 
-// Live clock
+// ── Clock ──
 setInterval(() => {
   if (lastUpdate) {
-    const secs = Math.round((Date.now()-lastUpdate.getTime())/1000);
-    document.getElementById('top-ago').textContent = secs<60?`Hace ${secs}s`:`Hace ${Math.floor(secs/60)}min`;
+    const s = Math.round((Date.now() - lastUpdate.getTime()) / 1000);
+    document.getElementById('status-ago').textContent =
+      s < 60 ? 'Hace ' + s + 's' : 'Hace ' + Math.floor(s/60) + 'min';
+    document.getElementById('upd').textContent = fmtTime(lastUpdate);
   }
 }, 1000);
 
-function showError(title, sub) {
-  document.getElementById('loading-screen').style.display='none';
-  document.getElementById('error-screen').style.display='flex';
-  document.getElementById('err-title').textContent=title;
-  document.getElementById('err-sub').textContent=sub;
-}
-
 function fmtTime(d) {
   if (!d) return '—';
-  return d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  return d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
+
+function showError(title, sub) {
+  document.getElementById('overlay').style.display = 'none';
+  const eb = document.getElementById('error-box');
+  eb.style.display = 'flex';
+  document.getElementById('err-title').textContent = title;
+  document.getElementById('err-sub').textContent = sub;
+}
+
+window.shareMap = () => {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: '🚨 Ubicación en vivo — GUARDIAN', url });
+  } else {
+    navigator.clipboard.writeText(url).then(() => alert('Link copiado'));
+  }
+};
 </script>
 
 </body>
