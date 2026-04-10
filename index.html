@@ -159,7 +159,13 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
 .toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(18,18,18,.97);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:10px 20px;font-family:var(–mono);font-size:11px;z-index:300;white-space:nowrap;transition:opacity .3s,transform .3s;pointer-events:none;backdrop-filter:blur(10px)}
 .toast.hidden{opacity:0;transform:translateX(-50%) translateY(8px)}
 </style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GUARDIAN">
+<meta name="theme-color" content="#FF1A1A">
 
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
 
@@ -177,6 +183,7 @@ html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-fam
   <div class="tabs">
     <div class="tab active" id="tab-sos" onclick="switchTab('sos')">🔴 SOS</div>
     <div class="tab" id="tab-contacts" onclick="switchTab('contacts')">👥 Contactos</div>
+    <div class="tab" id="tab-red" onclick="goToFamilia()">🌐 Red</div>
   </div>
 
   <!-- SOS TAB -->
@@ -363,6 +370,7 @@ onAuthStateChanged(auth, async user => {
   myUID = user.uid;
   await loadProfile(user);
   loadContacts();
+  setTimeout(registerPush, 1500);
 });
 
 async function loadProfile(user) {
@@ -765,6 +773,64 @@ window.closeModal = (id) => { document.getElementById(id).classList.add('hidden'
 document.getElementById('add-modal').addEventListener('click', e => { if(e.target===e.currentTarget)closeModal('add-modal'); });
 document.getElementById('profile-modal').addEventListener('click', e => { if(e.target===e.currentTarget)closeModal('profile-modal'); });
 window.logout = async () => { await signOut(auth); window.location.href='login.html'; };
+
+// ── RED FAMILIAR ──
+window.goToFamilia = () => { window.location.href = 'familia.html'; };
+
+// ── PUSH NOTIFICATIONS ──
+async function registerPush() {
+  try {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+
+    // Register service worker
+    const reg = await navigator.serviceWorker.register('./sw.js', { scope: './' });
+    console.log('[Push] SW registered:', reg.scope);
+
+    // Request permission
+    const perm = await Notification.requestPermission();
+    if (perm !== 'granted') { console.log('[Push] Permission denied'); return; }
+
+    // Get push subscription
+    const VAPID_KEY = 'BD3vKEZhhb2vLx_e3OvBWtgtBnm_Hs-fgbO5U-uK-HdiGY9MW8zZmmvujmb69RjVQSz8RFDyettokIHph7ol7DQ';
+    if (VAPID_KEY === 'BD3vKEZhhb2vLx_e3OvBWtgtBnm_Hs-fgbO5U-uK-HdiGY9MW8zZmmvujmb69RjVQSz8RFDyettokIHph7ol7DQ') {
+      console.log('[Push] No VAPID key yet — skipping push registration');
+      return;
+    }
+
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(VAPID_KEY)
+    });
+
+    // Save subscription to Firebase
+    await set(ref(db, `usuarios/${myUID}/pushSubscription`), JSON.stringify(sub));
+    console.log('[Push] Subscribed:', sub.endpoint.slice(0,40) + '...');
+    showToast('🔔 Notificaciones activadas');
+  } catch(e) {
+    console.log('[Push] Error:', e.message);
+  }
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+  const raw = window.atob(base64);
+  return new Uint8Array([...raw].map(c => c.charCodeAt(0)));
+}
+
+// Watch contacts for emergency alerts (in-app)
+function watchForEmergencies() {
+  myContacts.forEach(c => {
+    if (!c.uid) return;
+    onValue(ref(db, `usuarios/${c.uid}/emergencia`), snap => {
+      const emg = snap.val();
+      if (emg?.activa) {
+        showToast(`🚨 ${c.name} activó SOS — toca Red para ver`);
+        if (navigator.vibrate) navigator.vibrate([500,200,500,200,500]);
+      }
+    });
+  });
+}
 
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.add('hidden'));document.getElementById(id).classList.remove('hidden');window.scrollTo(0,0);}
 function fmtTime(s){return[Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(n=>String(n).padStart(2,'0')).join(':');}
