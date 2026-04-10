@@ -1,0 +1,50 @@
+{
+  "name": "GUARDIAN SOS",
+  "short_name": "GUARDIAN",
+  "description": "Red de emergencias personal con ubicación en tiempo real",
+  "start_url": "/Guardian/login.html",
+  "scope": "/Guardian/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A0A0A",
+  "theme_color": "#FF1A1A",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%230A0A0A' rx='100'/><circle cx='256' cy='256' r='180' fill='%23FF1A1A' opacity='0.15'/><text x='256' y='320' font-size='220' text-anchor='middle' fill='%23FF1A1A'>🛡</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Activar SOS",
+      "short_name": "SOS",
+      "description": "Abrir pantalla de emergencia",
+      "url": "/Guardian/index.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Red Familiar",
+      "short_name": "Red",
+      "description": "Ver ubicaciones en vivo",
+      "url": "/Guardian/familia.html",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "categories": ["utilities", "lifestyle"],
+  "screenshots": []
+}
