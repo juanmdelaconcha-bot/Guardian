@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>GUARDIAN — Red Familiar</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --red:#FF1A1A;--amber:#FF8C00;--green:#00E676;
+  --bg:#0A0A0A;--surface:#141414;--surface2:#1E1E1E;
+  --border:rgba(255,255,255,0.07);--text:#F0F0F0;--muted:#555;
+  --mono:'DM Mono',monospace;--sans:'DM Sans',sans-serif;--display:'Bebas Neue',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;width:100%;background:var(--bg);color:var(--text);font-family:var(--sans);overflow:hidden}
+
+.header{display:flex;align-items:center;gap:12px;padding:48px 18px 14px;background:var(–bg);flex-shrink:0;border-bottom:1px solid var(–border);z-index:10;position:relative}
+.back-btn{background:none;border:1px solid var(–border);border-radius:9px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(–text);font-size:20px;cursor:pointer;flex-shrink:0;text-decoration:none}
+.header-title{font-family:var(–display);font-size:22px;letter-spacing:2px;flex:1}
+.online-count{font-family:var(–mono);font-size:10px;color:var(–green);letter-spacing:1px;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.2);border-radius:100px;padding:4px 10px}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(–border);background:var(–bg);flex-shrink:0}
+.tab{flex:1;padding:11px;text-align:center;font-family:var(–mono);font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(–muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
+.tab.active{color:var(–text);border-bottom-color:var(–red)}
+
+/* MAP VIEW */
+#map-view{flex:1;display:none;flex-direction:column;height:calc(100vh - 130px)}
+#map-view.active{display:flex}
+#leaflet-map{flex:1;width:100%}
+
+/* MAP LEGEND */
+.map-legend{background:rgba(10,10,10,0.9);border-top:1px solid var(–border);padding:10px 16px;display:flex;gap:8px;overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.map-legend::-webkit-scrollbar{display:none}
+.legend-chip{display:flex;align-items:center;gap:6px;background:var(–surface);border:1px solid var(–border);border-radius:100px;padding:5px 10px;white-space:nowrap;cursor:pointer;flex-shrink:0;transition:border-color .2s}
+.legend-chip.emg{border-color:rgba(255,26,26,0.5);background:rgba(255,26,26,0.08);animation:pulse-chip 1s step-end infinite}
+@keyframes pulse-chip{0%,100%{opacity:1}50%{opacity:.6}}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.legend-name{font-size:11px;font-weight:500}
+.legend-ago{font-family:var(–mono);font-size:9px;color:var(–muted)}
+
+/* LIST VIEW */
+#list-view{flex:1;overflow-y:auto;display:none;-webkit-overflow-scrolling:touch}
+#list-view.active{display:block}
+.section-hdr{font-family:var(–mono);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(–muted);padding:14px 18px 6px}
+
+.member-card{margin:0 14px 8px;background:var(–surface);border:1px solid var(–border);border-radius:14px;overflow:hidden;transition:border-color .2s}
+.member-card.emergency{border-color:var(–red);animation:emg-pulse 1.5s ease-in-out infinite}
+@keyframes emg-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,26,26,0)}50%{box-shadow:0 0 0 6px rgba(255,26,26,0.15)}}
+.mc-top{display:flex;align-items:center;gap:12px;padding:13px 15px}
+.mc-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000;flex-shrink:0;position:relative}
+.mc-status-dot{position:absolute;bottom:0;right:0;width:12px;height:12px;border-radius:50%;border:2px solid var(–surface)}
+.mc-info{flex:1;min-width:0}
+.mc-name{font-size:14px;font-weight:700}
+.mc-detail{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:2px}
+.mc-emg-badge{font-family:var(–mono);font-size:9px;color:var(–red);background:rgba(255,26,26,0.1);border:1px solid rgba(255,26,26,0.25);border-radius:4px;padding:2px 7px;margin-top:4px;display:inline-block;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.mc-actions{display:flex;gap:7px;padding:0 15px 13px}
+.mc-btn{flex:1;padding:9px;border-radius:9px;font-family:var(–mono);font-size:9px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-align:center;border:none;transition:opacity .2s}
+.mc-btn:active{opacity:.75}
+.btn-map{background:rgba(255,26,26,0.15);color:var(–red);border:1px solid rgba(255,26,26,0.25)}
+.btn-wa{background:rgba(37,211,102,0.12);color:#25D366;border:1px solid rgba(37,211,102,0.25)}
+.btn-sos{background:var(–red);color:#fff}
+
+.no-members{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 30px;text-align:center;color:var(–muted)}
+.no-members-icon{font-size:52px;opacity:.3}
+
+/* ME card */
+.me-card{margin:0 14px 4px;background:rgba(0,230,118,0.05);border:1px solid rgba(0,230,118,0.15);border-radius:14px;padding:13px 15px;display:flex;align-items:center;gap:12px}
+.me-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000;flex-shrink:0;background:var(–green)}
+.me-info{flex:1}
+.me-name{font-size:14px;font-weight:700}
+.me-detail{font-family:var(–mono);font-size:10px;color:var(–muted);margin-top:2px}
+.me-badge{font-family:var(–mono);font-size:9px;color:var(–green);margin-top:3px}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:rgba(15,15,15,.97);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:10px 20px;font-family:var(–mono);font-size:11px;z-index:300;white-space:nowrap;transition:opacity .3s,transform .3s;pointer-events:none}
+.toast.hidden{opacity:0;transform:translateX(-50%) translateY(8px)}
+</style>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="GUARDIAN">
+<meta name="theme-color" content="#FF1A1A">
+
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+</head>
+<body style="display:flex;flex-direction:column;height:100vh">
+
+<div class="header">
+  <a class="back-btn" href="index.html">‹</a>
+  <div class="header-title">RED FAMILIAR</div>
+  <div class="online-count" id="online-count">0 en línea</div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" id="tab-mapa" onclick="switchTab('mapa')">🗺 Mapa conjunto</div>
+  <div class="tab" id="tab-lista" onclick="switchTab('lista')">👥 Lista</div>
+</div>
+
+<!-- MAP VIEW -->
+
+<div id="map-view" class="active">
+  <div id="leaflet-map"></div>
+  <div class="map-legend" id="map-legend"></div>
+</div>
+
+<!-- LIST VIEW -->
+
+<div id="list-view">
+  <div class="section-hdr">Tú</div>
+  <div class="me-card" id="me-card">
+    <div class="me-av" id="me-av">?</div>
+    <div class="me-info">
+      <div class="me-name" id="me-name">Cargando…</div>
+      <div class="me-detail" id="me-detail">Sin ubicación activa</div>
+      <div class="me-badge">● Tú</div>
+    </div>
+  </div>
+
+  <div class="section-hdr">Contactos</div>
+  <div id="members-list">
+    <div class="no-members">
+      <div class="no-members-icon">👥</div>
+      <div>Cargando contactos…</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getDatabase, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDXlBFfqj9IarzYVpDgvtulb_eEHGQ-aWs",
+  authDomain: "guardian-sos-d410f.firebaseapp.com",
+  databaseURL: "https://guardian-sos-d410f-default-rtdb.firebaseio.com",
+  projectId: "guardian-sos-d410f",
+  storageBucket: "guardian-sos-d410f.firebasestorage.app",
+  messagingSenderId: "356894459494",
+  appId: "1:356894459494:web:2d06bb9506b3f47a0a4fa7"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getDatabase(app);
+
+const BASE = 'https://juanmdelaconcha-bot.github.io/Guardian';
+const COLORS = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#DDA0DD','#FFD700','#98D8C8','#F7DC6F'];
+
+let myUID = null, myName = 'Yo';
+let myContacts = [];
+let map = null, mapInited = false;
+let markers = {};        // uid → leaflet marker
+let memberData = {};     // uid → {name, color, lat, lng, lastSeen, emergency}
+
+// ── AUTH ──
+onAuthStateChanged(auth, async user => {
+  if (!user) { window.location.href = 'login.html'; return; }
+  myUID = user.uid;
+
+  const snap = await get(ref(db, `usuarios/${user.uid}/perfil`));
+  const p = snap.val() || {};
+  myName = p.nombre || user.displayName || 'Yo';
+
+  document.getElementById('me-name').textContent = myName;
+  document.getElementById('me-av').textContent = myName[0].toUpperCase();
+
+  // Load my location
+  onValue(ref(db, `usuarios/${myUID}/location`), snap => {
+    const d = snap.val();
+    if (d?.lat) {
+      document.getElementById('me-detail').textContent =
+        `📍 ${d.lat.toFixed(4)}, ${d.lng.toFixed(4)}`;
+      updateMyMarker(d);
+    } else {
+      document.getElementById('me-detail').textContent = 'Sin ubicación activa';
+    }
+  });
+
+  // Load contacts
+  onValue(ref(db, `usuarios/${myUID}/contactos`), snap => {
+    myContacts = Object.values(snap.val() || {});
+    loadAllMembers();
+  });
+});
+
+function loadAllMembers() {
+  myContacts.forEach((c, i) => {
+    const color = c.color || COLORS[i % COLORS.length];
+    memberData[c.uid || `no-uid-${i}`] = {
+      name: c.name, color, phone: c.phone,
+      lat: null, lng: null, lastSeen: null, emergency: false,
+      hasUID: !!c.uid
+    };
+
+    if (!c.uid) return; // Can't track without UID
+
+    // Listen to location
+    onValue(ref(db, `usuarios/${c.uid}/location`), snap => {
+      const d = snap.val();
+      if (d?.lat) {
+        memberData[c.uid].lat = d.lat;
+        memberData[c.uid].lng = d.lng;
+        memberData[c.uid].lastSeen = d.timestamp ? new Date(d.timestamp) : new Date();
+        updateMemberMarker(c.uid, memberData[c.uid]);
+      }
+      renderList();
+      updateOnlineCount();
+    });
+
+    // Listen to emergency
+    onValue(ref(db, `usuarios/${c.uid}/emergencia`), snap => {
+      const emg = snap.val();
+      const wasEmg = memberData[c.uid]?.emergency;
+      memberData[c.uid].emergency = emg?.activa === true;
+
+      // Show notification if newly activated
+      if (!wasEmg && memberData[c.uid].emergency) {
+        showToast(`🚨 ${c.name} activó SOS`);
+        if (Notification.permission === 'granted') {
+          new Notification(`🚨 ${c.name} — EMERGENCIA`, {
+            body: 'Toca para ver su ubicación en vivo',
+            requireInteraction: true
+          });
+        }
+      }
+      renderList();
+      if (mapInited) updateMarkerStyle(c.uid);
+    });
+  });
+
+  renderList();
+}
+
+// ── MAP ──
+function initMap() {
+  if (mapInited) return;
+  map = L.map('leaflet-map', { zoomControl: true, attributionControl: false });
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }).addTo(map);
+  map.setView([19.4326, -99.1332], 12);
+  mapInited = true;
+}
+
+function makeIcon(color, isEmg, label) {
+  const size = isEmg ? 22 : 18;
+  const glow = isEmg ? `box-shadow:0 0 16px ${color},0 0 32px rgba(255,26,26,.5)` : `box-shadow:0 0 8px ${color}66`;
+  return L.divIcon({
+    html: `<div style="position:relative">
+      <div style="width:${size}px;height:${size}px;background:${color};border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;${glow}"></div>
+      <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.75);color:#fff;font-size:9px;white-space:nowrap;padding:2px 5px;border-radius:4px;font-family:monospace">${label}</div>
+      ${isEmg ? '<div style="position:absolute;width:34px;height:34px;border:2px solid #FF1A1A;border-radius:50%;top:-8px;left:-8px;animation:ring 1.5s ease-out infinite"></div>' : ''}
+    </div>`,
+    iconSize: [size, size],
+    iconAnchor: [size/2, size],
+    className: ''
+  });
+}
+
+function updateMyMarker(d) {
+  initMap();
+  const latlng = [d.lat, d.lng];
+  if (!markers['me']) {
+    markers['me'] = L.marker(latlng, {
+      icon: makeIcon(COLORS[0], false, myName),
+      zIndexOffset: 1000
+    }).addTo(map);
+    markers['me'].bindPopup(`<b>👤 ${myName} (Tú)</b>`);
+  } else {
+    markers['me'].setLatLng(latlng);
+  }
+  updateLegend();
+}
+
+function updateMemberMarker(uid, m) {
+  if (!m.lat || !m.lng) return;
+  initMap();
+  const latlng = [m.lat, m.lng];
+  const icon = makeIcon(m.color, m.emergency, m.name);
+  if (!markers[uid]) {
+    markers[uid] = L.marker(latlng, { icon }).addTo(map);
+    markers[uid].bindPopup(`<b>${m.emergency ? '🚨 ' : ''}${m.name}</b><br><a href="${BASE}/mapa-vivo.html?uid=${uid}" target="_blank" style="color:#FF1A1A">Ver mapa en vivo →</a>`);
+  } else {
+    markers[uid].setLatLng(latlng).setIcon(icon);
+  }
+  // Auto-fit bounds if multiple markers
+  fitBounds();
+  updateLegend();
+}
+
+function updateMarkerStyle(uid) {
+  const m = memberData[uid];
+  if (!m || !markers[uid]) return;
+  markers[uid].setIcon(makeIcon(m.color, m.emergency, m.name));
+}
+
+function fitBounds() {
+  const pts = Object.values(markers).map(m => m.getLatLng());
+  if (pts.length >= 2) {
+    try { map.fitBounds(L.latLngBounds(pts), { padding: [40, 40], maxZoom: 16 }); } catch {}
+  }
+}
+
+function updateLegend() {
+  const leg = document.getElementById('map-legend');
+  const items = [];
+
+  // Me
+  items.push(`<div class="legend-chip" onclick="panToMe()">
+    <div class="legend-dot" style="background:${COLORS[0]}"></div>
+    <span class="legend-name">Tú</span>
+  </div>`);
+
+  // Contacts
+  Object.entries(memberData).forEach(([uid, m]) => {
+    if (!m.lat) return;
+    const ago = m.lastSeen ? timeSince(m.lastSeen) : '—';
+    items.push(`<div class="legend-chip ${m.emergency?'emg':''}" onclick="panTo('${uid}')">
+      <div class="legend-dot" style="background:${m.color}"></div>
+      <span class="legend-name">${m.emergency ? '🚨 ' : ''}${m.name}</span>
+      <span class="legend-ago">${ago}</span>
+    </div>`);
+  });
+
+  leg.innerHTML = items.join('');
+}
+
+window.panTo = (uid) => {
+  if (markers[uid]) { map.setView(markers[uid].getLatLng(), 17); markers[uid].openPopup(); }
+};
+window.panToMe = () => {
+  if (markers['me']) { map.setView(markers['me'].getLatLng(), 17); }
+};
+
+// ── LIST ──
+function renderList() {
+  const list = document.getElementById('members-list');
+  if (myContacts.length === 0) {
+    list.innerHTML = `<div class="no-members"><div class="no-members-icon">👥</div><div>Sin contactos aún.<br>Agrégalos desde la app SOS.</div></div>`;
+    return;
+  }
+
+  list.innerHTML = myContacts.map((c, i) => {
+    const uid = c.uid || `no-uid-${i}`;
+    const m = memberData[uid] || {};
+    const hasLoc = !!m.lat;
+    const isEmg = m.emergency;
+    const color = c.color || COLORS[i % COLORS.length];
+    const ago = m.lastSeen ? timeSince(m.lastSeen) : null;
+
+    return `<div class="member-card ${isEmg ? 'emergency' : ''}">
+      <div class="mc-top">
+        <div class="mc-av" style="background:${color}">
+          ${c.name[0].toUpperCase()}
+          <div class="mc-status-dot" style="background:${hasLoc ? (isEmg ? '#FF1A1A' : 'var(--green)') : 'var(--muted)'}"></div>
+        </div>
+        <div class="mc-info">
+          <div class="mc-name">${c.name}</div>
+          <div class="mc-detail">${
+            isEmg ? '🚨 EN EMERGENCIA' :
+            hasLoc ? `📍 ${m.lat.toFixed(4)}, ${m.lng.toFixed(4)} · ${ago}` :
+            c.uid ? '○ Sin ubicación activa' : '○ No está en GUARDIAN aún'
+          }</div>
+          ${isEmg ? '<div class="mc-emg-badge">● SOS ACTIVO</div>' : ''}
+        </div>
+      </div>
+      <div class="mc-actions">
+        ${c.uid ? `<button class="mc-btn btn-map" onclick="openMap('${c.uid}')">🗺 Ver mapa</button>` : ''}
+        <button class="mc-btn btn-wa" onclick="openWA('${c.phone}')">💬 WhatsApp</button>
+        ${isEmg ? `<button class="mc-btn btn-sos" onclick="openMap('${c.uid}')">🚨 VER AHORA</button>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.openMap = (uid) => window.open(`${BASE}/mapa-vivo.html?uid=${uid}`, '_blank');
+window.openWA = (phone) => window.open(`https://wa.me/${phone}`, '_blank');
+
+function updateOnlineCount() {
+  const online = Object.values(memberData).filter(m => m.lat).length;
+  document.getElementById('online-count').textContent = `${online} en línea`;
+}
+
+// ── TABS ──
+window.switchTab = (tab) => {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.getElementById('map-view').classList.toggle('active', tab === 'mapa');
+  document.getElementById('list-view').classList.toggle('active', tab === 'lista');
+  if (tab === 'mapa') {
+    initMap();
+    setTimeout(() => map?.invalidateSize(), 100);
+  }
+};
+
+// ── UTILS ──
+function timeSince(date) {
+  const s = Math.round((Date.now() - date.getTime()) / 1000);
+  if (s < 60) return `hace ${s}s`;
+  if (s < 3600) return `hace ${Math.floor(s/60)}min`;
+  return `hace ${Math.floor(s/3600)}h`;
+}
+
+let toastT;
+function showToast(m) {
+  const t = document.getElementById('toast');
+  t.textContent = m; t.classList.remove('hidden');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.add('hidden'), 4000);
+}
+
+// Update legend every 30s
+setInterval(updateLegend, 30000);
+
+// Request notification permission on load
+if (Notification.permission === 'default') {
+  setTimeout(() => Notification.requestPermission(), 2000);
+}
+</script>
+
+<style>
+@keyframes ring{0%{transform:scale(.5);opacity:1}100%{transform:scale(1.8);opacity:0}}
+</style>
+
+</body>
+</html>
